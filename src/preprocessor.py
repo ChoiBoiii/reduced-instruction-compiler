@@ -1,4 +1,6 @@
 from pathlib import Path
+from typing import Union
+
 
 class Preprocessor:
 
@@ -35,12 +37,8 @@ class Preprocessor:
         # defaultMacros["__LINE__"] = 
         # defaultMacros["__STDC__"] = 
 
-        ## Read in text
-        with open(self.sourcePath, 'r', encoding='unicode_escape') as f:
-            self.source = f.read()
-
-        ## Strip comments
-        self.strippedComments = Preprocessor.strip_comments(self.source[:])
+        ## Get processed text
+        self.processed = self.process_file(self.sourcePath)
         
     
     ## METHODS ...
@@ -129,3 +127,23 @@ class Preprocessor:
     ## Handles the current directive, updating the macro set as required
     def handle_directive():
         pass
+
+    ## Processes the given file. Recursively calls self on each occurance of a #include
+    def process_file(self, filePath: Union[str, Path]) -> str:
+
+        ## Read in file
+        path = Path(filePath)
+        with open(path, 'r', encoding='unicode_escape') as f:
+            source = f.read()
+        
+        ## Strip comments
+        source = Preprocessor.strip_comments(source)
+
+        ## Process directives
+        source = source.split('\n')
+        for line in source:
+            print(line)
+
+        ## Return processed text
+        return source
+
