@@ -1,5 +1,6 @@
 from pathlib import Path
 from typing import Union
+from time import strftime
 
 
 class Preprocessor:
@@ -38,7 +39,7 @@ class Preprocessor:
         self.defaultMacros = dict([])
         # ANSI C defined macros
         self.defaultMacros["__DATE__"] = lambda : self.sourcePath.name
-        # defaultMacros["__TIME__"] = 
+        self.defaultMacros["__TIME__"] = lambda : strftime('%H:%M:%S')
         # defaultMacros["__FILE__"] = 
         # defaultMacros["__LINE__"] = 
         # defaultMacros["__STDC__"] = 
@@ -144,7 +145,7 @@ class Preprocessor:
         
         ## Add current file to stack
         self.__currentFile.append(path)
-        print(self.defaultMacros["__DATE__"]())
+
         ## Strip comments
         source = Preprocessor.strip_comments(source)
 
