@@ -169,7 +169,7 @@ class Preprocessor:
                 if tmpLine[0][0] == Preprocessor.DIRECTIVE_DELIMITER:
 
                     ## Get directive
-                    directive = tmpLine[0]
+                    directive = (tmpLine[0] + tmpLine[1]) if (tmpLine[0] == Preprocessor.DIRECTIVE_DELIMITER) else tmpLine[0]
 
                     ## Handle #include
                     if directive == "#include":
