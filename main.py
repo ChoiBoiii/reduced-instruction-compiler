@@ -5,8 +5,10 @@ from src import *
 def main():
 
     ## Preprocess
-    preprocessed = Preprocessor("test.c")
-    print(preprocessed.txt)
+    preprocessor = Preprocessor("main.c")
+    
+    print(preprocessor.strippedComments)
+
 
     ## Optimise
 
