@@ -47,7 +47,6 @@ class Preprocessor:
         self.macros["__TIME__"] = lambda : '"' + strftime('%H:%M:%S') + '"'
         self.macros["__FILE__"] = lambda : '"' + self.__currentFile[-1].name + '"'
         self.macros["__STDC__"] = lambda : '1'
-        #self.macros["__LINE__"] = HANDLED AS SPECIAL CASE
 
         ## Get processed text
         self.processed = self.process_file(self.sourcePath)
@@ -125,24 +124,6 @@ class Preprocessor:
 
         ## Return
         return out
-
-
-    # ## Handles the current directive, updating the macro set as required
-    # def handle_directive(self, lineTokens: list[str], lineNum: int) -> str:
-
-    #     ## Unpack
-    #     directiveStr = lineTokens[-1]
-    #     print("----------" + directiveStr)
-
-    #     ## Handle special cases
-    #     if directiveStr == "#include":
-    #         try:
-    #             return self.process_file(lineTokens[1])
-    #         except Exception as e:
-    #             print("ERROR: Invalid #include statement")
-    #             raise e
-
-    #     ## Handle default cases
 
 
     ## Processes the given file. Recursively calls self on each occurance of a #include
