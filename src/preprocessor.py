@@ -16,8 +16,8 @@ class Preprocessor:
     STR_LITERAL_DELIMITER = '"'
     CHAR_LITERAL_DELIMITER = "'"
 
-    ## Construct directives dict
-    ## TODO
+    ## Directive delimiters
+    DIRECTIVE_DELIMITER = '#'
 
 
     ## INITIALISERS ...
@@ -34,15 +34,20 @@ class Preprocessor:
         ## Stack used internally to track file currently being processed. Used for __FILE__ macro
         self.__currentFile = []
 
+        ## Construct directive dict for use when processing directives
+        # self.directives = dict({})
+        # self.directives[Preprocessor.DIRECTIVE_DELIMITER + "include"] = 
+        # self.directives[Preprocessor.DIRECTIVE_DELIMITER + "define"]
+
         ## Construct macro dict for use when preprocessing
         ## TODO - Make each macro a function that returns a string?
-        self.defaultMacros = dict([])
+        self.macros = dict({})
         # ANSI C defined macros
-        self.defaultMacros["__DATE__"] = lambda : strftime('%b %d %Y')
-        self.defaultMacros["__TIME__"] = lambda : strftime('%H:%M:%S')
-        self.defaultMacros["__FILE__"] = lambda : self.__currentFile[-1].name
-        self.defaultMacros["__STDC__"] = lambda : "1"
-        # self.defaultMacros["__LINE__"] = lambda : 
+        self.macros["__DATE__"] = lambda : strftime('%b %d %Y')
+        self.macros["__TIME__"] = lambda : strftime('%H:%M:%S')
+        self.macros["__FILE__"] = lambda : self.__currentFile[-1].name
+        self.macros["__STDC__"] = lambda : "1"
+        #self.macros["__LINE__"] = HANDLED AS SPECIAL CASE
 
         ## Get processed text
         self.processed = self.process_file(self.sourcePath)
@@ -121,9 +126,23 @@ class Preprocessor:
         ## Return
         return out
 
+
     ## Handles the current directive, updating the macro set as required
-    def handle_directive(self):
-        pass
+    def handle_directive(self, lineTokens: list[str], lineNum: int) -> str:
+
+        ## Unpack
+        directiveStr = lineTokens[0]
+
+        ## Handle special cases
+        if directiveStr == "#include":
+            try:
+                return self.process_file(lineTokens[1])
+            except Exception as e:
+                print("ERROR: Invalid #include statement")
+                raise e
+
+        ## Handle default cases
+
 
     ## Processes the given file. Recursively calls self on each occurance of a #include
     def process_file(self, filePath: Union[str, Path]) -> str:
@@ -141,11 +160,18 @@ class Preprocessor:
 
         ## Process directives
         source = source.split('\n')
-        for line in source:
-            print(line)
+        for i, line in enumerate(source):
+            tmpLine = line.split()
+            if tmpLine:
+                if tmpLine[0][0] == Preprocessor.DIRECTIVE_DELIMITER:
+                    directive = tmpLine[0]
+                    line = self.handle_directive(directive, i)
 
         ## Remove current file from stack
         self.__currentFile.pop()
+
+        ## Re-join lines into single string
+        source = '\n'.join(source)
 
         ## Return processed text
         return source
