@@ -1,7 +1,5 @@
-            // #include <stdio.h>
-
-   #include "hypatia.h"
-
+// #include <stdio.h>
+#include "hypatia.h"
 int main() {
     printf("File :%s\n", __FILE__ );
     printf("Date :%s\n", __DATE__ );
