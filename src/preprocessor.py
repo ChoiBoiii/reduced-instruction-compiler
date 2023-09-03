@@ -19,6 +19,10 @@ class Preprocessor:
     END_ML_COMMENT   = "*/" # The substr used to define the start of a multiline comment
     START_SL_COMMENT = "//" # The substr used to define the end of a multiline comment
 
+    ## Literal field delimiters
+    STR_LITERAL_DELIMITER = '"'
+    CHAR_LITERAL_DELIMITER = "'"
+
 
     ## INITIALISERS ...
 
@@ -61,64 +65,46 @@ class Preprocessor:
 
             ## Currently inside a char literal
             if charLiteral:
-                pass
+                if c == Preprocessor.CHAR_LITERAL_DELIMITER:
+                    charLiteral = False
                 
             ## Currently inside a string literal
             elif strLiteral:
-                pass
-            
-            ## Currently inside a multiline comment
-            elif mlComment:
-                pass
-            
+                if c == Preprocessor.STR_LITERAL_DELIMITER:
+                    strLiteral = False
+
             ## Currently inside a single line comment
             elif slComment:
-                pass
+                if c == '\n':
+                    slComment = False
+                    startIndex = i
+
+            ## Currently inside a multiline comment
+            elif mlComment:
+                if (c == Preprocessor.END_ML_COMMENT[0]) and (text[i:i+len(Preprocessor.END_ML_COMMENT)] == Preprocessor.END_ML_COMMENT):
+                    mlComment = False
+                    startIndex = i + len(Preprocessor.END_ML_COMMENT)
 
             ## Not in any escape sequence
             else:
-                pass
+                
+                ## Begin char literal field
+                if c == Preprocessor.CHAR_LITERAL_DELIMITER:
+                    charLiteral = True
 
+                ## Begin str literal field
+                elif c == Preprocessor.STR_LITERAL_DELIMITER:
+                    strLiteral = True
+                
+                ## Begin single line comment
+                elif (c == Preprocessor.START_SL_COMMENT[0]) and (text[i:i+len(Preprocessor.START_SL_COMMENT)] == Preprocessor.START_SL_COMMENT):
+                        slComment = True
+                        out += text[startIndex:i]
 
-            ## Handle string literal
-            if not charLiteral:
-                if c == '"':
-                    strLiteral = not strLiteral
-
-            ## Handle char literal
-            if not strLiteral:
-                if c == "'":
-                    charLiteral = not charLiteral
-
-            ## Handle single line comments
-            if not mlComment:
-                if slComment:
-                    ## Whether the current char is an line end
-                    if c == '\n':
-                        if slComment:
-                            slComment = False
-                            startIndex = i
-                else:
-                    ## Begin single line comment
-                    if c == Preprocessor.START_SL_COMMENT[0]:
-                        if text[i:i+len(Preprocessor.START_SL_COMMENT)] == Preprocessor.START_SL_COMMENT:
-                            slComment = True
-                            out += text[startIndex:i]
-
-            ## Handle multi line comments
-            if not slComment:
-                if mlComment:
-                    ## End multiline comment occured
-                    if c == Preprocessor.END_ML_COMMENT[0]:
-                        if text[i:i+len(Preprocessor.END_ML_COMMENT)] == Preprocessor.END_ML_COMMENT:
-                            mlComment = False
-                            startIndex = i + len(Preprocessor.END_ML_COMMENT)
-                else:
-                    ## Begin multiline comment occured
-                    if c == Preprocessor.START_ML_COMMENT[0]:
-                        if text[i:i+len(Preprocessor.START_ML_COMMENT)] == Preprocessor.START_ML_COMMENT:
-                            mlComment = True
-                            out += text[startIndex:i]
+                ## Begin multiline comment
+                elif (c == Preprocessor.START_ML_COMMENT[0]) and (text[i:i+len(Preprocessor.START_ML_COMMENT)] == Preprocessor.START_ML_COMMENT):
+                        mlComment = True
+                        out += text[startIndex:i]
 
         ## Add remaining valid text
         out += text[startIndex:]
@@ -142,4 +128,49 @@ class Preprocessor:
     ## Handle #define
 
 
+
+
+
+
+
+
+            # ## Handle string literal
+            # if not charLiteral:
+            #     if c == '"':
+            #         strLiteral = not strLiteral
+
+            # ## Handle char literal
+            # if not strLiteral:
+            #     if c == "'":
+            #         charLiteral = not charLiteral
+
+            # ## Handle single line comments
+            # if not mlComment:
+            #     if slComment:
+            #         ## Whether the current char is an line end
+            #         if c == '\n':
+            #             if slComment:
+            #                 slComment = False
+            #                 startIndex = i
+            #     else:
+            #         ## Begin single line comment
+            #         if c == Preprocessor.START_SL_COMMENT[0]:
+            #             if text[i:i+len(Preprocessor.START_SL_COMMENT)] == Preprocessor.START_SL_COMMENT:
+            #                 slComment = True
+            #                 out += text[startIndex:i]
+
+            # ## Handle multi line comments
+            # if not slComment:
+            #     if mlComment:
+            #         ## End multiline comment occured
+            #         if c == Preprocessor.END_ML_COMMENT[0]:
+            #             if text[i:i+len(Preprocessor.END_ML_COMMENT)] == Preprocessor.END_ML_COMMENT:
+            #                 mlComment = False
+            #                 startIndex = i + len(Preprocessor.END_ML_COMMENT)
+            #     else:
+            #         ## Begin multiline comment occured
+            #         if c == Preprocessor.START_ML_COMMENT[0]:
+            #             if text[i:i+len(Preprocessor.START_ML_COMMENT)] == Preprocessor.START_ML_COMMENT:
+            #                 mlComment = True
+            #                 out += text[startIndex:i]
 

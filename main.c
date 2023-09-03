@@ -1,4 +1,4 @@
-#include <stdio.h>
+// #include <stdio.h>
 
 #define TEXT "RAN" // SOME TEST /*
 
@@ -29,7 +29,7 @@ int main() {
 
     // */
 
-    int a = 'c"c';
+    int a = 'cccccc';
 
     printf("%d\n", a);
 
