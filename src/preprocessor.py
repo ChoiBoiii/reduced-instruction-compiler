@@ -148,7 +148,7 @@ class Preprocessor:
     def process_file(self, filePath: Union[str, Path]) -> str:
 
         ## Read in file
-        path = Path(filePath)
+        path = Path(filePath) if type(filePath) == str else filePath
         with open(path, 'r', encoding='unicode_escape') as f:
             source = f.read()
         
