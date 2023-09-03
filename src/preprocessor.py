@@ -38,9 +38,9 @@ class Preprocessor:
         ## TODO - Make each macro a function that returns a string?
         self.defaultMacros = dict([])
         # ANSI C defined macros
-        self.defaultMacros["__DATE__"] = lambda : self.sourcePath.name
+        # self.defaultMacros["__DATE__"] = lambda : self.sourcePath.name
         self.defaultMacros["__TIME__"] = lambda : strftime('%H:%M:%S')
-        # defaultMacros["__FILE__"] = 
+        self.defaultMacros["__FILE__"] = lambda : self.__currentFile[-1].name
         # defaultMacros["__LINE__"] = 
         # defaultMacros["__STDC__"] = 
 
@@ -145,6 +145,9 @@ class Preprocessor:
         
         ## Add current file to stack
         self.__currentFile.append(path)
+
+        ## 
+        # print(self.defaultMacros["__FILE__"]())
 
         ## Strip comments
         source = Preprocessor.strip_comments(source)
