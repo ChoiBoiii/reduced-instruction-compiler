@@ -116,6 +116,9 @@ class Preprocessor:
         ## Return
         return out
 
+    ## Handle all '#' commands
+    @staticmethod
+    def handle_directives(text: str, includePaths: list[str]=[]) -> str:
 
 
     #if defined(...) -> #ifdef
