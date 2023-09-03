@@ -1,4 +1,4 @@
-// #include <stdio.h>
+#include <stdio.h>
 
 #define TEXT "RAN" // SOME TEST /*
 
@@ -20,7 +20,7 @@ int main() {
 
      // COMMENT HERE
 
-     / * */2wes /* fgghjty*/
+     / * */1 + 2; /* fgghjty*/
     //*/
 
     // /*
@@ -29,18 +29,9 @@ int main() {
 
     // */
 
-    1 +/*
+    int a = 'c"c';
 
-
-
-
-    */2;
-
-
-    /* a + /                
-*/ b
-
-
+    printf("%d\n", a);
 
     return \
     0;

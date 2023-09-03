@@ -48,11 +48,47 @@ class Preprocessor:
         ## Save valid text to output
         out = ""
 
+        ## Add a newline to end of text for compatibility
+        text += '\n'
+
         ## Iterate text per character
-        slComment = False # Whether currently inside a single line comment
-        mlComment = False # Whether currently inside a multi line comment
-        startIndex = 0    # Start index of valid substr to copy to output 
+        slComment   = False # Whether currently inside a single line comment
+        mlComment   = False # Whether currently inside a multi line comment
+        strLiteral  = False # Whether currently inside a string literal
+        charLiteral = False # Whether currently inside a char literal
+        startIndex  = 0     # Start index of valid substr to copy to output 
         for i, c in enumerate(text):
+
+            ## Currently inside a char literal
+            if charLiteral:
+                pass
+                
+            ## Currently inside a string literal
+            elif strLiteral:
+                pass
+            
+            ## Currently inside a multiline comment
+            elif mlComment:
+                pass
+            
+            ## Currently inside a single line comment
+            elif slComment:
+                pass
+
+            ## Not in any escape sequence
+            else:
+                pass
+
+
+            ## Handle string literal
+            if not charLiteral:
+                if c == '"':
+                    strLiteral = not strLiteral
+
+            ## Handle char literal
+            if not strLiteral:
+                if c == "'":
+                    charLiteral = not charLiteral
 
             ## Handle single line comments
             if not mlComment:
@@ -85,7 +121,11 @@ class Preprocessor:
                             out += text[startIndex:i]
 
         ## Add remaining valid text
-        ## TODO
+        out += text[startIndex:]
+
+        ## Detect error: Unterminated comment
+        if mlComment:
+            raise SyntaxError(f"Unterminated /* comment")
 
         ## Return
         return out
