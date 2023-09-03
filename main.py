@@ -5,10 +5,7 @@ from src import *
 def main():
 
     ## Preprocess
-    preprocessor = Preprocessor("main.c")
-    
-    print(preprocessor.strippedComments)
-
+    preprocessor = Preprocessor("../reduced-instruction-compiler/main.c")
 
     ## Optimise
 

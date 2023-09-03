@@ -1,18 +1,8 @@
+from pathlib import Path
+
 class Preprocessor:
 
     ## CONFIG ...
-
-    ## Preprocessor tokens
-    TOKENS = ["include",
-              "define",
-              "if",
-              "else",
-              "elif",
-              "fi",
-              "endif",
-              "ifdef",
-              "ifndef",
-              ]
     
     ## Comment identification
     START_ML_COMMENT = "/*" # The substr used to define the start of a single line comment
@@ -30,13 +20,23 @@ class Preprocessor:
     def __init__(self, fileName: str, includePaths: list[str]=[]):
 
         ## Save source file path
-        self.sourcePath = fileName
+        self.sourcePath = Path(fileName)
 
         ## Save include paths 
         self.includePaths = includePaths
 
+        ## Construct macos dict
+        defaultMacros = dict([])
+        # ANSI C defined macros
+        defaultMacros["__DATE__"] = self.sourcePath.name ##TODO - Change to update on a per call basis, allowing for difference between files
+        print(defaultMacros["__DATE__"])
+        # defaultMacros["__TIME__"] = 
+        # defaultMacros["__FILE__"] = 
+        # defaultMacros["__LINE__"] = 
+        # defaultMacros["__STDC__"] = 
+
         ## Read in text
-        with open(fileName, 'r', encoding='unicode_escape') as f:
+        with open(self.sourcePath, 'r', encoding='unicode_escape') as f:
             self.source = f.read()
 
         ## Strip comments
@@ -119,15 +119,13 @@ class Preprocessor:
     ## Handle all '#' commands
     @staticmethod
     def handle_directives(text: str, includePaths: list[str]=[]) -> str:
+        pass
 
+    ## Returns the file name of the file currently being processed
+    @staticmethod
+    def get_current_file_name():
+        pass
 
-    #if defined(...) -> #ifdef
-    #if !defined(...) -> #ifndef
-    
-    ## Handle #include
-
-    ## Handle backslashes at EOL
-
-    ## Handle #define
-
-
+    ## Handles the current directive, updating the macro set as required
+    def handle_directive():
+        pass
