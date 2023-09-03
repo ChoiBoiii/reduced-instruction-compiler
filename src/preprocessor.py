@@ -43,10 +43,10 @@ class Preprocessor:
         ## TODO - Make each macro a function that returns a string?
         self.macros = dict({})
         # ANSI C defined macros
-        self.macros["__DATE__"] = lambda : strftime('%b %d %Y')
-        self.macros["__TIME__"] = lambda : strftime('%H:%M:%S')
-        self.macros["__FILE__"] = lambda : self.__currentFile[-1].name
-        self.macros["__STDC__"] = lambda : "1"
+        self.macros["__DATE__"] = lambda : '"' + strftime('%b %d %Y') + '"'
+        self.macros["__TIME__"] = lambda : '"' + strftime('%H:%M:%S') + '"'
+        self.macros["__FILE__"] = lambda : '"' + self.__currentFile[-1].name + '"'
+        self.macros["__STDC__"] = lambda : '1'
         #self.macros["__LINE__"] = HANDLED AS SPECIAL CASE
 
         ## Get processed text
@@ -127,21 +127,22 @@ class Preprocessor:
         return out
 
 
-    ## Handles the current directive, updating the macro set as required
-    def handle_directive(self, lineTokens: list[str], lineNum: int) -> str:
+    # ## Handles the current directive, updating the macro set as required
+    # def handle_directive(self, lineTokens: list[str], lineNum: int) -> str:
 
-        ## Unpack
-        directiveStr = lineTokens[0]
+    #     ## Unpack
+    #     directiveStr = lineTokens[-1]
+    #     print("----------" + directiveStr)
 
-        ## Handle special cases
-        if directiveStr == "#include":
-            try:
-                return self.process_file(lineTokens[1])
-            except Exception as e:
-                print("ERROR: Invalid #include statement")
-                raise e
+    #     ## Handle special cases
+    #     if directiveStr == "#include":
+    #         try:
+    #             return self.process_file(lineTokens[1])
+    #         except Exception as e:
+    #             print("ERROR: Invalid #include statement")
+    #             raise e
 
-        ## Handle default cases
+    #     ## Handle default cases
 
 
     ## Processes the given file. Recursively calls self on each occurance of a #include
@@ -158,14 +159,30 @@ class Preprocessor:
         ## Strip comments
         source = Preprocessor.strip_comments(source)
 
-        ## Process directives
+        ## Process directives by iterating and replacing lines
         source = source.split('\n')
         for i, line in enumerate(source):
+
+            ## If line is a preprocessor directive
             tmpLine = line.split()
             if tmpLine:
                 if tmpLine[0][0] == Preprocessor.DIRECTIVE_DELIMITER:
+
+                    ## Get directive
                     directive = tmpLine[0]
-                    line = self.handle_directive(directive, i)
+
+                    ## Handle #include
+                    if directive == "#include":
+                        try:
+                            fPath = tmpLine[1]
+                            if fPath[0] == '<':
+                                pass
+                            elif fPath[0] == '"':
+                                pass
+                            line = self.process_file
+                        except Exception as e:
+                            print("ERROR: Invalid #include statement")
+                            raise e
 
         ## Remove current file from stack
         self.__currentFile.pop()
