@@ -41,8 +41,8 @@ class Preprocessor:
         self.defaultMacros["__DATE__"] = lambda : strftime('%b %d %Y')
         self.defaultMacros["__TIME__"] = lambda : strftime('%H:%M:%S')
         self.defaultMacros["__FILE__"] = lambda : self.__currentFile[-1].name
-        # defaultMacros["__LINE__"] = 
-        # defaultMacros["__STDC__"] = 
+        self.defaultMacros["__STDC__"] = lambda : "1"
+        # self.defaultMacros["__LINE__"] = lambda : 
 
         ## Get processed text
         self.processed = self.process_file(self.sourcePath)
@@ -121,18 +121,8 @@ class Preprocessor:
         ## Return
         return out
 
-    ## Handle all '#' commands
-    @staticmethod
-    def handle_directives(text: str, includePaths: list[str]=[]) -> str:
-        pass
-
-    ## Returns the file name of the file currently being processed
-    @staticmethod
-    def get_current_file_name():
-        pass
-
     ## Handles the current directive, updating the macro set as required
-    def handle_directive():
+    def handle_directive(self):
         pass
 
     ## Processes the given file. Recursively calls self on each occurance of a #include
@@ -145,9 +135,6 @@ class Preprocessor:
         
         ## Add current file to stack
         self.__currentFile.append(path)
-
-        ## 
-        print(self.defaultMacros["__DATE__"]())
 
         ## Strip comments
         source = Preprocessor.strip_comments(source)
