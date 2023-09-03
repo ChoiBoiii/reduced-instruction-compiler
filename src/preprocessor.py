@@ -169,12 +169,17 @@ class Preprocessor:
                 if tmpLine[0][0] == Preprocessor.DIRECTIVE_DELIMITER:
 
                     ## Get directive
-                    directive = (tmpLine[0] + tmpLine[1]) if (tmpLine[0] == Preprocessor.DIRECTIVE_DELIMITER) else tmpLine[0]
+                    if tmpLine[0] == Preprocessor.DIRECTIVE_DELIMITER:
+                        directive = tmpLine[0] + tmpLine[1]
+                        args = tmpLine[2:]
+                    else:
+                        directive = tmpLine[0]
+                        args = tmpLine[1:]
 
                     ## Handle #include
                     if directive == "#include":
                         try:
-                            fPath = tmpLine[1][1:-1]
+                            fPath = args[0][1:-1]
                             source[i] = self.process_file(fPath)
                         except Exception as e:
                             print("ERROR: Invalid #include statement")
