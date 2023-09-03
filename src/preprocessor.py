@@ -174,12 +174,8 @@ class Preprocessor:
                     ## Handle #include
                     if directive == "#include":
                         try:
-                            fPath = tmpLine[1]
-                            if fPath[0] == '<':
-                                pass
-                            elif fPath[0] == '"':
-                                pass
-                            line = self.process_file
+                            fPath = tmpLine[1][1:-1]
+                            source[i] = self.process_file(fPath)
                         except Exception as e:
                             print("ERROR: Invalid #include statement")
                             raise e
