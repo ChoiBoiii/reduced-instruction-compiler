@@ -30,12 +30,14 @@ class Preprocessor:
         ## Save include paths 
         self.includePaths = includePaths
 
+        ## Stack used internally to track file currently being processed. Used for __FILE__ macro
+        self.__currentFile = []
+
         ## Construct macro dict for use when preprocessing
         ## TODO - Make each macro a function that returns a string?
-        defaultMacros = dict([])
+        self.defaultMacros = dict([])
         # ANSI C defined macros
-        defaultMacros["__DATE__"] = self.sourcePath.name ##TODO - Change to update on a per call basis, allowing for difference between files
-        print(defaultMacros["__DATE__"])
+        self.defaultMacros["__DATE__"] = lambda : self.sourcePath.name
         # defaultMacros["__TIME__"] = 
         # defaultMacros["__FILE__"] = 
         # defaultMacros["__LINE__"] = 
@@ -140,6 +142,9 @@ class Preprocessor:
         with open(path, 'r', encoding='unicode_escape') as f:
             source = f.read()
         
+        ## Add current file to stack
+        self.__currentFile.append(path)
+        print(self.defaultMacros["__DATE__"]())
         ## Strip comments
         source = Preprocessor.strip_comments(source)
 
@@ -147,6 +152,9 @@ class Preprocessor:
         source = source.split('\n')
         for line in source:
             print(line)
+
+        ## Remove current file from stack
+        self.__currentFile.pop()
 
         ## Return processed text
         return source
