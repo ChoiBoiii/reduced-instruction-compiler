@@ -15,6 +15,9 @@ class Preprocessor:
     STR_LITERAL_DELIMITER = '"'
     CHAR_LITERAL_DELIMITER = "'"
 
+    ## Construct directives dict
+    ## TODO
+
 
     ## INITIALISERS ...
 
@@ -27,7 +30,8 @@ class Preprocessor:
         ## Save include paths 
         self.includePaths = includePaths
 
-        ## Construct macos dict
+        ## Construct macro dict for use when preprocessing
+        ## TODO - Make each macro a function that returns a string?
         defaultMacros = dict([])
         # ANSI C defined macros
         defaultMacros["__DATE__"] = self.sourcePath.name ##TODO - Change to update on a per call basis, allowing for difference between files
