@@ -30,7 +30,7 @@ int main() {
 
     // Test
     for (reg_t i = 0; i < 10; i++) {
-        printf("%llu\n", EQUAL0(0));
+        printf("%llu\n", NEQUAL(i, i+1));
     }
 
     // TIMER

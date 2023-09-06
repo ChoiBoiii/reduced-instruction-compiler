@@ -82,31 +82,23 @@ typedef u_int64_t reg_t;
     v;                     \
 })    
 
-
-// TODO ...
-
-
-
-
-
-
-
-
-
-
-
-
+// Returns 1 if X and Y are not equal
+#define NEQUAL(X, Y) ({    \
+    reg_t v = XOR(X, Y);   \
+    v = OR(v, BSR(v, 32)); \
+    v = OR(v, BSR(v, 16)); \
+    v = OR(v, BSR(v, 8));  \
+    v = OR(v, BSR(v, 4));  \
+    v = OR(v, BSR(v, 2));  \
+    v = OR(v, BSR(v, 1));  \
+    v = AND(v, 1);         \
+    v;                     \
+})
 
 
 
 
 
-
-
-
-
-
-#define NEQUAL(X, Y)
 #define EQUAL(X, Y)   ( NOT(XOR(X, Y))               ) // NEEDS FIX - True if both numbers bitpatterns are the same
 
 
