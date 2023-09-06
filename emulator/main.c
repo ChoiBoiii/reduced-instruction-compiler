@@ -2,13 +2,13 @@
 
 
 // The type to use as a 'register'
-#define reg_t unsigned int64_t;
+typedef unsigned char reg_t;
 
 
-// 
-void print_bits(void* ptr, int numBytes) {
+// Prints the given bits
+void print_register(void* ptr) {
     printf("0b");
-    for (int i = numBytes - 1; i >= 0; i--) {
+    for (int i = sizeof(reg_t) - 1; i >= 0; i--) {
         unsigned char byteToPrint = *(((char*)ptr) + i);
         unsigned char mask = 0b10000000;
         for (int j = 0; j < 8; j++) {
@@ -20,18 +20,20 @@ void print_bits(void* ptr, int numBytes) {
 }
 
 
-//
-#define NAND(x, y) ( ~(x &  y) )
-#define AND(x, y)  ( NAND(NAND(x, y), NAND(x, y)) )
-#define NOT(x)     ( NAND(x, x) )
+// Decomposed instructions
+#define NAND(X, Y) ( ~(X & Y) )
+
+#define AND(X, Y)  ( NAND(NAND(X, Y), NAND(X, Y)))
+#define OR(X, Y)   ( NAND(NAND(X, X), NAND(Y, Y)))
+#define NOT(X)     ( NAND(X, X))
 
 
 // Execute
 int main() {
 
-    // 
-    int32_t t = 0b11110000111111110000000000001111;
-    print_bits(&t, 4);
+    reg_t x = 0b1010;
+    reg_t y = 0b1001;
+
 
     // Return
     return 0;
