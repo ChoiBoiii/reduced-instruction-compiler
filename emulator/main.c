@@ -29,9 +29,10 @@ int main() {
 
 
     // Test
-    for (reg_t i = 0; i < 25; i++) {
-        printf("%llu\n", EQUAL(i, i));
-    }
+    // for (reg_t i = 0; i < 25; i++) {
+    //     printf("%llu\n", EQUAL(i, i));
+    // }
+    printf("%llu\n", UINT_ADD(109, 1934));
 
     // TIMER
     // clock_t t = clock();

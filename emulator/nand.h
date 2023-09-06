@@ -115,16 +115,16 @@ typedef u_int64_t reg_t;
 
 // Unsigned integer addition of X+Y
 #define UINT_ADD(X, Y) ({              \
-    reg_t tmp;                         \
-    reg_t keep = BSL(AND(X, Y), 1);    \
-    reg_t res = XOR(X, Y);             \
+    reg_t tmp, keep, res;              \
+    keep = BSL(AND(X, Y), 1);          \
+    res = XOR(X, Y);                   \
     loop:                              \
         tmp = keep;                    \
         keep = BSL(AND(keep, res), 1); \
         res = XOR(tmp, res);           \
-        if (keep)                      \
+        if (NEQUAL(keep, 0))           \
             goto loop;                 \
-    return res;                        \
+    res;                               \
 })
 
 // Unsigned integer subtraction of X-Y
