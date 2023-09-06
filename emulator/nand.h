@@ -4,32 +4,32 @@
     A header only library allowing code that can be compiled to all NAND's. Why? why not :)
 
     INSTRUCTIONS
-    |---------------------------------------------------------------------------------------------------
-    | Instruction   | Description                     | Equivalent Operator   | Returns 
-    |---------------------------------------------------------------------------------------------------
-    | NAND          | NAND Bitwise operator           | f(a, b) -> ~(a & b)   | Bitfield
-    | BSL           | Bitshift left operator          | f(a, n) -> (a << n)   | Bitfield
-    | BSR           | Bitshift right operator         | f(a, n) -> (a >> n)   | Bitfield
-    | AND           | AND bitwise operator            | f(a, b) -> (a & b)    | Bitfield
-    | OR            | OR bitwise operator             | f(a, b) -> (a | b)    | Bitfield
-    | NOT           | NOT bitwise operator            | f(a)    -> (~a)       | Bitfield
-    | XOR           | XOR bitwise operator            | f(a, b) -> (a ^ b)    | Bitfield
-    | NEQUAL        | Bitwise inequality              | f(a, b) -> (a != b)   | 0 or 1
-    | NEQUAL0       | Bitwise inequality with zero    | f(a)    -> (a != 0)   | 0 or 1
-    | EQUAL         | Bitwise equality                | f(a, b) -> (a == b)   | 0 or 1
-    | EQUAL0        | Bitwise equality with zero      | f(a)    -> (a == 0)   | 0 or 1
+    |--------------------------------------------------------------------------------------------------------------|
+    | Instruction   | Description                     | Equivalent Operator   | Returns  | Register Size Dependant |
+    |--------------------------------------------------------------------------------------------------------------|
+    | NAND          | NAND Bitwise operator           | f(a, b) -> ~(a & b)   | Bitfield | F                       |
+    | BSL           | Bitshift left operator          | f(a, n) -> (a << n)   | Bitfield | F                       |
+    | BSR           | Bitshift right operator         | f(a, n) -> (a >> n)   | Bitfield | F                       |
+    | AND           | AND bitwise operator            | f(a, b) -> (a & b)    | Bitfield | F                       |
+    | OR            | OR bitwise operator             | f(a, b) -> (a | b)    | Bitfield | F                       |
+    | NOT           | NOT bitwise operator            | f(a)    -> (~a)       | Bitfield | F                       |
+    | XOR           | XOR bitwise operator            | f(a, b) -> (a ^ b)    | Bitfield | F                       |
+    | NEQUAL        | Bitwise inequality              | f(a, b) -> (a != b)   | 0 or 1   |                         |
+    | NEQUAL0       | Bitwise inequality with zero    | f(a)    -> (a != 0)   | 0 or 1   | T                       |
+    | EQUAL         | Bitwise equality                | f(a, b) -> (a == b)   | 0 or 1   |                         |
+    | EQUAL0        | Bitwise equality with zero      | f(a)    -> (a == 0)   | 0 or 1   | T                       |
     | UINT_ADD      | Add two unsigned integers       | f(a, b) -> (a + b)    | 
     | UINT_SUB      | Subtract two unsigned integers  | f(a, b) -> (a - b)    |
     | INT_ADD       | Signed integer addition         | f(a, b) -> (a + b)    |
     | UINT_MULT     | Unsigned integer multiplication | f(a, b) -> (a * b)    |
     | INT_MULT      | Signed integer multiplication   | f(a, b) -> (a * b)    | 
     | INT_DIV       | Signed integer division         | f(a, b) -> int(a / b) | 
-    |---------------------------------------------------------------------------------------------------
+    |---------------------------------------------------------------------------------------------------------------
 
     NOTE
-    The following instruction implementations are dependant on register size and must be
-    updated if the specified register size (currently 64-bit) is changed:
-    * EQUAL0
+    * If an instruction is tagged with 'Register Size Dependant' its implementation is dependant on register size and must be
+      updated if the specified register size (currently 64-bit) is changed.
+
 
 */
 
@@ -54,7 +54,7 @@ typedef u_int64_t reg_t;
 
 // BITWISE EQUALITY OPERATORS ...
 
-#define EQUAL0(X) ({})
+#define EQUAL0(X) ({}) //TODO
 
 #define NEQUAL0(X) ({      \
     reg_t v = X;           \
@@ -68,6 +68,29 @@ typedef u_int64_t reg_t;
     v = AND(v, 1);         \
     v;                     \
 })    
+
+
+// TODO ...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 #define NEQUAL(X, Y)
