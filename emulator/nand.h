@@ -14,7 +14,7 @@
     | OR            | OR bitwise operator             | f(a, b) -> (a | b)    | Bitfield | F                       |
     | NOT           | NOT bitwise operator            | f(a)    -> (~a)       | Bitfield | F                       |
     | XOR           | XOR bitwise operator            | f(a, b) -> (a ^ b)    | Bitfield | F                       |
-    | NEQUAL        | Bitwise inequality              | f(a, b) -> (a != b)   | 0 or 1   |                         |
+    | NEQUAL        | Bitwise inequality              | f(a, b) -> (a != b)   | 0 or 1   | T                       |
     | NEQUAL0       | Bitwise inequality with zero    | f(a)    -> (a != 0)   | 0 or 1   | T                       |
     | EQUAL         | Bitwise equality                | f(a, b) -> (a == b)   | 0 or 1   |                         |
     | EQUAL0        | Bitwise equality with zero      | f(a)    -> (a == 0)   | 0 or 1   | T                       |
@@ -80,7 +80,7 @@ typedef u_int64_t reg_t;
     v = OR(v, BSR(v, 1));  \
     v = AND(v, 1);         \
     v;                     \
-})    
+})
 
 // Returns 1 if X and Y are not equal
 #define NEQUAL(X, Y) ({    \
@@ -95,11 +95,19 @@ typedef u_int64_t reg_t;
     v;                     \
 })
 
+// Returns 1 if X and Y are equal
+#define EQUAL(X, Y) ({     \
+    reg_t v = XOR(X, Y);   \
+    v = OR(v, BSR(v, 32)); \
+    v = OR(v, BSR(v, 16)); \
+    v = OR(v, BSR(v, 8));  \
+    v = OR(v, BSR(v, 4));  \
+    v = OR(v, BSR(v, 2));  \
+    v = OR(v, BSR(v, 1));  \
+    v = AND(v, 1);         \
+    v = XOR(v, 1);         \
+})
 
-
-
-
-#define EQUAL(X, Y)   ( NOT(XOR(X, Y))               ) // NEEDS FIX - True if both numbers bitpatterns are the same
 
 
 // MATHEMATICAL OPERATORS ...

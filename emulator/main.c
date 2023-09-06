@@ -29,8 +29,8 @@ int main() {
 
 
     // Test
-    for (reg_t i = 0; i < 10; i++) {
-        printf("%llu\n", NEQUAL(i, i+1));
+    for (reg_t i = 0; i < 100; i++) {
+        printf("%llu\n", EQUAL(i, i));
     }
 
     // TIMER
