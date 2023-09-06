@@ -165,5 +165,8 @@ cython_debug/
 # Main binary output
 main
 
+##
+main.s
+
 # VS Code cofig
 .vscode

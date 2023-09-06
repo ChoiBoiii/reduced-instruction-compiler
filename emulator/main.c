@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <time.h>
 #include "nand.h"
 
 
@@ -20,11 +21,22 @@ void print_register(void* ptr) {
 // Execute
 int main() {
 
-    reg_t x = 3456784275;
-    reg_t y = 65329991;
-    reg_t result = ADD_UNSIGNED(x, y);
-    printf("%u\n%u\n", result, x + y);
-    // print_register(&result);
+    // reg_t x = 3456784275;
+    // reg_t y = 65329991;
+    // reg_t result = ADD_UNSIGNED(x, y);
+    // printf("%u\n%u\n", result, x + y);
+    // // print_register(&result);
+
+
+    // Test
+    clock_t t = clock();
+    reg_t i = 0;
+    for (; i < 100000000; i++) {
+    }
+    printf("%d\n", i);
+    t = clock() - t;
+    printf("%f seconds\n", ((float)t) / CLOCKS_PER_SEC);
+
 
     // Return
     return 0;

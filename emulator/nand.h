@@ -1,4 +1,3 @@
-
 // The type to use as a 'register'
 typedef u_int32_t reg_t;
 
@@ -29,7 +28,7 @@ reg_t ADD_UNSIGNED(X, Y) {
 #define ADD_UNSIGNED(X, Y) ({reg_t tmp;reg_t keep=BSL(AND(X,Y),1);reg_t res=XOR(X,Y);loopback: \
     tmp=keep; keep=BSL(AND(keep,res),1);res=XOR(tmp,res);if(keep)goto loopback;res;})
 
-
+//
 
 
 
