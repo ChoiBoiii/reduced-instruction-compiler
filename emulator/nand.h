@@ -39,23 +39,37 @@
 typedef u_int64_t reg_t;
 
 
-// BASE OPERATORS ...
+// BITWISE OPERATORS ...
+
+// Base operators (not NAND based)
 #define NAND(X, Y)    ( ~(X & Y)                     ) 
 #define BSL(X, N)     ( (X << N)                     ) 
 #define BSR(X, N)     ( (X >> N)                     ) 
 
-
-// BITWISE OPERATORS ...
+// Other decomposed bitwise operators
 #define AND(X, Y)     ( NAND(NAND(X, Y), NAND(X, Y)) ) 
 #define OR(X, Y)      ( NAND(NAND(X, X), NAND(Y, Y)) ) 
 #define NOT(X)        ( NAND(X, X)                   ) 
 #define XOR(X, Y)     ( AND(OR(X, Y), NAND(X, Y))    ) 
 
 
-// BITWISE EQUALITY OPERATORS ...
+// EQUALITY OPERATORS ...
 
-#define EQUAL0(X) ({}) //TODO
+// Returns 1 if X is equal to zero
+#define EQUAL0(X) ({      \
+    reg_t v = X;           \
+    v = OR(v, BSR(v, 64)); \
+    v = OR(v, BSR(v, 32)); \
+    v = OR(v, BSR(v, 16)); \
+    v = OR(v, BSR(v, 8));  \
+    v = OR(v, BSR(v, 4));  \
+    v = OR(v, BSR(v, 2));  \
+    v = OR(v, BSR(v, 1));  \
+    v = AND(v, 1);         \
+    v;                     \
+})    
 
+// Returns 1 if X is not equal to zero
 #define NEQUAL0(X) ({      \
     reg_t v = X;           \
     v = OR(v, BSR(v, 64)); \
