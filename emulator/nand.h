@@ -64,7 +64,8 @@ typedef u_int64_t reg_t;
     v = OR(v, BSR(v, 4));  \
     v = OR(v, BSR(v, 2));  \
     v = OR(v, BSR(v, 1));  \
-    v = NAND(v, 1);        \
+    v = AND(v, 1);         \
+    v = XOR(v, 1);         \
     v;                     \
 })    
 
