@@ -56,23 +56,21 @@ typedef u_int64_t reg_t;
 // EQUALITY OPERATORS ...
 
 // Returns 1 if X is equal to zero
-#define EQUAL0(X) ({      \
+#define EQUAL0(X) ({       \
     reg_t v = X;           \
-    v = OR(v, BSR(v, 64)); \
     v = OR(v, BSR(v, 32)); \
     v = OR(v, BSR(v, 16)); \
     v = OR(v, BSR(v, 8));  \
     v = OR(v, BSR(v, 4));  \
     v = OR(v, BSR(v, 2));  \
     v = OR(v, BSR(v, 1));  \
-    v = AND(v, 1);         \
+    v = NAND(v, 1);        \
     v;                     \
 })    
 
 // Returns 1 if X is not equal to zero
 #define NEQUAL0(X) ({      \
     reg_t v = X;           \
-    v = OR(v, BSR(v, 64)); \
     v = OR(v, BSR(v, 32)); \
     v = OR(v, BSR(v, 16)); \
     v = OR(v, BSR(v, 8));  \
