@@ -18,12 +18,13 @@
     | NEQUAL0       | Bitwise inequality with zero    | f(a)    -> (a != 0)   | 0 or 1   | T                       |
     | EQUAL         | Bitwise equality                | f(a, b) -> (a == b)   | 0 or 1   |                         |
     | EQUAL0        | Bitwise equality with zero      | f(a)    -> (a == 0)   | 0 or 1   | T                       |
-    | UINT_ADD      | Add two unsigned integers       | f(a, b) -> (a + b)    | 
-    | UINT_SUB      | Subtract two unsigned integers  | f(a, b) -> (a - b)    |
-    | INT_ADD       | Signed integer addition         | f(a, b) -> (a + b)    |
-    | UINT_MULT     | Unsigned integer multiplication | f(a, b) -> (a * b)    |
-    | INT_MULT      | Signed integer multiplication   | f(a, b) -> (a * b)    | 
-    | INT_DIV       | Signed integer division         | f(a, b) -> int(a / b) | 
+    | UINT_ADD      | Add two unsigned integers       | f(a, b) -> (a + b)    | n        |                         |
+    | UINT_SUB      | Subtract two unsigned integers  | f(a, b) -> (a - b)    | n        |                         |
+    | UINT_MULT     | Unsigned integer multiplication | f(a, b) -> (a * b)    | n        |                         |
+    | UINT_DIV      | Unsigned integer division       | f(a, b) -> int(a / b) | n        |                         |
+    | INT_ADD       | Signed integer addition         | f(a, b) -> (a + b)    | n        |                         |
+    | INT_MULT      | Signed integer multiplication   | f(a, b) -> (a * b)    | n        |                         |
+    | INT_DIV       | Signed integer division         | f(a, b) -> int(a / b) | n        |                         |
     |---------------------------------------------------------------------------------------------------------------
 
     NOTE
@@ -111,30 +112,33 @@ typedef u_int64_t reg_t;
 
 
 // MATHEMATICAL OPERATORS ...
-/* Adds two given unsigned integers
-reg_t ADD_UNSIGNED(X, Y) {
-    reg_t tmp;
-    reg_t keep = BSL(AND(X, Y), 1);
-    reg_t res = XOR(X, Y); 
-    loop:
-        tmp = keep;
-        keep = BSL(AND(keep, res), 1);
-        res = XOR(tmp, res);
-        if (keep)
-            goto loop;
-    return res;
-}
-*/
-#define ADD_UNSIGNED(X, Y) ({reg_t t,k,r;k=BSL(AND(X,Y),1);r=XOR(X,Y);l:t=k;k=BSL(AND(k,r),1);r=XOR(t,r);if(k)goto l;r;})
+
+// Adds two unsigned integers
+#define UINT_ADD(X, Y) ({              \
+    reg_t tmp;                         \
+    reg_t keep = BSL(AND(X, Y), 1);    \
+    reg_t res = XOR(X, Y);             \
+    loop:                              \
+        tmp = keep;                    \
+        keep = BSL(AND(keep, res), 1); \
+        res = XOR(tmp, res);           \
+        if (keep)                      \
+            goto loop;                 \
+    return res;                        \
+})
+
 
 // Subtracts b from a
-#define SUB_UNSOGNED(X, Y) ({})
-
-// Adds two signed integers
-#define ADD_SIGNED(X, Y) ({})
+#define UINT_SUB(X, Y) ({})
 
 // Multiplies given unsigned integers
-#define MULT_UNSIGNED(X, Y) ({})
+#define UINT_MULT(X, Y) ({})
+
+// Performs integer division on the two given unsigned integers
+#define UINT_DIV(X, Y) ({})
+
+// Adds two signed integers
+#define INT_ADD(X, Y) ({})
 
 // Performs integer division of X/Y
 #define INT_DIV(X, Y) ({})

@@ -29,7 +29,7 @@ int main() {
 
 
     // Test
-    for (reg_t i = 0; i < 100; i++) {
+    for (reg_t i = 0; i < 25; i++) {
         printf("%llu\n", EQUAL(i, i));
     }
 
