@@ -29,13 +29,13 @@ int main() {
 
 
     // Test
-    clock_t t = clock();
-    reg_t i = 0;
-    for (; i < 100000000; i++) {
+    // clock_t t = clock();
+
+    for (reg_t i = 0; i < 10; i++) {
+        printf("%d\n", i);
     }
-    printf("%d\n", i);
-    t = clock() - t;
-    printf("%f seconds\n", ((float)t) / CLOCKS_PER_SEC);
+
+    // printf("%f seconds\n", ((float)(clock() - t)) / CLOCKS_PER_SEC);
 
 
     // Return
