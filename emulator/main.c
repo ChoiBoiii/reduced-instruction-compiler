@@ -22,7 +22,7 @@ int main() {
 
     reg_t x = 3456784275;
     reg_t y = 65329991;
-    reg_t result = ADD(x, y);
+    reg_t result = ADD_UNSIGNED(x, y);
     printf("%u\n%u\n", result, x + y);
     // print_register(&result);
 
