@@ -29,16 +29,16 @@ int main() {
 
 
     // Test
-    // clock_t t = clock();
-
     for (reg_t i = 0; i < 10; i++) {
-        printf("%d\n", i);
+        printf("%llu\n", NEQUAL0(i));
     }
 
+    // TIMER
+    // clock_t t = clock();
+    // Insert here
     // printf("%f seconds\n", ((float)(clock() - t)) / CLOCKS_PER_SEC);
 
-
-    // Return
+    // Exit
     return 0;
 }
 
