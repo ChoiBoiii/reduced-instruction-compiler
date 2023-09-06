@@ -113,7 +113,7 @@ typedef u_int64_t reg_t;
 
 // MATHEMATICAL OPERATORS ...
 
-// Adds two unsigned integers
+// Unsigned integer addition of X+Y
 #define UINT_ADD(X, Y) ({              \
     reg_t tmp;                         \
     reg_t keep = BSL(AND(X, Y), 1);    \
@@ -127,20 +127,25 @@ typedef u_int64_t reg_t;
     return res;                        \
 })
 
-
-// Subtracts b from a
+// Unsigned integer subtraction of X-Y
 #define UINT_SUB(X, Y) ({})
 
-// Multiplies given unsigned integers
+// Unsigned integer multiplication of X*Y
 #define UINT_MULT(X, Y) ({})
 
-// Performs integer division on the two given unsigned integers
+// Unsigned integer division of X/Y
 #define UINT_DIV(X, Y) ({})
 
-// Adds two signed integers
+// Signed integer addition of X+Y
 #define INT_ADD(X, Y) ({})
 
-// Performs integer division of X/Y
+// Signed integer subtraction of X-Y
+#define INT_SUB(X, Y) ({})
+
+// Signed integer multiplication of X*Y
+#define INT_MULT(X, Y) ({})
+
+// Signed integer division of X/Y
 #define INT_DIV(X, Y) ({})
 
 
