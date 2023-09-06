@@ -32,6 +32,16 @@ def BSR(a: REG_TYPE, n: REG_TYPE) -> REG_TYPE:
         print("ERROR: Invalid bitshift given")
     return a >> n
 
+## MATHS
+def ADD(a: REG_TYPE, b: REG_TYPE) -> REG_TYPE:
+    keep = (a & b) << REG_TYPE(1)
+    res = a ^ b
+
+    if keep == REG_TYPE(0):
+        return res
+    return ADD(keep, res)
+
+
 
 ## Test
 def main():
@@ -39,12 +49,14 @@ def main():
     a = REG_TYPE(0b1010)
     b = REG_TYPE(0b1001)
     test = REG_TYPE(0b100)
-    
-    print("NOT:", bin(NOT(test)))
-    print("AND:", bin(AND(a, b)))
-    print("OR:",  bin(OR(a, b)))
-    print("BSL:", bin(BSL(test, REG_TYPE(2)))) 
-    print("BSR:", bin(BSR(test, REG_TYPE(2)))) 
+
+    # print("NOT:", bin(NOT(test)))
+    # print("AND:", bin(AND(a, b)))
+    # print("OR:",  bin(OR(a, b)))
+    # print("BSL:", bin(BSL(test, REG_TYPE(2)))) 
+    # print("BSR:", bin(BSR(test, REG_TYPE(2)))) 
+
+    print(ADD(REG_TYPE(456767859), REG_TYPE(123243536)))
 
 
 ## Run test
