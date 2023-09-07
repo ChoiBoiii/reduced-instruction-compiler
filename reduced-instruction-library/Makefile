@@ -1,7 +1,7 @@
 #-march=native
 
 main:
-	gcc main.c -o main -O0 -Wall -mcpu=apple-m1 -std=c11
+	gcc main.c -o main -O0 -Wall -mcpu=apple-m1 -std=c11 -I "./include"
 
 .PHONY: clean
 clean:
