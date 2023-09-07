@@ -1,5 +1,8 @@
 /* 
 
+    HOW TO CONFIGURE
+    TODO...
+
     DESCRIPTION
     A header only library allowing code that can be compiled to all NAND's. Why? why not :)
 
@@ -41,7 +44,7 @@
       the return of 'UINT_ADD(X, Y)' would be of type 'u_int16_t', BUT
       the return of 'X + Y' could be of type 'u_int32_t' due to implicit conversion.
 
-    INLINE TAGS
+    COMMENT TAGS
     * TODO     - A note of something that needs to be done
     * OPTIMISE - Associated code / function works but requires optimisation 
 
@@ -62,6 +65,8 @@
 
 
 // CONFIG ...
+
+// Provide default values if not given override. Throw error in error cases.
 
 // Register / Instruction word size info
 typedef u_int16_t reg_t;      // The type to use to store the value of a register.
@@ -156,7 +161,7 @@ typedef u_int16_t reg_t;      // The type to use to store the value of a registe
 })
 
 // Returns 1 if X > Y
-#define GREATER_THAN(X, Y) ({ \
+#define GREATER_THAN(X, Y) ({  \
 })
 
 // Returns 1 if X >= Y
