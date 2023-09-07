@@ -155,9 +155,10 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 #define FOLD_ONCE_PARAMS_HELPER_(Z, N, X)            \
     FOLD_ONCE_HELPER_(X, (HELPER_STRREP(2*, BOOST_PP_SUB(BOOST_PP_SUB(REGISTER_SIZE_BITS_LOG2, 1), N)) 1))
 
-#define FOLD_BITS_TO_1(X, S)                         \
-    BOOST_PP_REPEAT(S, FOLD_ONCE_PARAMS_HELPER_, X); \
-    X = AND(X, 1);
+#define FOLD_BITS_TO_1(X, S) ({                       \
+    BOOST_PP_REPEAT(S, FOLD_ONCE_PARAMS_HELPER_, X);  \
+    X = AND(X, 1);                                    \
+})
 
 // Returns 1 if X is equal to zero
 #define EQUAL0(X) ({               \
