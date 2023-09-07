@@ -152,19 +152,17 @@ typedef u_int64_t reg_t;            // The type to use to store the value of a r
 #define LEQUAL(X, Y)
 
 
-// MATHEMATICAL OPERATORS ...
+// ARITHMETIC OPERATORS ...
 
 // Inverts the sign of the given int
 #define INT_SIGN_INVERT(X) ({})
 
 // Unsigned integer addition of X+Y
-
 #define UINT_ADD_HELPER(T, K, R) ({                    \
     T = K;                                             \
     K = BSL(AND(K, R), 1);                             \
     R = XOR(T, R);                                     \
 });
-
 #define UINT_ADD(X, Y) ({                              \
     reg_t tmp, keep, res;                              \
     keep = BSL(AND(X, Y), 1);                          \

@@ -33,9 +33,9 @@ int main() {
     //     printf("%llu\n", EQUAL(i, i));
     // }
     reg_t a;
-    for (int i = 0; i < 257; i++) {
-        a = INT_ADD(100, (reg_t)i);
-        printf("%lld %lld\n", (long long int)100+i, (long long int)((char)a));
+    for (int i = 0; i < 100000; i++) {
+        a = INT_ADD(100, -(reg_t)i);
+        printf("%lld %lld\n", (long long int)(100 - i), (long long int)(a));
         // print_register(&a);
     }
     INT_ADD(1 ,1 );
