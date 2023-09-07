@@ -191,12 +191,12 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
     T = K;                                             \
     K = BSL(AND(K, R), 1);                             \
     R = XOR(T, R);                                     \
-});
+})
 #define UINT_ADD(X, Y) ({                              \
     reg_t tmp, keep, res;                              \
     keep = BSL(AND(X, Y), 1);                          \
     res = XOR(X, Y);                                   \
-    STRREP(UINT_ADD_HELPER(tmp, keep, res),            \
+    STRREP(UINT_ADD_HELPER(tmp, keep, res);,           \
         REGISTER_SIZE_BITS);                           \
     res;                                               \
 })
