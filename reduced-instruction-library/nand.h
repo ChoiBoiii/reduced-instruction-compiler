@@ -233,8 +233,7 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 
 // Inverts the sign of the given int using two's compliment: invert then add 1
 #define INT_SIGN_INVERT(X) ({                          \
-    reg_t out = UINT_ADD(NOT(X), 1);                   \
-    out; \
+    UINT_ADD(NOT(X), 1);                               \
 })                                                  
 
 // Unsigned integer subtraction of X-Y
