@@ -45,6 +45,12 @@
 
 */
 
+// INCLUDE LIBRARIES ...
+
+//
+#include "boost/boost/accumulators/accumulators.hpp"
+
+
 // CONFIG ...
 
 // The type to use as a 'register'
@@ -121,7 +127,8 @@ typedef u_int64_t reg_t;
 })
 
 // Returns 1 if X > Y
-#define GREATER_THAN(X, Y) 
+#define GREATER_THAN(X, Y) ({         \
+})
 
 // Returns 1 if X >= Y
 #define GEQUAL(X, Y)
