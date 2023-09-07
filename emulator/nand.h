@@ -109,6 +109,17 @@ typedef u_int64_t reg_t;
     v = XOR(v, 1);         \
 })
 
+// Returns 1 if X > Y
+#define GREATER_THAN(X, Y) 
+
+// Returns 1 if X >= Y
+#define GEQUAL(X, Y)
+
+// Returns 1 if X < Y
+#define LESS_THAN(X, Y)
+
+// Returns 1 if X <= Y
+#define LEQUAL(X, Y)
 
 
 // MATHEMATICAL OPERATORS ...
