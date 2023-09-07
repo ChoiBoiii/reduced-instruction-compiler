@@ -12,6 +12,8 @@
        WARNING: Do not wrap number in parentheses as this will break the precompiler parsing.
 
     NOTE
+    * Allows compilation with any emulated register size within {size : size = 2^n}, up to and including 1024 bits, as long as
+      the host machine has a defined type of that size.
     * If an instruction is tagged with 'Register Size Dependant' in the table below its implementation is dependant on register 
       size and must be updated if the specified register size (currently 64-bit) is changed.
     * WARNING: be careful of implicit type promotion. 
