@@ -130,9 +130,6 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 // Function to allow repeat of given repeat lines
 #define HELPER_FOLD_STR(Z, N, T)  T                                // Helper function for HELPER_STRREP
 #define HELPER_STRREP(S, N) BOOST_PP_REPEAT(N, HELPER_FOLD_STR, S) // Call 'HELPER_STRREP' to repeat 'S' 'N' times
-#define FOLD_ONCE_HELPER(X, S) X = OR(X, BSR(X, S));
-#define FOLD_ONCE_PARAMS_HELPER(Z, N, X) FOLD_ONCE_HELPER( X, ( HELPER_STRREP( 2* , BOOST_PP_SUB(BOOST_PP_SUB(REGISTER_SIZE_BITS_LOG2, 1), N) ) 1 ) )
-#define FOLD_SIZE_LOG2(X, S) BOOST_PP_REPEAT(S, FOLD_ONCE_PARAMS_HELPER, X) X = AND(X, 1);
 
 
 // BITWISE OPERATORS ...
@@ -151,21 +148,27 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 
 // EQUALITY OPERATORS ...
 
-// Equivalent to (X != 0). Sets X to 1 if X contains any ones, else 0.
-#define FOLD_BITS_TO_1(X) ({   \
-    X = OR(X, BSR(X, 32));     \
-    X = OR(X, BSR(X, 16));     \
-    X = OR(X, BSR(X, 8));      \
-    X = OR(X, BSR(X, 4));      \
-    X = OR(X, BSR(X, 2));      \
-    X = OR(X, BSR(X, 1));      \
-    X = AND(X, 1);             \
-})
+
+//
+#define FOLD_ONCE_HELPER(X, S) X = OR(X, BSR(X, S));
+#define FOLD_ONCE_PARAMS_HELPER(Z, N, X) FOLD_ONCE_HELPER( X, ( HELPER_STRREP( 2* , BOOST_PP_SUB(BOOST_PP_SUB(REGISTER_SIZE_BITS_LOG2, 1), N) ) 1 ) )
+#define FOLD_BITS_TO_1(X, S) BOOST_PP_REPEAT(S, FOLD_ONCE_PARAMS_HELPER, X) X = AND(X, 1);
+
+// // Equivalent to (X != 0). Sets X to 1 if X contains any ones, else 0.
+// #define FOLD_BITS_TO_1(X) ({   \
+//     X = OR(X, BSR(X, 32));     \
+//     X = OR(X, BSR(X, 16));     \
+//     X = OR(X, BSR(X, 8));      \
+//     X = OR(X, BSR(X, 4));      \
+//     X = OR(X, BSR(X, 2));      \
+//     X = OR(X, BSR(X, 1));      \
+//     X = AND(X, 1);             \
+// })
 
 // Returns 1 if X is equal to zero
 #define EQUAL0(X) ({           \
     reg_t v = X;               \
-    FOLD_SIZE_LOG2(v, REGISTER_SIZE_BITS_LOG2);         \
+    FOLD_BITS_TO_1(v, REGISTER_SIZE_BITS_LOG2);         \
     v = XOR(v, 1);             \
     v;                         \
 })    
@@ -173,21 +176,21 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 // Returns 1 if X is not equal to zero
 #define NEQUAL0(X) ({          \
     reg_t v = X;               \
-    FOLD_BITS_TO_1(v);         \
+    FOLD_BITS_TO_1(v, REGISTER_SIZE_BITS_LOG2);         \
     v;                         \
 })
 
 // Returns 1 if X and Y are not equal
 #define NEQUAL(X, Y) ({        \
     reg_t v = XOR(X, Y);       \
-    FOLD_BITS_TO_1(v);         \
+    FOLD_BITS_TO_1(v, REGISTER_SIZE_BITS_LOG2);         \
     v;                         \
 })
 
 // Returns 1 if X and Y are equal
 #define EQUAL(X, Y) ({         \
     reg_t v = XOR(X, Y);       \
-    FOLD_BITS_TO_1(v);         \
+    FOLD_BITS_TO_1(v, REGISTER_SIZE_BITS_LOG2);         \
     v = XOR(v, 1);             \
 })
 
