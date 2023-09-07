@@ -291,69 +291,27 @@ int main() {
     //     }
     // }
 
-    // temp test
-    reg_t a = 0x0000;
-    reg_t b = 0xFFFF;
-    reg_t c = a + b;
-    reg_t d = UINT_ADD(a, b);
-    printf("%d %d\n", c, d);
-
     // UINT_ADD
     testNum = 0;
     for (long long int i = 0; i < testIterCap; i++) {
-        if ((testNum + tnum1) != (UINT_ADD(testNum, tnum1))) {
-            reg_t tmp1 = (testNum + tnumOnes);
-            reg_t tmp2 = UINT_ADD(testNum, tnumOnes);
+        if ((reg_t)(testNum + tnum1) != (UINT_ADD(testNum, tnum1))) {
             printf("UINT_ADD Failed test\n");
-            printf("^1: %u + %u\n", testNum, tnumOnes);
-            printf("^ Expected: %u | %d\n", testNum + tnumOnes, tmp1);
-            printf("^ Actual:   %u | %u\n", UINT_ADD(testNum, tnumOnes), tmp2);
-            print_register(&tmp1);
-            print_register(&tmp2);
             break;
         }
-        if ((testNum + tnum2) != (UINT_ADD(testNum, tnum2))) {
-            reg_t tmp1 = (testNum + tnumOnes);
-            reg_t tmp2 = UINT_ADD(testNum, tnumOnes);
+        if ((reg_t)(testNum + tnum2) != (UINT_ADD(testNum, tnum2))) {
             printf("UINT_ADD Failed test\n");
-            printf("^2: %u + %u\n", testNum, tnumOnes);
-            printf("^ Expected: %u | %d\n", testNum + tnumOnes, tmp1);
-            printf("^ Actual:   %u | %u\n", UINT_ADD(testNum, tnumOnes), tmp2);
-            print_register(&tmp1);
-            print_register(&tmp2);
             break;
         }
-        if ((testNum + tnum3) != (UINT_ADD(testNum, tnum3))) {
-            reg_t tmp1 = (testNum + tnumOnes);
-            reg_t tmp2 = UINT_ADD(testNum, tnumOnes);
+        if ((reg_t)(testNum + tnum3) != (UINT_ADD(testNum, tnum3))) {
             printf("UINT_ADD Failed test\n");
-            printf("^3: %u + %u\n", testNum, tnumOnes);
-            printf("^ Expected: %u | %d\n", testNum + tnumOnes, tmp1);
-            printf("^ Actual:   %u | %u\n", UINT_ADD(testNum, tnumOnes), tmp2);
-            print_register(&tmp1);
-            print_register(&tmp2);
             break;
         }
-        if ((testNum + tnumOnes) != (UINT_ADD(testNum, tnumOnes))) {
-            reg_t tmp1 = (testNum + tnumOnes);
-            reg_t tmp2 = UINT_ADD(testNum, tnumOnes);
+        if ((reg_t)(testNum + tnumOnes) != (UINT_ADD(testNum, tnumOnes))) {
             printf("UINT_ADD Failed test\n");
-            printf("^4: %u + %u\n", testNum, tnumOnes);
-            printf("^ Expected: %u | %d\n", testNum + tnumOnes, tmp1);
-            printf("^ Actual:   %u | %u\n", UINT_ADD(testNum, tnumOnes), tmp2);
-            print_register(&tmp1);
-            print_register(&tmp2);
             break;
         }
-        if ((testNum + tnumZeroes) != (UINT_ADD(testNum, tnumZeroes))) {
-            reg_t tmp1 = (testNum + tnumOnes);
-            reg_t tmp2 = UINT_ADD(testNum, tnumOnes);
+        if ((reg_t)(testNum + tnumZeroes) != (UINT_ADD(testNum, tnumZeroes))) {
             printf("UINT_ADD Failed test\n");
-            printf("^5: %u + %u\n", testNum, tnumOnes);
-            printf("^ Expected: %u | %d\n", testNum + tnumOnes, tmp1);
-            printf("^ Actual:   %u | %u\n", UINT_ADD(testNum, tnumOnes), tmp2);
-            print_register(&tmp1);
-            print_register(&tmp2);
             break;
         }
         testNum += 1;
