@@ -160,36 +160,40 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
     X = AND(X, 1);
 
 // Returns 1 if X is equal to zero
-#define EQUAL0(X) ({           \
-    reg_t v = X;               \
-    FOLD_BITS_TO_1(v, REGISTER_SIZE_BITS_LOG2);         \
-    v = XOR(v, 1);             \
-    v;                         \
+#define EQUAL0(X) ({               \
+    reg_t v = X;                   \
+    FOLD_BITS_TO_1(v,              \
+        REGISTER_SIZE_BITS_LOG2);  \
+    v = XOR(v, 1);                 \
+    v;                             \
 })    
 
 // Returns 1 if X is not equal to zero
-#define NEQUAL0(X) ({          \
-    reg_t v = X;               \
-    FOLD_BITS_TO_1(v, REGISTER_SIZE_BITS_LOG2);         \
-    v;                         \
+#define NEQUAL0(X) ({              \
+    reg_t v = X;                   \
+    FOLD_BITS_TO_1(v,              \
+        REGISTER_SIZE_BITS_LOG2);  \
+    v;                             \
 })
 
 // Returns 1 if X and Y are not equal
-#define NEQUAL(X, Y) ({        \
-    reg_t v = XOR(X, Y);       \
-    FOLD_BITS_TO_1(v, REGISTER_SIZE_BITS_LOG2);         \
-    v;                         \
+#define NEQUAL(X, Y) ({            \
+    reg_t v = XOR(X, Y);           \
+    FOLD_BITS_TO_1(v,              \
+        REGISTER_SIZE_BITS_LOG2);  \
+    v;                             \
 })
 
 // Returns 1 if X and Y are equal
-#define EQUAL(X, Y) ({         \
-    reg_t v = XOR(X, Y);       \
-    FOLD_BITS_TO_1(v, REGISTER_SIZE_BITS_LOG2);         \
-    v = XOR(v, 1);             \
+#define EQUAL(X, Y) ({             \
+    reg_t v = XOR(X, Y);           \
+    FOLD_BITS_TO_1(v,              \
+        REGISTER_SIZE_BITS_LOG2);  \
+    v = XOR(v, 1);                 \
 })
 
 // Returns 1 if X > Y
-#define GREATER_THAN(X, Y) ({  \
+#define GREATER_THAN(X, Y) ({      \
 })
 
 // Returns 1 if X >= Y
