@@ -96,15 +96,15 @@ typedef u_int16_t reg_t;      // The type to use to store the value of a registe
 // BITWISE OPERATORS ...
 
 // Base operators (not NAND based)
-#define NAND(X, Y)    ( ~(X & Y)                     ) 
-#define BSL(X, N)     ( (X << N)                     ) 
-#define BSR(X, N)     ( (X >> N)                     ) 
+#define NAND(X, Y)  ( ~(X & Y)                     ) 
+#define BSL(X, N)   ( (X << N)                     ) 
+#define BSR(X, N)   ( (X >> N)                     ) 
 
 // Other decomposed bitwise operators
-#define AND(X, Y)     ( NAND(NAND(X, Y), NAND(X, Y)) ) 
-#define OR(X, Y)      ( NAND(NAND(X, X), NAND(Y, Y)) ) 
-#define NOT(X)        ( NAND(X, X)                   ) 
-#define XOR(X, Y)     ( AND(OR(X, Y), NAND(X, Y))    ) 
+#define AND(X, Y)   ( NAND(NAND(X, Y), NAND(X, Y)) ) 
+#define OR(X, Y)    ( NAND(NAND(X, X), NAND(Y, Y)) ) 
+#define NOT(X)      ( NAND(X, X)                   ) 
+#define XOR(X, Y)   ( AND(OR(X, Y), NAND(X, Y))    ) 
 
 
 // EQUALITY OPERATORS ...
