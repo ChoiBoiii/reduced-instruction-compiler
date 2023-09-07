@@ -147,14 +147,18 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 
 // EQUALITY OPERATORS ...
 
-// HELPER: Equivalent to (X != 0). Sets X to 1 if X contains any ones, else 0.
-
-#define FOLD_ONCE_HELPER_(X, S)                      \
+// HELPER: Abstraction for FOLD_ONCE_PARAMS_HELPER_
+#define FOLD_ONCE_HELPER_(X, S)                       \
     X = OR(X, BSR(X, S));
 
-#define FOLD_ONCE_PARAMS_HELPER_(Z, N, X)            \
-    FOLD_ONCE_HELPER_(X, (HELPER_STRREP(2*, BOOST_PP_SUB(BOOST_PP_SUB(REGISTER_SIZE_BITS_LOG2, 1), N)) 1))
+// HELPER: Abstraction for FOLD_BITS_TO_1
+#define FOLD_ONCE_PARAMS_HELPER_(Z, N, X) ({          \
+    FOLD_ONCE_HELPER_(X, (HELPER_STRREP(2*,           \
+        BOOST_PP_SUB(BOOST_PP_SUB(                    \
+            REGISTER_SIZE_BITS_LOG2, 1), N)) 1))      \
+});
 
+// HELPER: Equivalent to (X != 0). Sets X to 1 if X contains any ones, else 0.
 #define FOLD_BITS_TO_1(X, S) ({                       \
     BOOST_PP_REPEAT(S, FOLD_ONCE_PARAMS_HELPER_, X);  \
     X = AND(X, 1);                                    \
