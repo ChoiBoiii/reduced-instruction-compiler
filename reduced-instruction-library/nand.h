@@ -48,7 +48,7 @@
     | UINT_MULT       | Unsigned integer multiplication | f(a, b) -> (a * b)    | n        |                         |          |
     | UINT_DIV        | Unsigned integer division       | f(a, b) -> int(a / b) | n        |                         |          |
     | INT_ADD         | Signed integer addition         | f(a, b) -> (a + b)    | n        | F                       | T        |
-    | INT_SUB         | Signed integer subtraction      | f(a, b) -> (a - b)    | n        | F                       | 
+    | INT_SUB         | Signed integer subtraction      | f(a, b) -> (a - b)    | n        | F                       | T        |
     | INT_MULT        | Signed integer multiplication   | f(a, b) -> (a * b)    | n        |                         |          |
     | INT_DIV         | Signed integer division         | f(a, b) -> int(a / b) | n        |                         |          |
     | INT_SIGN_INVERT | Integer sign inversion          | f(a)    -> (-a)       | -n       | F                       | T        |
