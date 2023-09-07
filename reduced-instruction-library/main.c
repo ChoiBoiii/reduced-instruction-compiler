@@ -31,15 +31,25 @@ int main() {
     // Config
     const long long int testIterCap = 66000;
 
-    //
-    long long int i = 0;
+    // EQUAL0
     reg_t testNum = 0;
+    long long int i = 0;
     for (; i < testIterCap; i++) {
         testNum += 1;
         if ((testNum == 0) != (EQUAL0(testNum))) {
             printf("EQUAL0 Failed test\n");
         }
     }
+
+    // // EQUAL0
+    // reg_t testNum = 0;
+    // long long int i = 0;
+    // for (; i < testIterCap; i++) {
+    //     testNum += 1;
+    //     if ((testNum == 0) != (EQUAL0(testNum))) {
+    //         printf("EQUAL0 Failed test\n");
+    //     }
+    // }
 
     // EXIT
     return 0;
