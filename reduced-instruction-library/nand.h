@@ -1,7 +1,12 @@
 /* 
 
     HOW TO CONFIGURE
-    TODO...
+    1. Set the data type of the register that will be used by defining OVERRIDE_REGISTER_TYPE before including header. 
+       Using a uint variant is recommended. Size must not exceed 1024 bits. If OVERRIDE_REGISTER_TYPE is not defined, a 
+       default value will be selected. Likely uint64, but not gauranteed.
+    2. If you defined OVERRIDE_REGISTER_TYPE you must also define OVERRIDE_REGISTER_SIZE with the size, in bits, of the 
+       newly specified register data type.
+       WARNING: Do not wrap number in parentheses as this will break the precompiler parsing.
 
     DESCRIPTION
     A header only library allowing code that can be compiled to all NAND's. Why? why not :)
@@ -29,7 +34,7 @@
     | UINT_SUB      | Subtract two unsigned integers  | f(a, b) -> (a - b)    | n        |                         |          |
     | UINT_MULT     | Unsigned integer multiplication | f(a, b) -> (a * b)    | n        |                         |          |
     | UINT_DIV      | Unsigned integer division       | f(a, b) -> int(a / b) | n        |                         |          |
-    | INT_ADD       | Signed integer addition         | f(a, b) -> (a + b)    | n        | TBD                       |          |
+    | INT_ADD       | Signed integer addition         | f(a, b) -> (a + b)    | n        | F                       | T        |
     | INT_MULT      | Signed integer multiplication   | f(a, b) -> (a * b)    | n        |                         |          |
     | INT_DIV       | Signed integer division         | f(a, b) -> int(a / b) | n        |                         |          |
     |--------------------------------------------------------------------------------------------------------------------------
