@@ -152,8 +152,9 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
     X = OR(X, BSR(X, S));
 
 // HELPER: Returns the ammount of bitshift required for an iteration of the FOLD_BITS_TO_1 method
-#define FOLD_ONCE_GET_SHIFT_HELPER_(N)               \
-    (HELPER_STRREP(2*, BOOST_PP_SUB(BOOST_PP_SUB(REGISTER_SIZE_BITS_LOG2, 1), N)) 1) \
+#define FOLD_ONCE_GET_SHIFT_HELPER_(N)                   \
+    (HELPER_STRREP(2*, BOOST_PP_SUB(                     \
+        BOOST_PP_SUB(REGISTER_SIZE_BITS_LOG2, 1), N)) 1) \
 
 // HELPER: Returns a fully formatted line for the FOLD_BITS_TO_1 method
 #define FOLD_ONCE_PARAMS_HELPER_(Z, N, X) ({             \
