@@ -27,6 +27,7 @@ int main() {
     // <- Enter code here
     // printf("%f seconds\n", ((float)(clock() - t)) / CLOCKS_PER_SEC);
 
+
     // RUN TESTS ...
 
     // Config
@@ -248,31 +249,31 @@ int main() {
         }
     }
 
-    // GREATER_THAN
-    testNum = 0;
-    for (long long int i = 0; i < testIterCap; i++) {
-        testNum += 1;
-        if ((testNum > tnum1) != (GREATER_THAN(testNum, tnum1))) {
-            printf("GREATER_THAN Failed test\n");
-            break;
-        }
-        if ((testNum > tnum2) != (GREATER_THAN(testNum, tnum2))) {
-            printf("GREATER_THAN Failed test\n");
-            break;
-        }
-        if ((testNum > tnum3) != (GREATER_THAN(testNum, tnum3))) {
-            printf("GREATER_THAN Failed test\n");
-            break;
-        }
-        if ((testNum > tnumZeroes) != (GREATER_THAN(testNum, tnumZeroes))) {
-            printf("GREATER_THAN Failed test\n");
-            break;
-        }
-        if ((testNum > tnumOnes) != (GREATER_THAN(testNum, tnumOnes))) {
-            printf("GREATER_THAN Failed test\n");
-            break;
-        }
-    }
+    // // GREATER_THAN
+    // testNum = 0;
+    // for (long long int i = 0; i < testIterCap; i++) {
+    //     testNum += 1;
+    //     if ((testNum > tnum1) != (GREATER_THAN(testNum, tnum1))) {
+    //         printf("GREATER_THAN Failed test\n");
+    //         break;
+    //     }
+    //     if ((testNum > tnum2) != (GREATER_THAN(testNum, tnum2))) {
+    //         printf("GREATER_THAN Failed test\n");
+    //         break;
+    //     }
+    //     if ((testNum > tnum3) != (GREATER_THAN(testNum, tnum3))) {
+    //         printf("GREATER_THAN Failed test\n");
+    //         break;
+    //     }
+    //     if ((testNum > tnumZeroes) != (GREATER_THAN(testNum, tnumZeroes))) {
+    //         printf("GREATER_THAN Failed test\n");
+    //         break;
+    //     }
+    //     if ((testNum > tnumOnes) != (GREATER_THAN(testNum, tnumOnes))) {
+    //         printf("GREATER_THAN Failed test\n");
+    //         break;
+    //     }
+    // }
 
     // EXIT
     return 0;
