@@ -35,8 +35,8 @@ int main() {
     reg_t a;
     for (int i = 0; i < 257; i++) {
         a = INT_ADD(100, (reg_t)i);
-        printf("%lld\n", (long long int)((char)a));
-        print_register(&a);
+        printf("%lld %lld\n", (long long int)100+i, (long long int)((char)a));
+        // print_register(&a);
     }
     INT_ADD(1 ,1 );
 

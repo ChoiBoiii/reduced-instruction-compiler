@@ -47,14 +47,25 @@
 
 // INCLUDE LIBRARIES ...
 
-// 
+// Standard
+// None 
+
+// Local
 #include "boost/preprocessor/repetition/repeat.hpp"
 
 
 // CONFIG ...
 
-// The type to use as a 'register'
-typedef u_int64_t reg_t;
+// Register / Instruction word size info
+typedef u_int64_t reg_t;         // The type to use to store the value of a register.
+#define REGISRTER_SIZE_BITS (64) // The number of bits in the register. Used to configure inctruction macros.
+
+
+// HELPER MACROS ...
+
+// Allow preprocessor to repeat lines n times
+#define Fold(z, n, text)  text                       // Helper function for STRREP
+#define STRREP(str, n) BOOST_PP_REPEAT(n, Fold, str) // Call 'STRREP' to repeat 'str' 'n' times
 
 
 // BITWISE OPERATORS ...
@@ -146,34 +157,16 @@ typedef u_int64_t reg_t;
 #define INT_SIGN_INVERT(X) ({})
 
 // Unsigned integer addition of X+Y
-#define UINT_ADD_HELPER(X, Y) ({       \
+#define UINT_ADD_HELPER ({             \
     tmp = keep;                        \
     keep = BSL(AND(keep, res), 1);     \
     res = XOR(tmp, res);               \
-})
-#define UINT_ADD_HELPER_4(X, Y) ({     \
-    UINT_ADD_HELPER(X, Y);             \
-    UINT_ADD_HELPER(X, Y);             \
-    UINT_ADD_HELPER(X, Y);             \
-    UINT_ADD_HELPER(X, Y);             \
-})   
-#define UINT_ADD_HELPER_16(X, Y) ({    \
-    UINT_ADD_HELPER_4(X, Y);           \
-    UINT_ADD_HELPER_4(X, Y);           \
-    UINT_ADD_HELPER_4(X, Y);           \
-    UINT_ADD_HELPER_4(X, Y);           \
-})
-#define UINT_ADD_HELPER_64(X, Y) ({    \
-    UINT_ADD_HELPER_16(X, Y);          \
-    UINT_ADD_HELPER_16(X, Y);          \
-    UINT_ADD_HELPER_16(X, Y);          \
-    UINT_ADD_HELPER_16(X, Y);          \
-})
+});
 #define UINT_ADD(X, Y) ({              \
     reg_t tmp, keep, res;              \
     keep = BSL(AND(X, Y), 1);          \
     res = XOR(X, Y);                   \
-    UINT_ADD_HELPER_64(X, Y);          \
+    STRREP(UINT_ADD_HELPER, 64);       \
     res;                               \
 })
 
