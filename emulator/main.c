@@ -32,7 +32,13 @@ int main() {
     // for (reg_t i = 0; i < 25; i++) {
     //     printf("%llu\n", EQUAL(i, i));
     // }
-    printf("%llu\n", UINT_ADD(109, 1934));
+    reg_t a;
+    for (int i = 0; i < 257; i++) {
+        a = INT_ADD(100, (reg_t)i);
+        printf("%lld\n", (long long int)((char)a));
+        print_register(&a);
+    }
+    INT_ADD(1 ,1 );
 
     // TIMER
     // clock_t t = clock();

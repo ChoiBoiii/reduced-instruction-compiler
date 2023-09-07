@@ -16,13 +16,13 @@
     | XOR           | XOR bitwise operator            | f(a, b) -> (a ^ b)    | Bitfield | F                       |
     | NEQUAL        | Bitwise inequality              | f(a, b) -> (a != b)   | 0 or 1   | T                       |
     | NEQUAL0       | Bitwise inequality with zero    | f(a)    -> (a != 0)   | 0 or 1   | T                       |
-    | EQUAL         | Bitwise equality                | f(a, b) -> (a == b)   | 0 or 1   |                         |
+    | EQUAL         | Bitwise equality                | f(a, b) -> (a == b)   | 0 or 1   | T                       |
     | EQUAL0        | Bitwise equality with zero      | f(a)    -> (a == 0)   | 0 or 1   | T                       |
-    | UINT_ADD      | Add two unsigned integers       | f(a, b) -> (a + b)    | n        |                         |
+    | UINT_ADD      | Add two unsigned integers       | f(a, b) -> (a + b)    | n        | T                       |
     | UINT_SUB      | Subtract two unsigned integers  | f(a, b) -> (a - b)    | n        |                         |
     | UINT_MULT     | Unsigned integer multiplication | f(a, b) -> (a * b)    | n        |                         |
     | UINT_DIV      | Unsigned integer division       | f(a, b) -> int(a / b) | n        |                         |
-    | INT_ADD       | Signed integer addition         | f(a, b) -> (a + b)    | n        |                         |
+    | INT_ADD       | Signed integer addition         | f(a, b) -> (a + b)    | n        | T                       |
     | INT_MULT      | Signed integer multiplication   | f(a, b) -> (a * b)    | n        |                         |
     | INT_DIV       | Signed integer division         | f(a, b) -> int(a / b) | n        |                         |
     |---------------------------------------------------------------------------------------------------------------
@@ -113,17 +113,38 @@ typedef u_int64_t reg_t;
 
 // MATHEMATICAL OPERATORS ...
 
+// Inverts the sign of the given int
+#define INT_SIGN_INVERT(X) ({})
+
 // Unsigned integer addition of X+Y
+#define UINT_ADD_HELPER(X, Y) ({       \
+    tmp = keep;                        \
+    keep = BSL(AND(keep, res), 1);     \
+    res = XOR(tmp, res);               \
+})
+#define UINT_ADD_HELPER_4(X, Y) ({     \
+    UINT_ADD_HELPER(X, Y);             \
+    UINT_ADD_HELPER(X, Y);             \
+    UINT_ADD_HELPER(X, Y);             \
+    UINT_ADD_HELPER(X, Y);             \
+})   
+#define UINT_ADD_HELPER_16(X, Y) ({    \
+    UINT_ADD_HELPER_4(X, Y);           \
+    UINT_ADD_HELPER_4(X, Y);           \
+    UINT_ADD_HELPER_4(X, Y);           \
+    UINT_ADD_HELPER_4(X, Y);           \
+})
+#define UINT_ADD_HELPER_64(X, Y) ({    \
+    UINT_ADD_HELPER_16(X, Y);          \
+    UINT_ADD_HELPER_16(X, Y);          \
+    UINT_ADD_HELPER_16(X, Y);          \
+    UINT_ADD_HELPER_16(X, Y);          \
+})
 #define UINT_ADD(X, Y) ({              \
     reg_t tmp, keep, res;              \
     keep = BSL(AND(X, Y), 1);          \
     res = XOR(X, Y);                   \
-    loop:                              \
-        tmp = keep;                    \
-        keep = BSL(AND(keep, res), 1); \
-        res = XOR(tmp, res);           \
-        if (NEQUAL(keep, 0))           \
-            goto loop;                 \
+    UINT_ADD_HELPER_64(X, Y);          \
     res;                               \
 })
 
@@ -137,7 +158,9 @@ typedef u_int64_t reg_t;
 #define UINT_DIV(X, Y) ({})
 
 // Signed integer addition of X+Y
-#define INT_ADD(X, Y) ({})
+#define INT_ADD(X, Y) ({               \
+    UINT_ADD(X, Y);                    \
+})
 
 // Signed integer subtraction of X-Y
 #define INT_SUB(X, Y) ({})
@@ -150,3 +173,23 @@ typedef u_int64_t reg_t;
 
 
 
+
+
+
+
+
+
+/* UINT_ADD / INT_ADD using loop for arbitrary size and optimisation
+#define UINT_ADD(X, Y) ({              \
+    reg_t tmp, keep, res;              \
+    keep = BSL(AND(X, Y), 1);          \
+    res = XOR(X, Y);                   \
+    loop:                              \
+        tmp = keep;                    \
+        keep = BSL(AND(keep, res), 1); \
+        res = XOR(tmp, res);           \
+        if (NEQUAL(keep, 0))           \
+            goto loop;                 \
+    res;                               \
+})
+*/
