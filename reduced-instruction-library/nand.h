@@ -33,10 +33,10 @@
     | OR            | OR bitwise operator             | f(a, b) -> (a | b)    | Bitfield | F                       | T        |
     | NOT           | NOT bitwise operator            | f(a)    -> (~a)       | Bitfield | F                       | T        |
     | XOR           | XOR bitwise operator            | f(a, b) -> (a ^ b)    | Bitfield | F                       | T        |
-    | NEQUAL        | Bitwise inequality              | f(a, b) -> (a != b)   | 0 or 1   | T                       | T        |
-    | NEQUAL0       | Bitwise inequality with zero    | f(a)    -> (a != 0)   | 0 or 1   | T                       | T        |
-    | EQUAL         | Bitwise equality                | f(a, b) -> (a == b)   | 0 or 1   | T                       | T        |
-    | EQUAL0        | Bitwise equality with zero      | f(a)    -> (a == 0)   | 0 or 1   | T                       | T        |
+    | NEQUAL        | Bitwise inequality              | f(a, b) -> (a != b)   | 0 or 1   | F                       | T        |
+    | NEQUAL0       | Bitwise inequality with zero    | f(a)    -> (a != 0)   | 0 or 1   | F                       | T        |
+    | EQUAL         | Bitwise equality                | f(a, b) -> (a == b)   | 0 or 1   | F                       | T        |
+    | EQUAL0        | Bitwise equality with zero      | f(a)    -> (a == 0)   | 0 or 1   | F                       | T        |
     | GREATER_THAN  | Bitwise greater than            | f(a, b) -> (a > b)    | 0 or 1   |                         |          |
     | GEQUAL        | Bitwise greater or equal to     | f(a, b) -> (a >= b)   | 0 or 1   |                         |          |
     | LESS_THAN     | Bitwise less than               | f(a, b) -> (a < b)    | 0 or 1   |                         |          |
@@ -184,20 +184,20 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
     v;                             \
 })
 
-// Returns 1 if X and Y are not equal
-#define NEQUAL(X, Y) ({            \
-    reg_t v = XOR(X, Y);           \
-    FOLD_BITS_TO_1(v,              \
-        REGISTER_SIZE_BITS_LOG2);  \
-    v;                             \
-})
-
 // Returns 1 if X and Y are equal
 #define EQUAL(X, Y) ({             \
     reg_t v = XOR(X, Y);           \
     FOLD_BITS_TO_1(v,              \
         REGISTER_SIZE_BITS_LOG2);  \
     v = XOR(v, 1);                 \
+})
+
+// Returns 1 if X and Y are not equal
+#define NEQUAL(X, Y) ({            \
+    reg_t v = XOR(X, Y);           \
+    FOLD_BITS_TO_1(v,              \
+        REGISTER_SIZE_BITS_LOG2);  \
+    v;                             \
 })
 
 // Returns 1 if X > Y
