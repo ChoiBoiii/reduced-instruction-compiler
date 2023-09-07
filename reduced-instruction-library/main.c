@@ -38,6 +38,7 @@ int main() {
     const reg_t tnumOnes = 0xFFFF;
     const reg_t tnumZeroes = 0x0000;
     reg_t testNum;
+    int16_t signedTestNum;
 
 
     // BITWISE OPERATORS ...
@@ -318,30 +319,29 @@ int main() {
     }
 
     // INT_ADD
-    testNum = 0;
+    signedTestNum = -10000;
     for (long long int i = 0; i < testIterCap; i++) {
-        testNum += 1;
-        int16_t num = testNum;
-        if ((num + (int16_t)tnum1) != ((int16_t)(INT_ADD(num, tnum1)))) {
+        if ((reg_t)(signedTestNum + tnum1) != (INT_ADD(signedTestNum, tnum1))) {
             printf("INT_ADD Failed test\n");
             break;
         }
-        if ((num + (int16_t)tnum2) != ((int16_t)(INT_ADD(num, tnum2)))) {
+        if ((reg_t)(signedTestNum + tnum2) != (INT_ADD(signedTestNum, tnum2))) {
             printf("INT_ADD Failed test\n");
             break;
         }
-        if ((num + (int16_t)tnum3) != ((int16_t)(INT_ADD(num, tnum3)))) {
+        if ((reg_t)(signedTestNum + tnum3) != (INT_ADD(signedTestNum, tnum3))) {
             printf("INT_ADD Failed test\n");
             break;
         }
-        if ((num + (int16_t)tnumZeroes) != ((int16_t)(INT_ADD(num, tnumZeroes)))) {
+        if ((reg_t)(signedTestNum + tnumOnes) != (INT_ADD(signedTestNum, tnumOnes))) {
             printf("INT_ADD Failed test\n");
             break;
         }
-        if ((num + (int16_t)tnumOnes) != ((int16_t)(INT_ADD(num, tnumOnes)))) {
+        if ((reg_t)(signedTestNum + tnumZeroes) != (INT_ADD(signedTestNum, tnumZeroes))) {
             printf("INT_ADD Failed test\n");
             break;
         }
+        signedTestNum += 1;
     }
 
     // EXIT
