@@ -34,6 +34,12 @@
     NOTE
     * If an instruction is tagged with 'Register Size Dependant' its implementation is dependant on register size and must be
       updated if the specified register size (currently 64-bit) is changed.
+    * WARNING: be careful of implicit type promotion. 
+      E.G., if two variables of reg_t are added using normal addition operator (a + b), the result may be implicitly upgraded to a
+      larger int type (implementation defined). This may cause hard to find issues. For example:
+      if 'reg_t' is 'u_int16_t'...
+      the return of 'UINT_ADD(X, Y)' would be of type 'u_int16_t', BUT
+      the return of 'X + Y' could be of type 'u_int32_t' due to implicit conversion.
 
     INLINE TAGS
     * TODO     - A note of something that needs to be done

@@ -22,11 +22,9 @@
 
 int main(){
 
-    int res;
-    int keep;
-    int tmp;
-
-    BOOST_PP_REPEAT(2, UINT_ADD_HELPER(X,Y), );
+    u_int16_t a = 0xFFFF;
+    u_int16_t b = 0x0001;
+    printf("%hu\n%hu\n", a+b, (u_int16_t)(a+b));
 
     return 0;
 }

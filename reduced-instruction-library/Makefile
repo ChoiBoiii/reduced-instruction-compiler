@@ -9,6 +9,13 @@ clean:
 	@echo Removing main
 	rm main
 
+.PHONY: test
+test:
+	gcc test.c -o test -I "include"
+	@echo --------------------------------------------------
+	@echo Running test
+	./test
+
 .PHONY: run
 run: 
 	make main
