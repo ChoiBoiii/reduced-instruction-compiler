@@ -28,7 +28,7 @@ int main() {
     // printf("%f seconds\n", ((float)(clock() - t)) / CLOCKS_PER_SEC);
 
 
-    // RUN TESTS ...
+    // RUN TESTS (TESTS OPERATE ON 16 BIT UINT EMULATED REGISTERS) ...
 
     // Config
     const long long int testIterCap = 66000;
@@ -229,6 +229,14 @@ int main() {
             printf("NEQUAL Failed test\n");
             break;
         }
+        if ((testNum != tnumOnes) != (NEQUAL(testNum, tnumOnes))) {
+            printf("NEQUAL Failed test\n");
+            break;
+        }
+        if ((testNum != tnumZeroes) != (NEQUAL(testNum, tnumZeroes))) {
+            printf("NEQUAL Failed test\n");
+            break;
+        }
     }
 
     // EQUAL
@@ -244,6 +252,14 @@ int main() {
             break;
         }
         if ((testNum == tnum3) != (EQUAL(testNum, tnum3))) {
+            printf("EQUAL Failed test\n");
+            break;
+        }
+        if ((testNum == tnumOnes) != (EQUAL(testNum, tnumOnes))) {
+            printf("EQUAL Failed test\n");
+            break;
+        }
+        if ((testNum == tnumZeroes) != (EQUAL(testNum, tnumZeroes))) {
             printf("EQUAL Failed test\n");
             break;
         }
@@ -274,6 +290,65 @@ int main() {
     //         break;
     //     }
     // }
+
+    // UINT_ADD
+    testNum = 0;
+    for (long long int i = 0; i < testIterCap; i++) {
+        testNum += 1;
+        printf("%d\n", i);
+        if ((testNum += tnum1) != (UINT_ADD(testNum, tnum1))) {
+            printf("UINT_ADD Failed test\n");
+            printf("^ Failed on: %d %d | %d %d\n", testNum, tnum1, testNum, UINT_ADD(testNum, tnum1));
+            break;
+        }
+        if ((testNum += tnum2) != (UINT_ADD(testNum, tnum2))) {
+            printf("UINT_ADD Failed test\n");
+            printf("^ Failed on: %d %d | %d %d\n", testNum, tnum2, testNum, UINT_ADD(testNum, tnum2));
+            break;
+        }
+        if ((testNum += tnum3) != (UINT_ADD(testNum, tnum3))) {
+            printf("UINT_ADD Failed test\n");
+            printf("^ Failed on: %d %d | %d %d\n", testNum, tnum3, testNum, UINT_ADD(testNum, tnum3));
+            break;
+        }
+        if ((testNum += tnumOnes) != (UINT_ADD(testNum, tnumOnes))) {
+            printf("UINT_ADD Failed test\n");
+            printf("^ Failed on: %d %d | %d %d\n", testNum, tnumOnes, testNum, UINT_ADD(testNum, tnumOnes));
+            break;
+        }
+        if ((testNum += tnumZeroes) != (UINT_ADD(testNum, tnumZeroes))) {
+            printf("UINT_ADD Failed test\n");
+            printf("^ Failed on: %d %d | %d %d\n", testNum, tnumZeroes, testNum, UINT_ADD(testNum, tnumZeroes));
+            break;
+        }
+    }
+
+    // INT_ADD
+    testNum = 0;
+    for (long long int i = 0; i < testIterCap; i++) {
+        testNum += 1;
+        int16_t num = testNum;
+        if ((num += (int16_t)tnum1) != (INT_ADD(num, (int16_t)tnum1))) {
+            printf("INT_ADD Failed test\n");
+            break;
+        }
+        if ((num += (int16_t)tnum2) != (INT_ADD(num, (int16_t)tnum2))) {
+            printf("INT_ADD Failed test\n");
+            break;
+        }
+        if ((num += (int16_t)tnum3) != (INT_ADD(num, (int16_t)tnum3))) {
+            printf("INT_ADD Failed test\n");
+            break;
+        }
+        if ((num += (int16_t)tnumZeroes) != (INT_ADD(num, (int16_t)tnumZeroes))) {
+            printf("INT_ADD Failed test\n");
+            break;
+        }
+        if ((num += (int16_t)tnumOnes) != (INT_ADD(num, (int16_t)tnumOnes))) {
+            printf("INT_ADD Failed test\n");
+            break;
+        }
+    }
 
     // EXIT
     return 0;
