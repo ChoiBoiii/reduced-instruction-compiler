@@ -67,11 +67,7 @@
 // Local
 #define BOOST_PP_LIMIT_REPEAT (1024) // Configure boost header to allow up to 1024 repeats. Max allowed by header is 1024.
 #include "boost/preprocessor/repetition/repeat.hpp"
-#include "boost/preprocessor/arithmetic/add.hpp"
 #include "boost/preprocessor/arithmetic/sub.hpp"
-#include "boost/preprocessor/arithmetic/mul.hpp"
-#include "boost/preprocessor/arithmetic/mod.hpp"
-#include "boost/preprocessor/arithmetic/div.hpp"
 
 
 // AUTOMATIC CONFIGURATION ...
@@ -103,12 +99,45 @@
 typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to store the value of a register.
 #define REGISTER_SIZE_BITS RIC_TMP_CONFIG_REG_SIZE_BITS // The number of bits in the register. Used to configure inctruction macros.
 
+// Determine log2(size) of specified register
+#if REGISTER_SIZE_BITS == 8
+    #define REGISTER_SIZE_BITS_LOG2 3
+#elif REGISTER_SIZE_BITS == 16
+    #define REGISTER_SIZE_BITS_LOG2 4
+#elif REGISTER_SIZE_BITS == 32
+    #define REGISTER_SIZE_BITS_LOG2 5
+#elif REGISTER_SIZE_BITS == 64
+    #define REGISTER_SIZE_BITS_LOG2 6
+#elif REGISTER_SIZE_BITS == 128
+    #define REGISTER_SIZE_BITS_LOG2 7
+#elif REGISTER_SIZE_BITS == 256
+    #define REGISTER_SIZE_BITS_LOG2 8
+#elif REGISTER_SIZE_BITS == 512
+    #define REGISTER_SIZE_BITS_LOG2 9
+#elif REGISTER_SIZE_BITS == 1024
+    #define REGISTER_SIZE_BITS_LOG2 10
+#else
+    #ifdef REGISTER_SIZE_BITS
+        #error REGISTER_SIZE_BITS is defined to an invalid value. Must be a power of two and within the range (inclusive) [8, 1024].
+    #else
+        #error REGISTER_SIZE_BITS is not defined. Please define to a power of 2, within the range (inclusive) [8, 1024].
+    #endif
+#endif
+
 
 // HELPER MACROS ...
 
-// Allow preprocessor to repeat lines n times
-#define Fold(z, n, text)  text                       // Helper function for STRREP
-#define STRREP(str, n) BOOST_PP_REPEAT(n, Fold, str) // Call 'STRREP' to repeat 'str' 'n' times
+// Function to allow repeat of given repeat lines
+#define HELPER_FOLD_STR(Z, N, T)  T                                // Helper function for HELPER_STRREP
+#define HELPER_STRREP(S, N) BOOST_PP_REPEAT(N, HELPER_FOLD_STR, S) // Call 'HELPER_STRREP' to repeat 'S' 'N' times
+
+
+#define FOLD_ONCE_HELPER(X, S) (X = OR(X, BSR(X, S)));
+#define FOLD_ONCE_PARAMS_HELPER(z, n, X) FOLD_ONCE_HELPER(X, (HELPER_STRREP(2*,BOOST_PP_SUB(z, n))1))
+#define FOLD_SIZE_LOG2(X, S) BOOST_PP_REPEAT(S, FOLD_ONCE_PARAMS_HELPER, X)
+
+// FOLD_SIZE_LOG2(v, 3)
+
 
 
 // BITWISE OPERATORS ...
@@ -141,7 +170,7 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 // Returns 1 if X is equal to zero
 #define EQUAL0(X) ({           \
     reg_t v = X;               \
-    FOLD_BITS_TO_1(v);         \
+    FOLD_SIZE_LOG2(v, REGISTER_SIZE_BITS_LOG2);         \
     v = XOR(v, 1);             \
     v;                         \
 })    
@@ -196,7 +225,7 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
     reg_t tmp, keep, res;                              \
     keep = BSL(AND(X, Y), 1);                          \
     res = XOR(X, Y);                                   \
-    STRREP(UINT_ADD_HELPER(tmp, keep, res);,           \
+    HELPER_STRREP(UINT_ADD_HELPER(tmp, keep, res);,    \
         REGISTER_SIZE_BITS);                           \
     res;                                               \
 })
@@ -246,3 +275,8 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
     res;                               \
 })
 */
+
+
+// REGISTER_SIZE_BITS
+// REGISTER_SIZE_BITS_LOG2
+// EQUAL0(X)
