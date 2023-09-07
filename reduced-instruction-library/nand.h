@@ -59,13 +59,11 @@
 
 */
 
+
 // INCLUDE LIBRARIES ...
 
-// Standard
-// None 
-
 // Local
-#define BOOST_PP_LIMIT_REPEAT (1024) // Configure boost header to allow up to 1024 repeats
+#define BOOST_PP_LIMIT_REPEAT (1024) // Configure boost header to allow up to 1024 repeats. Max allowed by header is 1024.
 #include "boost/preprocessor/repetition/repeat.hpp"
 
 
