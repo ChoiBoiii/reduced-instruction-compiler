@@ -13,7 +13,7 @@
 
 
 
-#define REGSIZE 16
+#define REGSIZE 32
 
 // Get the log2(size) of the register type
 #if REGSIZE == 8
@@ -57,9 +57,9 @@
 
 #define Fold(z, n, text)  text                               // Helper function for STRREP
 #define HELPER_STRREP(str, n) BOOST_PP_REPEAT(n, Fold, str)  // Call 'STRREP' to repeat 'str' 'n' times
-#define FOLD_ONCE_HELPER(X, S) (X = OR(X, BSR(X, S)));
+#define FOLD_ONCE_HELPER(X, S) X = OR(X, BSR(X, S));
 #define FOLD_ONCE_PARAMS_HELPER(z, n, X) FOLD_ONCE_HELPER( X, ( HELPER_STRREP( 2* , BOOST_PP_SUB(BOOST_PP_SUB(REGISTER_SIZE_BITS_LOG2, 1), n) ) 1 ) )
-#define FOLD_SIZE_LOG2(X, S) BOOST_PP_REPEAT(S, FOLD_ONCE_PARAMS_HELPER, X)
+#define FOLD_SIZE_LOG2(X, S) BOOST_PP_REPEAT(S, FOLD_ONCE_PARAMS_HELPER, X) X = AND(X, 1);
 
 
 // Returns 1 if X is equal to zero
