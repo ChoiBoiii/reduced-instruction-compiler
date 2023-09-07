@@ -537,15 +537,5 @@
 # 9 "test.c" 2
 # 1 "include/boost/preprocessor/arithmetic/dec.hpp" 1
 # 10 "test.c" 2
-# 66 "test.c"
-({ reg_t v = X; 
-(v = OR(v, BSR(v, ( 2* 2* 2* 1 )))); 
-(v = OR(v, BSR(v, ( 2* 2* 1 )))); 
-(v = OR(v, BSR(v, ( 2* 1 )))); 
-(v = OR(v, BSR(v, ( 1 ))));; v = XOR(v, 1); v; })
-
-4
-3
-2
-1
-0
+# 73 "test.c"
+({ reg_t v = X; (v = OR(v, BSR(v, ( 2* 2* 2* 1 )))); (v = OR(v, BSR(v, ( 2* 2* 1 )))); (v = OR(v, BSR(v, ( 2* 1 )))); (v = OR(v, BSR(v, ( 1 ))));; v = XOR(v, 1); v; })

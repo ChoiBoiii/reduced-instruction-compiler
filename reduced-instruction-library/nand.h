@@ -130,14 +130,9 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 // Function to allow repeat of given repeat lines
 #define HELPER_FOLD_STR(Z, N, T)  T                                // Helper function for HELPER_STRREP
 #define HELPER_STRREP(S, N) BOOST_PP_REPEAT(N, HELPER_FOLD_STR, S) // Call 'HELPER_STRREP' to repeat 'S' 'N' times
-
-
 #define FOLD_ONCE_HELPER(X, S) (X = OR(X, BSR(X, S)));
-#define FOLD_ONCE_PARAMS_HELPER(z, n, X) FOLD_ONCE_HELPER(X, (HELPER_STRREP(2*,BOOST_PP_SUB(z, n))1))
+#define FOLD_ONCE_PARAMS_HELPER(z, n, X) FOLD_ONCE_HELPER( X, ( HELPER_STRREP( 2* , BOOST_PP_SUB(BOOST_PP_SUB(REGISTER_SIZE_BITS_LOG2, 1), n) ) 1 ) )
 #define FOLD_SIZE_LOG2(X, S) BOOST_PP_REPEAT(S, FOLD_ONCE_PARAMS_HELPER, X)
-
-// FOLD_SIZE_LOG2(v, 3)
-
 
 
 // BITWISE OPERATORS ...

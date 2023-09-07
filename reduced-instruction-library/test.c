@@ -65,7 +65,7 @@
 // Returns 1 if X is equal to zero
 #define EQUAL0(X) ({           \
     reg_t v = X;               \
-    FOLD_SIZE_LOG2(v, 4);         \
+    FOLD_SIZE_LOG2(v, REGISTER_SIZE_BITS_LOG2);         \
     v = XOR(v, 1);             \
     v;                         \
 })    
