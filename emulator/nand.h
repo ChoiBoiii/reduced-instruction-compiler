@@ -18,6 +18,10 @@
     | NEQUAL0       | Bitwise inequality with zero    | f(a)    -> (a != 0)   | 0 or 1   | T                       |
     | EQUAL         | Bitwise equality                | f(a, b) -> (a == b)   | 0 or 1   | T                       |
     | EQUAL0        | Bitwise equality with zero      | f(a)    -> (a == 0)   | 0 or 1   | T                       |
+    | GREATER_THAN  | Bitwise greater than            | f(a, b) -> (a > b)    | 0 or 1   | 
+    | GEQUAL        | Bitwise greater or equal to     | f(a, b) -> (a >= b)   | 0 or 1   |
+    | LESS_THAN     | Bitwise less than               | f(a, b) -> (a < b)    | 0 or 1   |
+    | LEQUAL        | Bitwise less than or equal to   | f(a, b) -> (a <= b)   | 0 or 1   | 
     | UINT_ADD      | Add two unsigned integers       | f(a, b) -> (a + b)    | n        | T                       |
     | UINT_SUB      | Subtract two unsigned integers  | f(a, b) -> (a - b)    | n        |                         |
     | UINT_MULT     | Unsigned integer multiplication | f(a, b) -> (a * b)    | n        |                         |
