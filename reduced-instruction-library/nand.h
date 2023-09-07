@@ -51,14 +51,15 @@
 // None 
 
 // Local
+#define BOOST_PP_LIMIT_REPEAT (1024) // Configure boost header to allow up to 1024 repeats
 #include "boost/preprocessor/repetition/repeat.hpp"
 
 
 // CONFIG ...
 
 // Register / Instruction word size info
-typedef u_int64_t reg_t;         // The type to use to store the value of a register.
-#define REGISRTER_SIZE_BITS (64) // The number of bits in the register. Used to configure inctruction macros.
+typedef u_int64_t reg_t;            // The type to use to store the value of a register.
+#define REGISRTER_SIZE_BITS   (64)  // The number of bits in the register. Used to configure inctruction macros.
 
 
 // HELPER MACROS ...
