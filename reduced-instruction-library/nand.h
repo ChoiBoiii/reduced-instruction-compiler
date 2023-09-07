@@ -22,11 +22,11 @@
     | GEQUAL        | Bitwise greater or equal to     | f(a, b) -> (a >= b)   | 0 or 1   |                         |          |
     | LESS_THAN     | Bitwise less than               | f(a, b) -> (a < b)    | 0 or 1   |                         |          |
     | LEQUAL        | Bitwise less than or equal to   | f(a, b) -> (a <= b)   | 0 or 1   |                         |          |
-    | UINT_ADD      | Add two unsigned integers       | f(a, b) -> (a + b)    | n        | T                       |          |
+    | UINT_ADD      | Add two unsigned integers       | f(a, b) -> (a + b)    | n        | F                       | T        |
     | UINT_SUB      | Subtract two unsigned integers  | f(a, b) -> (a - b)    | n        |                         |          |
     | UINT_MULT     | Unsigned integer multiplication | f(a, b) -> (a * b)    | n        |                         |          |
     | UINT_DIV      | Unsigned integer division       | f(a, b) -> int(a / b) | n        |                         |          |
-    | INT_ADD       | Signed integer addition         | f(a, b) -> (a + b)    | n        | T                       |          |
+    | INT_ADD       | Signed integer addition         | f(a, b) -> (a + b)    | n        | TBD                       |          |
     | INT_MULT      | Signed integer multiplication   | f(a, b) -> (a * b)    | n        |                         |          |
     | INT_DIV       | Signed integer division         | f(a, b) -> int(a / b) | n        |                         |          |
     |--------------------------------------------------------------------------------------------------------------------------
