@@ -2,8 +2,8 @@
 #include <time.h>
 #include <stdbool.h>
 
-// #define RIC_OVERRIDE_REGISTER_SIZE 16
-#define RIC_OVERRIDE_REGISTER_TYPE u_int16_t
+#define RIC_OVERRIDE_REGISTER_SIZE 16
+// #define RIC_OVERRIDE_REGISTER_TYPE u_int16_t
 #include "nand.h"
 
 

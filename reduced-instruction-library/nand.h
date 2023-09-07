@@ -74,33 +74,24 @@
 // Throw error if override size is given but override type is not defined
 #ifdef RIC_OVERRIDE_REGISTER_SIZE
     #ifndef RIC_OVERRIDE_REGISTER_TYPE
-        #error Defined 'RIC_OVERRIDE_REGISTER_SIZE' but did not define 'RIC_OVERRIDE_REGISTER_TYPE'. \
-            Please define 'RIC_OVERRIDE_REGISTER_TYPE'.
+        #error Defined 'RIC_OVERRIDE_REGISTER_SIZE' but did not define 'RIC_OVERRIDE_REGISTER_TYPE'. Please define 'RIC_OVERRIDE_REGISTER_TYPE'.
     #endif
 #endif
 
 // Throw error if override type is given but override size is not defined
 #ifdef RIC_OVERRIDE_REGISTER_TYPE
     #ifndef RIC_OVERRIDE_REGISTER_SIZE
-        #error Defined 'RIC_OVERRIDE_REGISTER_TYPE' but did not define 'RIC_OVERRIDE_REGISTER_SIZE'. \
-            Please define 'RIC_OVERRIDE_REGISTER_SIZE'.
+        #error Defined 'RIC_OVERRIDE_REGISTER_TYPE' but did not define 'RIC_OVERRIDE_REGISTER_SIZE'. Please define 'RIC_OVERRIDE_REGISTER_SIZE'.
     #endif
 #endif
 
-// Load override for register typing or use default
+// Determine use of override or default values
 #ifdef RIC_OVERRIDE_REGISTER_TYPE
-
-    // Set config macros
     #define RIC_TMP_CONFIG_REGISTER_TYPE RIC_OVERRIDE_REGISTER_TYPE
     #define RIC_TMP_CONFIG_REG_SIZE_BITS RIC_OVERRIDE_REGISTER_SIZE
-
-// Use default
 #else
-
-    // Set config macros
     #define RIC_TMP_CONFIG_REGISTER_TYPE u_int64_t
     #define RIC_TMP_CONFIG_REG_SIZE_BITS 64
-
 #endif
 
 // Register / Instruction word size info
