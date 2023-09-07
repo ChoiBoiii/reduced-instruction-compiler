@@ -37,8 +37,10 @@
     | NEQUAL0         | Bitwise inequality with zero    | f(a)    -> (a != 0)   | 0 or 1   | F                       | T        |
     | EQUAL           | Bitwise equality                | f(a, b) -> (a == b)   | 0 or 1   | F                       | T        |
     | EQUAL0          | Bitwise equality with zero      | f(a)    -> (a == 0)   | 0 or 1   | F                       | T        |
-    | GREATER_THAN    | Bitwise greater than            | f(a, b) -> (a > b)    | 0 or 1   |                         |          |
-    | GEQUAL          | Bitwise greater or equal to     | f(a, b) -> (a >= b)   | 0 or 1   |                         |          |
+    | UINT_GTHAN      | Greater than between uints      | f(a)    -> (a > b)    | 0 or 1   | 
+    | UINT_GETHAN     | Greater or equal between uints  | f(a)    -> (a >= b)   | 0 or 1   | 
+    | INT_GTHAN       | Greater than between ints       | f(a)    -> (a > b)    | 0 or 1   | 
+    | INT_GETHAN      | Greater or equal between ints   | f(a)    -> (a >= b)   | 0 or 1   |
     | LESS_THAN       | Bitwise less than               | f(a, b) -> (a < b)    | 0 or 1   |                         |          |
     | LEQUAL          | Bitwise less than or equal to   | f(a, b) -> (a <= b)   | 0 or 1   |                         |          |
     | UINT_ADD        | Add two unsigned integers       | f(a, b) -> (a + b)    | n        | F                       | T        |
@@ -48,7 +50,7 @@
     | INT_ADD         | Signed integer addition         | f(a, b) -> (a + b)    | n        | F                       | T        |
     | INT_MULT        | Signed integer multiplication   | f(a, b) -> (a * b)    | n        |                         |          |
     | INT_DIV         | Signed integer division         | f(a, b) -> int(a / b) | n        |                         |          |
-    | INT_SIGN_INVERT | Integer sign inversion          | f(a) -> (-a)          | -n       | F                       | T        |
+    | INT_SIGN_INVERT | Integer sign inversion          | f(a)    -> (-a)       | -n       | F                       | T        |
     |----------------------------------------------------------------------------------------------------------------------------
 
     COMMENT TAGS
@@ -237,25 +239,18 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
     UINT_ADD(NOT(X), 1);                               \
 })                                                  
 
-// Unsigned integer subtraction of X-Y
-#define UINT_SUB(X, Y) ({})
+// Signed integer addition of X+Y
+#define INT_ADD(X, Y) ({               \
+    UINT_ADD(X, Y);                    \
+})
+
+// Unsigned integer subtraction of X-Y {OPTIMISE}
+#define UINT_SUB(X, Y) ({                              \
+    INT_ADD(X, INT_SIGN_INVERT(Y));                    \
+})
 
 // Unsigned integer multiplication of X*Y
 #define UINT_MULT(X, Y) ({})
 
 // Unsigned integer division of X/Y
 #define UINT_DIV(X, Y) ({})
-
-// Signed integer addition of X+Y
-#define INT_ADD(X, Y) ({               \
-    UINT_ADD(X, Y);                    \
-})
-
-// Signed integer subtraction of X-Y
-#define INT_SUB(X, Y) ({})
-
-// Signed integer multiplication of X*Y
-#define INT_MULT(X, Y) ({})
-
-// Signed integer division of X/Y
-#define INT_DIV(X, Y) ({})

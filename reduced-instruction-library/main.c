@@ -348,9 +348,9 @@ int main() {
     }
 
     // INT_SIGN_INVERT
-    testNum = 1000;
+    testNum = 0;
     for (long long int i = 0; i < testIterCap; i++) {
-        if (((u_int16_t)(-testNum)) != (INT_SIGN_INVERT(testNum))) {
+        if (((reg_t)(-testNum)) != (INT_SIGN_INVERT(testNum))) {
             reg_t a = -testNum;
             reg_t b = INT_SIGN_INVERT(testNum);
             printf("INT_SIGN_INVERT Failed test\n");
@@ -362,7 +362,31 @@ int main() {
         testNum += 1;
     }
 
-    //
+    // // UINT_SUB
+    // testNum = 0;
+    // for (long long int i = 0; i < testIterCap; i++) {
+    //     if ((testNum - tnum1) != (UINT_SUB(testNum, tnum1))) {
+    //         printf("UINT_SUB Failed test\n");
+    //         break;
+    //     }
+    //     if ((testNum - tnum2) != (UINT_SUB(testNum, tnum2))) {
+    //         printf("UINT_SUB Failed test\n");
+    //         break;
+    //     }
+    //     if ((testNum - tnum3) != (UINT_SUB(testNum, tnum3))) {
+    //         printf("UINT_SUB Failed test\n");
+    //         break;
+    //     }
+    //     if ((testNum - tnumOnes) != (UINT_SUB(testNum, tnumOnes))) {
+    //         printf("UINT_SUB Failed test\n");
+    //         break;
+    //     }
+    //     if ((testNum - tnumZeroes) != (UINT_SUB(testNum, tnumZeroes))) {
+    //         printf("UINT_SUB Failed test\n");
+    //         break;
+    //     }
+    //     testNum += 1;
+    // }
 
     // EXIT
     return 0;
