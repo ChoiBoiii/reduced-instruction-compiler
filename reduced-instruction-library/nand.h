@@ -4,10 +4,10 @@
     A header only library allowing code that can be compiled to all NAND's. Why? why not :)
     
     HOW TO CONFIGURE
-    1. Set the data type of the register that will be used by defining OVERRIDE_REGISTER_TYPE before including header. 
-       Using a uint variant is recommended. Size must not exceed 1024 bits. If OVERRIDE_REGISTER_TYPE is not defined, a 
-       default value will be selected. Likely uint64, but not gauranteed.
-    2. If you defined OVERRIDE_REGISTER_TYPE you must also define OVERRIDE_REGISTER_SIZE with the size, in bits, of the 
+    1. OPTIONAL: Set the data type of the register that will be used by defining RIC_OVERRIDE_REGISTER_TYPE before including header. 
+       Using a uint variant is recommended. New register size must not exceed 1024 bits. If RIC_OVERRIDE_REGISTER_TYPE is not defined, 
+       a default value will be selected automatically. Likely uint64, but not gauranteed.
+    2. If you defined RIC_OVERRIDE_REGISTER_TYPE you must also define RIC_OVERRIDE_REGISTER_SIZE with the size, in bits, of the 
        newly specified register data type.
        WARNING: Do not wrap number in parentheses as this will break the precompiler parsing.
 
@@ -69,37 +69,43 @@
 #include "boost/preprocessor/repetition/repeat.hpp"
 
 
-// CONFIG ...
+// AUTOMATIC CONFIGURATION ...
 
-// Provide default values if not given override. Throw error in error cases.
+// Throw error if override size is given but override type is not defined
+#ifdef RIC_OVERRIDE_REGISTER_SIZE
+    #ifndef RIC_OVERRIDE_REGISTER_TYPE
+        #error Defined 'RIC_OVERRIDE_REGISTER_SIZE' but did not define 'RIC_OVERRIDE_REGISTER_TYPE'. \
+            Please define 'RIC_OVERRIDE_REGISTER_TYPE'.
+    #endif
+#endif
+
+// Throw error if override type is given but override size is not defined
+#ifdef RIC_OVERRIDE_REGISTER_TYPE
+    #ifndef RIC_OVERRIDE_REGISTER_SIZE
+        #error Defined 'RIC_OVERRIDE_REGISTER_TYPE' but did not define 'RIC_OVERRIDE_REGISTER_SIZE'. \
+            Please define 'RIC_OVERRIDE_REGISTER_SIZE'.
+    #endif
+#endif
+
+// Load override for register typing or use default
+#ifdef RIC_OVERRIDE_REGISTER_TYPE
+
+    // Set config macros
+    #define RIC_TMP_CONFIG_REGISTER_TYPE RIC_OVERRIDE_REGISTER_TYPE
+    #define RIC_TMP_CONFIG_REG_SIZE_BITS RIC_OVERRIDE_REGISTER_SIZE
+
+// Use default
+#else
+
+    // Set config macros
+    #define RIC_TMP_CONFIG_REGISTER_TYPE u_int64_t
+    #define RIC_TMP_CONFIG_REG_SIZE_BITS 64
+
+#endif
 
 // Register / Instruction word size info
-typedef u_int16_t reg_t;      // The type to use to store the value of a register.
-#define REGISTER_SIZE_BITS 16 // The number of bits in the register. Used to configure inctruction macros.
-
-// AUTOGENERATE MACROS FOR PREPROCESSOR LOGIC
-
-// // Determine the size of the register, minus 1
-// #if REGISTER_SIZE_BITS == 8
-//     #define REG_SIZE_SUB_1 7
-// #elif REGISTER_SIZE_BITS == 16
-//     #define REG_SIZE_SUB_1 15
-// #elif REGISTER_SIZE_BITS == 32
-//     #define REG_SIZE_SUB_1 31
-// #elif REGISTER_SIZE_BITS == 64
-//     #define REG_SIZE_SUB_1 63
-// #elif REGISTER_SIZE_BITS == 128
-//     #define REG_SIZE_SUB_1 127
-// #elif REGISTER_SIZE_BITS == 256
-//     #define REG_SIZE_SUB_1 255
-// #elif REGISTER_SIZE_BITS == 512
-//     #define REG_SIZE_SUB_1 511
-// #elif REGISTER_SIZE_BITS == 1024
-//     #define REG_SIZE_SUB_1 1023
-// #endif
-// #ifndef REG_SIZE_SUB_1
-//     #error ERROR: Given register size isn't defined. Add to macro definitions.
-// #endif
+typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to store the value of a register.
+#define REGISTER_SIZE_BITS RIC_TMP_CONFIG_REG_SIZE_BITS // The number of bits in the register. Used to configure inctruction macros.
 
 
 // HELPER MACROS ...
