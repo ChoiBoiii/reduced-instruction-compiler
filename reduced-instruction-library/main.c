@@ -35,11 +35,11 @@ int main() {
 
     // Config
     const long long int testIterCap = 66000;
-    const reg_t tnum1 = 0;
-    const reg_t tnum2 = 41746;
-    const reg_t tnum3 = 7660;
-    const reg_t tnumOnes = 0xFFFF;
-    const reg_t tnumZeroes = 0x0000;
+    reg_t tnum1 = 0;
+    reg_t tnum2 = 41746;
+    reg_t tnum3 = 7660;
+    reg_t tnumOnes = 0xFFFF;
+    reg_t tnumZeroes = 0x0000;
     reg_t testNum;
     int16_t signedTestNum;
 
@@ -322,7 +322,7 @@ int main() {
     }
 
     // INT_ADD
-    signedTestNum = -10000;
+    signedTestNum = 0;
     for (long long int i = 0; i < testIterCap; i++) {
         if ((reg_t)(signedTestNum + tnum1) != (INT_ADD(signedTestNum, tnum1))) {
             printf("INT_ADD Failed test\n");
@@ -362,31 +362,36 @@ int main() {
         testNum += 1;
     }
 
-    // // UINT_SUB
-    // testNum = 0;
-    // for (long long int i = 0; i < testIterCap; i++) {
-    //     if ((testNum - tnum1) != (UINT_SUB(testNum, tnum1))) {
-    //         printf("UINT_SUB Failed test\n");
-    //         break;
-    //     }
-    //     if ((testNum - tnum2) != (UINT_SUB(testNum, tnum2))) {
-    //         printf("UINT_SUB Failed test\n");
-    //         break;
-    //     }
-    //     if ((testNum - tnum3) != (UINT_SUB(testNum, tnum3))) {
-    //         printf("UINT_SUB Failed test\n");
-    //         break;
-    //     }
-    //     if ((testNum - tnumOnes) != (UINT_SUB(testNum, tnumOnes))) {
-    //         printf("UINT_SUB Failed test\n");
-    //         break;
-    //     }
-    //     if ((testNum - tnumZeroes) != (UINT_SUB(testNum, tnumZeroes))) {
-    //         printf("UINT_SUB Failed test\n");
-    //         break;
-    //     }
-    //     testNum += 1;
-    // }
+    // UINT_SUB
+    testNum = 0;
+    for (long long int i = 0; i < testIterCap; i++) {
+        if ((reg_t)(testNum - tnum1) != (UINT_SUB(testNum, tnum1))) {
+            printf("UINT_SUB Failed test\n");
+            printf("^1 \n");
+            break;
+        }
+        if ((reg_t)(testNum - tnum2) != (UINT_SUB(testNum, tnum2))) {
+            printf("UINT_SUB Failed test\n");
+            printf("^2 \n");
+            break;
+        }
+        if ((reg_t)(testNum - tnum3) != (UINT_SUB(testNum, tnum3))) {
+            printf("UINT_SUB Failed test\n");
+            printf("^3 \n");
+            break;
+        }
+        if ((reg_t)(testNum - tnumOnes) != (UINT_SUB(testNum, tnumOnes))) {
+            printf("UINT_SUB Failed test\n");
+            printf("^4 \n");
+            break;
+        }
+        if ((reg_t)(testNum - tnumZeroes) != (UINT_SUB(testNum, tnumZeroes))) {
+            printf("UINT_SUB Failed test\n");
+            printf("^5 \n");
+            break;
+        }
+        testNum += 1;
+    }
 
     // EXIT
     return 0;

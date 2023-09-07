@@ -1,7 +1,7 @@
 #-march=native
 
 main:
-	gcc main.c -o main -O0 -Wall -mcpu=apple-m1 -std=c11 -I "./include"
+	gcc main.c -o main -O0 -Wall -mcpu=apple-m1 -std=c11 -I "./include" -fmacro-backtrace-limit=0
 
 .PHONY: clean
 clean:
