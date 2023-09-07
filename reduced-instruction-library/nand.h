@@ -63,27 +63,27 @@ typedef u_int16_t reg_t;      // The type to use to store the value of a registe
 
 // AUTOGENERATE MACROS FOR PREPROCESSOR LOGIC
 
-// Determine the size of the register, minus 1
-#if REGISTER_SIZE_BITS == 8
-    #define REG_SIZE_SUB_1 7
-#elif REGISTER_SIZE_BITS == 16
-    #define REG_SIZE_SUB_1 15
-#elif REGISTER_SIZE_BITS == 32
-    #define REG_SIZE_SUB_1 31
-#elif REGISTER_SIZE_BITS == 64
-    #define REG_SIZE_SUB_1 63
-#elif REGISTER_SIZE_BITS == 128
-    #define REG_SIZE_SUB_1 127
-#elif REGISTER_SIZE_BITS == 256
-    #define REG_SIZE_SUB_1 255
-#elif REGISTER_SIZE_BITS == 512
-    #define REG_SIZE_SUB_1 511
-#elif REGISTER_SIZE_BITS == 1024
-    #define REG_SIZE_SUB_1 1023
-#endif
-#ifndef REG_SIZE_SUB_1
-    #error ERROR: Given register size isn't defined. Add to macro definitions.
-#endif
+// // Determine the size of the register, minus 1
+// #if REGISTER_SIZE_BITS == 8
+//     #define REG_SIZE_SUB_1 7
+// #elif REGISTER_SIZE_BITS == 16
+//     #define REG_SIZE_SUB_1 15
+// #elif REGISTER_SIZE_BITS == 32
+//     #define REG_SIZE_SUB_1 31
+// #elif REGISTER_SIZE_BITS == 64
+//     #define REG_SIZE_SUB_1 63
+// #elif REGISTER_SIZE_BITS == 128
+//     #define REG_SIZE_SUB_1 127
+// #elif REGISTER_SIZE_BITS == 256
+//     #define REG_SIZE_SUB_1 255
+// #elif REGISTER_SIZE_BITS == 512
+//     #define REG_SIZE_SUB_1 511
+// #elif REGISTER_SIZE_BITS == 1024
+//     #define REG_SIZE_SUB_1 1023
+// #endif
+// #ifndef REG_SIZE_SUB_1
+//     #error ERROR: Given register size isn't defined. Add to macro definitions.
+// #endif
 
 
 // HELPER MACROS ...
@@ -179,7 +179,7 @@ typedef u_int16_t reg_t;      // The type to use to store the value of a registe
     keep = BSL(AND(X, Y), 1);                          \
     res = XOR(X, Y);                                   \
     STRREP(UINT_ADD_HELPER(tmp, keep, res),            \
-        REG_SIZE_SUB_1);                               \
+        REGISTER_SIZE_BITS);                           \
     res;                                               \
 })
 

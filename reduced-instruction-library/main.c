@@ -21,42 +21,27 @@ void print_register(void* ptr) {
 // Execute
 int main() {
 
-    // reg_t x = 3456784275;
-    // reg_t y = 65329991;
-    // reg_t result = ADD_UNSIGNED(x, y);
-    // printf("%u\n%u\n", result, x + y);
-    // // print_register(&result);
-
-
-    // Test
-    reg_t a;
-    for (int i = 0; i < 100000; i++) {
-        a = INT_ADD(100, -(reg_t)i);
-        printf("%lld %lld\n", (long long int)(100 - i), (long long int)(a));
-        // print_register(&a);
-    }
-    INT_ADD(1 ,1 );
-
     // TIMER
     // clock_t t = clock();
+    // <- Enter code here
     // printf("%f seconds\n", ((float)(clock() - t)) / CLOCKS_PER_SEC);
 
-    // RUN TESTS
+    // RUN TESTS ...
 
-    // // Config
-    // const long long int testIterCap = 66000;
+    // Config
+    const long long int testIterCap = 66000;
 
-    // //
-    // long long int i = 0;
-    // reg_t testNum = 0;
-    // for (; i < testIterCap; i++) {
-    //     testNum += 1;
-    //     if ((testNum == 0) != (EQUAL0(testNum))) {
-    //         printf("EQUAL0 Failed test\n");
-    //     }
-    // }
+    //
+    long long int i = 0;
+    reg_t testNum = 0;
+    for (; i < testIterCap; i++) {
+        testNum += 1;
+        if ((testNum == 0) != (EQUAL0(testNum))) {
+            printf("EQUAL0 Failed test\n");
+        }
+    }
 
-    // Exit
+    // EXIT
     return 0;
 }
 
