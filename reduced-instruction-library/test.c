@@ -8,11 +8,12 @@
 #include "boost/preprocessor/arithmetic/div.hpp"
 #include "boost/preprocessor/arithmetic/dec.hpp"
 
-#define Fold(z, n, text)  text                       // Helper function for STRREP
-#define STRREP(str, n) BOOST_PP_REPEAT(n, Fold, str) // Call 'STRREP' to repeat 'str' 'n' times
 
 
-#define REGSIZE 64
+
+
+
+#define REGSIZE 8
 
 // Get the log2(size) of the register type
 #if REGSIZE == 8
@@ -40,11 +41,42 @@
 #endif
 
 
-#define FOLD_ONCE(X, S) ({   \
-    X = OR(X, BSR(X, S));    \
-})
+#define FOLD(X, S) (X = OR(X, BSR(X, S)));
+#define FOLD_ONCE(z, n, X) FOLD(X, BOOST_PP_SUB(z, n))
+#define FOLD_SIZE_LOG2(X, S) BOOST_PP_REPEAT(S, FOLD_ONCE, X)
 
-STRREP(UINT_ADD_HELPER(tmp, keep, res), REGISTER_SIZE_BITS); 
+FOLD_SIZE_LOG2(v, 3)
+
+
+1
+1 * 2
+1 * 2 * 2
+1 * 2 * 2 * 2
+
+
+// #define Fold(z, n, text)  z n text                       // Helper function for STRREP
+
+// #define STRREP(str, n) BOOST_PP_REPEAT(n, Fold, str) // Call 'STRREP' to repeat 'str' 'n' times
+
+
+// #define FOLD_ONCE(X, S) (X = OR(X, BSR(X, S)));
+
+// #define TEST2(z, n, text) text z n
+// #define TEST(X, S) BOOST_PP_REPEAT(S, TEST2, X)
+
+// TEST(var, 3)
+
+
+
+
+
+
+// z = iter size
+// n = current iter
+
+// #define FOLD_SIZE_LOG2(X, S) ({
+
+// })
     
 
 // // Fold integer
@@ -61,14 +93,14 @@ STRREP(UINT_ADD_HELPER(tmp, keep, res), REGISTER_SIZE_BITS);
 
 
 
-// Fold integer
-// Equivalent to (X != 0). Sets X to 1 if X contains any ones, else 0.
-#define FOLD_BITS_TO_1(X) ({   \
-    X = OR(X, BSR(X, 32));     \
-    X = OR(X, BSR(X, 16));     \
-    X = OR(X, BSR(X, 8));      \
-    X = OR(X, BSR(X, 4));      \
-    X = OR(X, BSR(X, 2));      \
-    X = OR(X, BSR(X, 1));      \
-    X = AND(X, 1);             \
-})
+// // Fold integer
+// // Equivalent to (X != 0). Sets X to 1 if X contains any ones, else 0.
+// #define FOLD_BITS_TO_1(X) ({   \
+//     X = OR(X, BSR(X, 32));     \
+//     X = OR(X, BSR(X, 16));     \
+//     X = OR(X, BSR(X, 8));      \
+//     X = OR(X, BSR(X, 4));      \
+//     X = OR(X, BSR(X, 2));      \
+//     X = OR(X, BSR(X, 1));      \
+//     X = AND(X, 1);             \
+// })
