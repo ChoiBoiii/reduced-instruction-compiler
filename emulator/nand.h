@@ -35,8 +35,15 @@
     * If an instruction is tagged with 'Register Size Dependant' its implementation is dependant on register size and must be
       updated if the specified register size (currently 64-bit) is changed.
 
-*/
+    INLINE TAGS
+    * TODO     - A note of something that needs to be done
+    * OPTIMISE - Associated code / function works but requires optimisation 
 
+    TODO
+    * Look into using preprocessor control flow and arithmetic for generalising operations
+      to any register size automatically. E.G., repeat line n times. Insert n^2. etc. 
+
+*/
 
 // CONFIG ...
 
