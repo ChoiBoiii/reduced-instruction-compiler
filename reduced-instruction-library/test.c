@@ -48,6 +48,13 @@
 // #define FOLD_ONCE_PARAMS_HELPER(z, n, X) FOLD_ONCE_HELPER( X, ( HELPER_STRREP( 2* , BOOST_PP_SUB(z, n) ) 1 ) )
 // #define FOLD_SIZE_LOG2(X, S) BOOST_PP_REPEAT(S, FOLD_ONCE_PARAMS_HELPER, X)
 
+// #define Fold(z, n, text)  text                               // Helper function for STRREP
+// #define HELPER_STRREP(str, n) BOOST_PP_REPEAT(n, Fold, str)  // Call 'STRREP' to repeat 'str' 'n' times
+// #define FOLD_ONCE_HELPER(X, S) (X = OR(X, BSR(X, S)));
+// #define FOLD_ONCE_PARAMS_HELPER(z, n, X) FOLD_ONCE_HELPER( X, ( HELPER_STRREP( 2* , BOOST_PP_SUB(BOOST_PP_SUB(REGISTER_SIZE_BITS_LOG2, 1), n) ) 1 ) )
+// #define FOLD_SIZE_LOG2(X, S) BOOST_PP_REPEAT(S, FOLD_ONCE_PARAMS_HELPER, X)
+
+
 #define Fold(z, n, text)  text                               // Helper function for STRREP
 #define HELPER_STRREP(str, n) BOOST_PP_REPEAT(n, Fold, str)  // Call 'STRREP' to repeat 'str' 'n' times
 #define FOLD_ONCE_HELPER(X, S) (X = OR(X, BSR(X, S)));
@@ -64,12 +71,6 @@
 })    
 
 EQUAL0(X)
-
-BOOST_PP_SUB(4, 0)
-BOOST_PP_SUB(4, 1)
-BOOST_PP_SUB(4, 2)
-BOOST_PP_SUB(4, 3)
-BOOST_PP_SUB(4, 4)
 
 
 
