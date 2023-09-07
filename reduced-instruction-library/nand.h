@@ -120,7 +120,7 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 
 // EQUALITY OPERATORS ...
 
-// Sets X to 0b1 if X contains any 1's, otherwise sets X to 0b0
+// Equivalent to (X != 0). Sets X to 1 if X contains any ones, else 0.
 #define FOLD_BITS_TO_1(X) ({   \
     X = OR(X, BSR(X, 32));     \
     X = OR(X, BSR(X, 16));     \
