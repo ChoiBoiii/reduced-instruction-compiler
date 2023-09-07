@@ -42,7 +42,7 @@
 
 
 #define FOLD(X, S) (X = OR(X, BSR(X, S)));
-#define FOLD_ONCE(z, n, X) FOLD(X, BOOST_PP_SUB(z, n))
+#define FOLD_ONCE(z, n, X) FOLD(X, 1*BOOST_PP_SUB(z, n))
 #define FOLD_SIZE_LOG2(X, S) BOOST_PP_REPEAT(S, FOLD_ONCE, X)
 
 FOLD_SIZE_LOG2(v, 3)
