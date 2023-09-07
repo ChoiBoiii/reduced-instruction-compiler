@@ -29,9 +29,6 @@ int main() {
 
 
     // Test
-    // for (reg_t i = 0; i < 25; i++) {
-    //     printf("%llu\n", EQUAL(i, i));
-    // }
     reg_t a;
     for (int i = 0; i < 100000; i++) {
         a = INT_ADD(100, -(reg_t)i);
@@ -42,8 +39,22 @@ int main() {
 
     // TIMER
     // clock_t t = clock();
-    // Insert here
     // printf("%f seconds\n", ((float)(clock() - t)) / CLOCKS_PER_SEC);
+
+    // RUN TESTS
+
+    // // Config
+    // const long long int testIterCap = 66000;
+
+    // //
+    // long long int i = 0;
+    // reg_t testNum = 0;
+    // for (; i < testIterCap; i++) {
+    //     testNum += 1;
+    //     if ((testNum == 0) != (EQUAL0(testNum))) {
+    //         printf("EQUAL0 Failed test\n");
+    //     }
+    // }
 
     // Exit
     return 0;

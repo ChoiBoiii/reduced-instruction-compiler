@@ -58,8 +58,32 @@
 // CONFIG ...
 
 // Register / Instruction word size info
-typedef u_int64_t reg_t;            // The type to use to store the value of a register.
-#define REGISRTER_SIZE_BITS   (64)  // The number of bits in the register. Used to configure inctruction macros.
+typedef u_int16_t reg_t;      // The type to use to store the value of a register.
+#define REGISTER_SIZE_BITS 16 // The number of bits in the register. Used to configure inctruction macros.
+
+// AUTOGENERATE MACROS FOR PREPROCESSOR LOGIC
+
+// Determine the size of the register, minus 1
+#if REGISTER_SIZE_BITS == 8
+    #define REG_SIZE_SUB_1 7
+#elif REGISTER_SIZE_BITS == 16
+    #define REG_SIZE_SUB_1 15
+#elif REGISTER_SIZE_BITS == 32
+    #define REG_SIZE_SUB_1 31
+#elif REGISTER_SIZE_BITS == 64
+    #define REG_SIZE_SUB_1 63
+#elif REGISTER_SIZE_BITS == 128
+    #define REG_SIZE_SUB_1 127
+#elif REGISTER_SIZE_BITS == 256
+    #define REG_SIZE_SUB_1 255
+#elif REGISTER_SIZE_BITS == 512
+    #define REG_SIZE_SUB_1 511
+#elif REGISTER_SIZE_BITS == 1024
+    #define REG_SIZE_SUB_1 1023
+#endif
+#ifndef REG_SIZE_SUB_1
+    #error ERROR: Given register size isn't defined. Add to macro definitions.
+#endif
 
 
 // HELPER MACROS ...
@@ -85,61 +109,48 @@ typedef u_int64_t reg_t;            // The type to use to store the value of a r
 
 // EQUALITY OPERATORS ...
 
+// Sets X to 0b1 if X contains any 1's, otherwise sets X to 0b0
+#define FOLD_BITS_TO_1(X) ({   \
+    X = OR(X, BSR(X, 32));     \
+    X = OR(X, BSR(X, 16));     \
+    X = OR(X, BSR(X, 8));      \
+    X = OR(X, BSR(X, 4));      \
+    X = OR(X, BSR(X, 2));      \
+    X = OR(X, BSR(X, 1));      \
+    X = AND(X, 1);             \
+})
+
 // Returns 1 if X is equal to zero
-#define EQUAL0(X) ({       \
-    reg_t v = X;           \
-    v = OR(v, BSR(v, 32)); \
-    v = OR(v, BSR(v, 16)); \
-    v = OR(v, BSR(v, 8));  \
-    v = OR(v, BSR(v, 4));  \
-    v = OR(v, BSR(v, 2));  \
-    v = OR(v, BSR(v, 1));  \
-    v = AND(v, 1);         \
-    v = XOR(v, 1);         \
-    v;                     \
+#define EQUAL0(X) ({           \
+    reg_t v = X;               \
+    FOLD_BITS_TO_1(v);         \
+    v = XOR(v, 1);             \
+    v;                         \
 })    
 
 // Returns 1 if X is not equal to zero
-#define NEQUAL0(X) ({      \
-    reg_t v = X;           \
-    v = OR(v, BSR(v, 32)); \
-    v = OR(v, BSR(v, 16)); \
-    v = OR(v, BSR(v, 8));  \
-    v = OR(v, BSR(v, 4));  \
-    v = OR(v, BSR(v, 2));  \
-    v = OR(v, BSR(v, 1));  \
-    v = AND(v, 1);         \
-    v;                     \
+#define NEQUAL0(X) ({          \
+    reg_t v = X;               \
+    FOLD_BITS_TO_1(v);         \
+    v;                         \
 })
 
 // Returns 1 if X and Y are not equal
-#define NEQUAL(X, Y) ({    \
-    reg_t v = XOR(X, Y);   \
-    v = OR(v, BSR(v, 32)); \
-    v = OR(v, BSR(v, 16)); \
-    v = OR(v, BSR(v, 8));  \
-    v = OR(v, BSR(v, 4));  \
-    v = OR(v, BSR(v, 2));  \
-    v = OR(v, BSR(v, 1));  \
-    v = AND(v, 1);         \
-    v;                     \
+#define NEQUAL(X, Y) ({        \
+    reg_t v = XOR(X, Y);       \
+    FOLD_BITS_TO_1(v);         \
+    v;                         \
 })
 
 // Returns 1 if X and Y are equal
-#define EQUAL(X, Y) ({     \
-    reg_t v = XOR(X, Y);   \
-    v = OR(v, BSR(v, 32)); \
-    v = OR(v, BSR(v, 16)); \
-    v = OR(v, BSR(v, 8));  \
-    v = OR(v, BSR(v, 4));  \
-    v = OR(v, BSR(v, 2));  \
-    v = OR(v, BSR(v, 1));  \
-    v = AND(v, 1);         \
-    v = XOR(v, 1);         \
+#define EQUAL(X, Y) ({         \
+    reg_t v = XOR(X, Y);       \
+    FOLD_BITS_TO_1(v);         \
+    v = XOR(v, 1);             \
 })
 
 // Returns 1 if X > Y
-#define GREATER_THAN(X, Y) ({         \
+#define GREATER_THAN(X, Y) ({ \
 })
 
 // Returns 1 if X >= Y
@@ -167,7 +178,8 @@ typedef u_int64_t reg_t;            // The type to use to store the value of a r
     reg_t tmp, keep, res;                              \
     keep = BSL(AND(X, Y), 1);                          \
     res = XOR(X, Y);                                   \
-    STRREP(UINT_ADD_HELPER(tmp, keep, res), 64);       \
+    STRREP(UINT_ADD_HELPER(tmp, keep, res),            \
+        REG_SIZE_SUB_1);                               \
     res;                                               \
 })
 
