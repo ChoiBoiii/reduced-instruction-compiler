@@ -157,17 +157,19 @@ typedef u_int64_t reg_t;         // The type to use to store the value of a regi
 #define INT_SIGN_INVERT(X) ({})
 
 // Unsigned integer addition of X+Y
-#define UINT_ADD_HELPER ({             \
-    tmp = keep;                        \
-    keep = BSL(AND(keep, res), 1);     \
-    res = XOR(tmp, res);               \
+
+#define UINT_ADD_HELPER(T, K, R) ({                    \
+    T = K;                                             \
+    K = BSL(AND(K, R), 1);                             \
+    R = XOR(T, R);                                     \
 });
-#define UINT_ADD(X, Y) ({              \
-    reg_t tmp, keep, res;              \
-    keep = BSL(AND(X, Y), 1);          \
-    res = XOR(X, Y);                   \
-    STRREP(UINT_ADD_HELPER, 64);       \
-    res;                               \
+
+#define UINT_ADD(X, Y) ({                              \
+    reg_t tmp, keep, res;                              \
+    keep = BSL(AND(X, Y), 1);                          \
+    res = XOR(X, Y);                                   \
+    STRREP(UINT_ADD_HELPER(tmp, keep, res), 64);       \
+    res;                                               \
 })
 
 // Unsigned integer subtraction of X-Y
