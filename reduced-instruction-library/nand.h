@@ -240,11 +240,11 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 })                                                  
 
 // Signed integer addition of X+Y
-#define INT_ADD(X, Y) ({               \
-    UINT_ADD(X, Y);                    \
+#define INT_ADD(X, Y) ({                               \
+    UINT_ADD(X, Y);                                    \
 })
 
-// Unsigned integer subtraction of X-Y {OPTIMISE}
+// Unsigned integer subtraction of X-Y
 #define UINT_SUB(X, Y) ({                              \
     INT_ADD(X, INT_SIGN_INVERT(Y));                    \
 })
