@@ -393,6 +393,46 @@ int main() {
         testNum += 1;
     }
 
+    // INT_SUB
+    testNum = 0;
+    for (long long int i = 0; i < testIterCap; i++) {
+        if ((u_int16_t)(testNum - tnum1) ^ (INT_SUB(testNum, tnum1))) {
+            printf("INT_SUB Failed test\n");
+            printf("^1 \n");
+            break;
+        }
+        if ((u_int16_t)(testNum - tnum2) ^ (INT_SUB(testNum, tnum2))) {
+            printf("INT_SUB Failed test\n");
+            printf("^2 \n");
+            break;
+        }
+        if ((u_int16_t)(testNum - tnum3) ^ (INT_SUB(testNum, tnum3))) {
+            int16_t a = (testNum - tnum3);
+            int16_t b = INT_SUB(testNum, tnum3);
+            int16_t c = (testNum - tnum3);
+            int16_t d = INT_SUB(testNum, tnum3);
+            printf("INT_SUB Failed test\n");
+            printf("^3 \n");
+            print_register(&a);
+            print_register(&b);
+            print_register(&c);
+            print_register(&d);
+            printf("%hd %hd\n", a, b);
+            break;
+        }
+        if ((u_int16_t)(testNum - tnumOnes) ^ (INT_SUB(testNum, tnumOnes))) {
+            printf("INT_SUB Failed test\n");
+            printf("^4 \n");
+            break;
+        }
+        if ((u_int16_t)(testNum - tnumZeroes) ^ (INT_SUB(testNum, tnumZeroes))) {
+            printf("INT_SUB Failed test\n");
+            printf("^5 \n");
+            break;
+        }
+        testNum += 1;
+    }
+
     // EXIT
     return 0;
 }
