@@ -45,7 +45,6 @@ int main() {
     // NAND
     testNum = 0;
     for (long long int i = 0; i < testIterCap; i++) {
-        testNum += 1;
         if ((~(testNum & tnum1)) != (NAND(testNum, tnum1))) {
             printf("NAND Failed test\n");
             break;
@@ -66,12 +65,12 @@ int main() {
             printf("NAND Failed test\n");
             break;
         }
+        testNum += 1;
     }
 
     // BSL
     testNum = 0;
     for (long long int i = 0; i < testIterCap; i++) {
-        testNum += 1;
         bool failed = false;
         for (int shiftAmmount = 0; shiftAmmount < sizeof(reg_t) * 8 + 1; shiftAmmount++) {
             if ((testNum << shiftAmmount) != (BSL(testNum, shiftAmmount))) {
@@ -83,12 +82,12 @@ int main() {
         if (failed) {
             break;
         }
+        testNum += 1;
     }
 
     // BSR
     testNum = 0;
     for (long long int i = 0; i < testIterCap; i++) {
-        testNum += 1;
         bool failed = false;
         for (int shiftAmmount = 0; shiftAmmount < sizeof(reg_t) * 8 + 1; shiftAmmount++) {
             if ((testNum >> shiftAmmount) != (BSR(testNum, shiftAmmount))) {
@@ -100,12 +99,12 @@ int main() {
         if (failed) {
             break;
         }
+        testNum += 1;
     }
 
     // AND
     testNum = 0;
     for (long long int i = 0; i < testIterCap; i++) {
-        testNum += 1;
         if ((testNum & tnum1) != (AND(testNum, tnum1))) {
             printf("AND Failed test\n");
             break;
@@ -126,12 +125,12 @@ int main() {
             printf("AND Failed test\n");
             break;
         }
+        testNum += 1;
     }
 
     // OR
     testNum = 0;
     for (long long int i = 0; i < testIterCap; i++) {
-        testNum += 1;
         if ((testNum | tnum1) != (OR(testNum, tnum1))) {
             printf("OR Failed test\n");
             break;
@@ -152,22 +151,22 @@ int main() {
             printf("OR Failed test\n");
             break;
         }
+        testNum += 1;
     }
 
     // NOT
     testNum = 0;
     for (long long int i = 0; i < testIterCap; i++) {
-        testNum += 1;
         if ((~testNum) != (NOT(testNum))) {
             printf("NOT Failed test\n");
             break;
         }
+        testNum += 1;
     }
 
     // XOR
     testNum = 0;
     for (long long int i = 0; i < testIterCap; i++) {
-        testNum += 1;
         if ((testNum ^ tnum1) != (XOR(testNum, tnum1))) {
             printf("XOR Failed test\n");
             break;
@@ -188,6 +187,7 @@ int main() {
             printf("XOR Failed test\n");
             break;
         }
+        testNum += 1;
     }
 
 
@@ -196,27 +196,26 @@ int main() {
     // EQUAL0
     testNum = 0;
     for (long long int i = 0; i < testIterCap; i++) {
-        testNum += 1;
         if ((testNum == 0) != (EQUAL0(testNum))) {
             printf("EQUAL0 Failed test\n");
             break;
         }
+        testNum += 1;
     }
 
     // NEQUAL0
     testNum = 0;
     for (long long int i = 0; i < testIterCap; i++) {
-        testNum += 1;
         if ((testNum != 0) != (NEQUAL0(testNum))) {
             printf("NEQUAL0 Failed test\n");
             break;
         }
+        testNum += 1;
     }
 
     // NEQUAL
     testNum = 0;
     for (long long int i = 0; i < testIterCap; i++) {
-        testNum += 1;
         if ((testNum != tnum1) != (NEQUAL(testNum, tnum1))) {
             printf("NEQUAL Failed test\n");
             break;
@@ -237,12 +236,12 @@ int main() {
             printf("NEQUAL Failed test\n");
             break;
         }
+        testNum += 1;
     }
 
     // EQUAL
     testNum = 0;
     for (long long int i = 0; i < testIterCap; i++) {
-        testNum += 1;
         if ((testNum == tnum1) != (EQUAL(testNum, tnum1))) {
             printf("EQUAL Failed test\n");
             break;
@@ -263,6 +262,7 @@ int main() {
             printf("EQUAL Failed test\n");
             break;
         }
+        testNum += 1;
     }
 
     // // GREATER_THAN
@@ -291,36 +291,42 @@ int main() {
     //     }
     // }
 
+    // temp test
+    reg_t a = 0x0000;
+    reg_t b = 0xFFFF;
+    reg_t c = a + b;
+    reg_t d = UINT_ADD(a, b);
+    printf("%d %d\n", c, d);
+
     // UINT_ADD
     testNum = 0;
     for (long long int i = 0; i < testIterCap; i++) {
+        if ((testNum + tnum1) != (UINT_ADD(testNum, tnum1))) {
+            printf("UINT_ADD Failed test\n");
+            printf("^1 Failed on: %d %d | %d %d\n", testNum, tnum1, testNum, UINT_ADD(testNum, tnum1));
+            break;
+        }
+        if ((testNum + tnum2) != (UINT_ADD(testNum, tnum2))) {
+            printf("UINT_ADD Failed test\n");
+            printf("^2 Failed on: %d %d | %d %d\n", testNum, tnum2, testNum, UINT_ADD(testNum, tnum2));
+            break;
+        }
+        if ((testNum + tnum3) != (UINT_ADD(testNum, tnum3))) {
+            printf("UINT_ADD Failed test\n");
+            printf("^3 Failed on: %d %d | %d %d\n", testNum, tnum3, testNum, UINT_ADD(testNum, tnum3));
+            break;
+        }
+        if ((testNum + tnumOnes) != (UINT_ADD(testNum, tnumOnes))) {
+            printf("UINT_ADD Failed test\n");
+            printf("^4 Failed on: %d %d | %d %d\n", testNum, tnumOnes, testNum, UINT_ADD(testNum, tnumOnes));
+            break;
+        }
+        if ((testNum + tnumZeroes) != (UINT_ADD(testNum, tnumZeroes))) {
+            printf("UINT_ADD Failed test\n");
+            printf("^5 Failed on: %d %d | %d %d\n", testNum, tnumZeroes, testNum, UINT_ADD(testNum, tnumZeroes));
+            break;
+        }
         testNum += 1;
-        printf("%d\n", i);
-        if ((testNum += tnum1) != (UINT_ADD(testNum, tnum1))) {
-            printf("UINT_ADD Failed test\n");
-            printf("^ Failed on: %d %d | %d %d\n", testNum, tnum1, testNum, UINT_ADD(testNum, tnum1));
-            break;
-        }
-        if ((testNum += tnum2) != (UINT_ADD(testNum, tnum2))) {
-            printf("UINT_ADD Failed test\n");
-            printf("^ Failed on: %d %d | %d %d\n", testNum, tnum2, testNum, UINT_ADD(testNum, tnum2));
-            break;
-        }
-        if ((testNum += tnum3) != (UINT_ADD(testNum, tnum3))) {
-            printf("UINT_ADD Failed test\n");
-            printf("^ Failed on: %d %d | %d %d\n", testNum, tnum3, testNum, UINT_ADD(testNum, tnum3));
-            break;
-        }
-        if ((testNum += tnumOnes) != (UINT_ADD(testNum, tnumOnes))) {
-            printf("UINT_ADD Failed test\n");
-            printf("^ Failed on: %d %d | %d %d\n", testNum, tnumOnes, testNum, UINT_ADD(testNum, tnumOnes));
-            break;
-        }
-        if ((testNum += tnumZeroes) != (UINT_ADD(testNum, tnumZeroes))) {
-            printf("UINT_ADD Failed test\n");
-            printf("^ Failed on: %d %d | %d %d\n", testNum, tnumZeroes, testNum, UINT_ADD(testNum, tnumZeroes));
-            break;
-        }
     }
 
     // INT_ADD
@@ -328,23 +334,23 @@ int main() {
     for (long long int i = 0; i < testIterCap; i++) {
         testNum += 1;
         int16_t num = testNum;
-        if ((num += (int16_t)tnum1) != (INT_ADD(num, (int16_t)tnum1))) {
+        if ((num + (int16_t)tnum1) != ((int16_t)(INT_ADD(num, tnum1)))) {
             printf("INT_ADD Failed test\n");
             break;
         }
-        if ((num += (int16_t)tnum2) != (INT_ADD(num, (int16_t)tnum2))) {
+        if ((num + (int16_t)tnum2) != ((int16_t)(INT_ADD(num, tnum2)))) {
             printf("INT_ADD Failed test\n");
             break;
         }
-        if ((num += (int16_t)tnum3) != (INT_ADD(num, (int16_t)tnum3))) {
+        if ((num + (int16_t)tnum3) != ((int16_t)(INT_ADD(num, tnum3)))) {
             printf("INT_ADD Failed test\n");
             break;
         }
-        if ((num += (int16_t)tnumZeroes) != (INT_ADD(num, (int16_t)tnumZeroes))) {
+        if ((num + (int16_t)tnumZeroes) != ((int16_t)(INT_ADD(num, tnumZeroes)))) {
             printf("INT_ADD Failed test\n");
             break;
         }
-        if ((num += (int16_t)tnumOnes) != (INT_ADD(num, (int16_t)tnumOnes))) {
+        if ((num + (int16_t)tnumOnes) != ((int16_t)(INT_ADD(num, tnumOnes)))) {
             printf("INT_ADD Failed test\n");
             break;
         }
