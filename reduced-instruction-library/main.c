@@ -347,6 +347,21 @@ int main() {
         signedTestNum += 1;
     }
 
+    // INT_SIGN_INVERT
+    testNum = 1000;
+    for (long long int i = 0; i < testIterCap; i++) {
+        if (((u_int16_t)(-testNum)) != (INT_SIGN_INVERT(testNum))) {
+            reg_t a = -testNum;
+            reg_t b = INT_SIGN_INVERT(testNum);
+            printf("INT_SIGN_INVERT Failed test\n");
+            printf("^ %hd %hd\n", a, b);
+            print_register(&a);
+            print_register(&b);
+            break;
+        }
+        testNum += 1;
+    }
+
     // EXIT
     return 0;
 }
