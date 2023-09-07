@@ -4,32 +4,32 @@
     A header only library allowing code that can be compiled to all NAND's. Why? why not :)
 
     INSTRUCTIONS
-    |--------------------------------------------------------------------------------------------------------------|
-    | Instruction   | Description                     | Equivalent Operator   | Returns  | Register Size Dependant |
-    |--------------------------------------------------------------------------------------------------------------|
-    | NAND          | NAND Bitwise operator           | f(a, b) -> ~(a & b)   | Bitfield | F                       |
-    | BSL           | Bitshift left operator          | f(a, n) -> (a << n)   | Bitfield | F                       |
-    | BSR           | Bitshift right operator         | f(a, n) -> (a >> n)   | Bitfield | F                       |
-    | AND           | AND bitwise operator            | f(a, b) -> (a & b)    | Bitfield | F                       |
-    | OR            | OR bitwise operator             | f(a, b) -> (a | b)    | Bitfield | F                       |
-    | NOT           | NOT bitwise operator            | f(a)    -> (~a)       | Bitfield | F                       |
-    | XOR           | XOR bitwise operator            | f(a, b) -> (a ^ b)    | Bitfield | F                       |
-    | NEQUAL        | Bitwise inequality              | f(a, b) -> (a != b)   | 0 or 1   | T                       |
-    | NEQUAL0       | Bitwise inequality with zero    | f(a)    -> (a != 0)   | 0 or 1   | T                       |
-    | EQUAL         | Bitwise equality                | f(a, b) -> (a == b)   | 0 or 1   | T                       |
-    | EQUAL0        | Bitwise equality with zero      | f(a)    -> (a == 0)   | 0 or 1   | T                       |
-    | GREATER_THAN  | Bitwise greater than            | f(a, b) -> (a > b)    | 0 or 1   | 
-    | GEQUAL        | Bitwise greater or equal to     | f(a, b) -> (a >= b)   | 0 or 1   |
-    | LESS_THAN     | Bitwise less than               | f(a, b) -> (a < b)    | 0 or 1   |
-    | LEQUAL        | Bitwise less than or equal to   | f(a, b) -> (a <= b)   | 0 or 1   | 
-    | UINT_ADD      | Add two unsigned integers       | f(a, b) -> (a + b)    | n        | T                       |
-    | UINT_SUB      | Subtract two unsigned integers  | f(a, b) -> (a - b)    | n        |                         |
-    | UINT_MULT     | Unsigned integer multiplication | f(a, b) -> (a * b)    | n        |                         |
-    | UINT_DIV      | Unsigned integer division       | f(a, b) -> int(a / b) | n        |                         |
-    | INT_ADD       | Signed integer addition         | f(a, b) -> (a + b)    | n        | T                       |
-    | INT_MULT      | Signed integer multiplication   | f(a, b) -> (a * b)    | n        |                         |
-    | INT_DIV       | Signed integer division         | f(a, b) -> int(a / b) | n        |                         |
-    |---------------------------------------------------------------------------------------------------------------
+    |--------------------------------------------------------------------------------------------------------------------------
+    | Instruction   | Description                     | Equivalent Operator   | Returns  | Register Size Dependant | Has Test |
+    |--------------------------------------------------------------------------------------------------------------|-----------
+    | NAND          | NAND Bitwise operator           | f(a, b) -> ~(a & b)   | Bitfield | F                       | T        |
+    | BSL           | Bitshift left operator          | f(a, n) -> (a << n)   | Bitfield | F                       | T        |
+    | BSR           | Bitshift right operator         | f(a, n) -> (a >> n)   | Bitfield | F                       | T        |
+    | AND           | AND bitwise operator            | f(a, b) -> (a & b)    | Bitfield | F                       | T        |
+    | OR            | OR bitwise operator             | f(a, b) -> (a | b)    | Bitfield | F                       | T        |
+    | NOT           | NOT bitwise operator            | f(a)    -> (~a)       | Bitfield | F                       | T        |
+    | XOR           | XOR bitwise operator            | f(a, b) -> (a ^ b)    | Bitfield | F                       | T        |
+    | NEQUAL        | Bitwise inequality              | f(a, b) -> (a != b)   | 0 or 1   | T                       | T        |
+    | NEQUAL0       | Bitwise inequality with zero    | f(a)    -> (a != 0)   | 0 or 1   | T                       | T        |
+    | EQUAL         | Bitwise equality                | f(a, b) -> (a == b)   | 0 or 1   | T                       | T        |
+    | EQUAL0        | Bitwise equality with zero      | f(a)    -> (a == 0)   | 0 or 1   | T                       | T        |
+    | GREATER_THAN  | Bitwise greater than            | f(a, b) -> (a > b)    | 0 or 1   |                         |          |
+    | GEQUAL        | Bitwise greater or equal to     | f(a, b) -> (a >= b)   | 0 or 1   |                         |          |
+    | LESS_THAN     | Bitwise less than               | f(a, b) -> (a < b)    | 0 or 1   |                         |          |
+    | LEQUAL        | Bitwise less than or equal to   | f(a, b) -> (a <= b)   | 0 or 1   |                         |          |
+    | UINT_ADD      | Add two unsigned integers       | f(a, b) -> (a + b)    | n        | T                       |          |
+    | UINT_SUB      | Subtract two unsigned integers  | f(a, b) -> (a - b)    | n        |                         |          |
+    | UINT_MULT     | Unsigned integer multiplication | f(a, b) -> (a * b)    | n        |                         |          |
+    | UINT_DIV      | Unsigned integer division       | f(a, b) -> int(a / b) | n        |                         |          |
+    | INT_ADD       | Signed integer addition         | f(a, b) -> (a + b)    | n        | T                       |          |
+    | INT_MULT      | Signed integer multiplication   | f(a, b) -> (a * b)    | n        |                         |          |
+    | INT_DIV       | Signed integer division         | f(a, b) -> int(a / b) | n        |                         |          |
+    |--------------------------------------------------------------------------------------------------------------------------
 
     NOTE
     * If an instruction is tagged with 'Register Size Dependant' its implementation is dependant on register size and must be

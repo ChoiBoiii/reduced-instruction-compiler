@@ -38,6 +38,9 @@ int main() {
     const reg_t tnumZeroes = 0x0000;
     reg_t testNum;
 
+
+    // BITWISE OPERATORS ...
+
     // NAND
     testNum = 0;
     for (long long int i = 0; i < testIterCap; i++) {
@@ -186,6 +189,9 @@ int main() {
         }
     }
 
+
+    // EQUALITY OPERATORS ...
+
     // EQUAL0
     testNum = 0;
     for (long long int i = 0; i < testIterCap; i++) {
@@ -238,6 +244,32 @@ int main() {
         }
         if ((testNum == tnum3) != (EQUAL(testNum, tnum3))) {
             printf("EQUAL Failed test\n");
+            break;
+        }
+    }
+
+    // GREATER_THAN
+    testNum = 0;
+    for (long long int i = 0; i < testIterCap; i++) {
+        testNum += 1;
+        if ((testNum > tnum1) != (GREATER_THAN(testNum, tnum1))) {
+            printf("GREATER_THAN Failed test\n");
+            break;
+        }
+        if ((testNum > tnum2) != (GREATER_THAN(testNum, tnum2))) {
+            printf("GREATER_THAN Failed test\n");
+            break;
+        }
+        if ((testNum > tnum3) != (GREATER_THAN(testNum, tnum3))) {
+            printf("GREATER_THAN Failed test\n");
+            break;
+        }
+        if ((testNum > tnumZeroes) != (GREATER_THAN(testNum, tnumZeroes))) {
+            printf("GREATER_THAN Failed test\n");
+            break;
+        }
+        if ((testNum > tnumOnes) != (GREATER_THAN(testNum, tnumOnes))) {
+            printf("GREATER_THAN Failed test\n");
             break;
         }
     }
