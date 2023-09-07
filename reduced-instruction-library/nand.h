@@ -216,10 +216,6 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 
 // ARITHMETIC OPERATORS ...
 
-// Inverts the sign of the given int using two's compliment: invert then add 1
-#define INT_SIGN_INVERT(X) ({                          \
-})
-
 // Unsigned integer addition of X+Y
 #define UINT_ADD_HELPER(T, K, R) ({                    \
     T = K;                                             \
@@ -234,6 +230,12 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
         REGISTER_SIZE_BITS);                           \
     res;                                               \
 })
+
+// Inverts the sign of the given int using two's compliment: invert then add 1
+#define INT_SIGN_INVERT(X) ({                          \
+    reg_t out = UINT_ADD(NOT(X), 1);                   \
+    out; \
+})                                                  
 
 // Unsigned integer subtraction of X-Y
 #define UINT_SUB(X, Y) ({})
