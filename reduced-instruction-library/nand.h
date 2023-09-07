@@ -67,6 +67,11 @@
 // Local
 #define BOOST_PP_LIMIT_REPEAT (1024) // Configure boost header to allow up to 1024 repeats. Max allowed by header is 1024.
 #include "boost/preprocessor/repetition/repeat.hpp"
+#include "boost/preprocessor/arithmetic/add.hpp"
+#include "boost/preprocessor/arithmetic/sub.hpp"
+#include "boost/preprocessor/arithmetic/mul.hpp"
+#include "boost/preprocessor/arithmetic/mod.hpp"
+#include "boost/preprocessor/arithmetic/div.hpp"
 
 
 // AUTOMATIC CONFIGURATION ...
