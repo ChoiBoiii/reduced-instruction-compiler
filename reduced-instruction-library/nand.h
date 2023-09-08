@@ -216,8 +216,8 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 })
 
 // HELPER: 
-#define HELPER_1() ({                                    \
-})
+#define EXTRACT_MSB_EQ_FOLD_ONCE_HELPER_(X, S)           \
+    v = OR(v, BSR(v, 1));          \
 
 #define EXTRACT_MSB_EQ_GET_SHIFT_HELPER_(N)              \
     (HELPER_STRREP(2*, N) 1)                             \
