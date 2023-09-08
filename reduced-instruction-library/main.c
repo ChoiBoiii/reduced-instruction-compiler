@@ -408,7 +408,7 @@ int main() {
     }
 
     // UINT_GTHAN
-    testNum = 135;
+    testNum = 0;
     for (long long int i = 0; i < testIterCap; i++) {
         if ((testNum > tnum1) ^ (UINT_GTHAN(testNum, tnum1))) {
             printf("UINT_GTHAN Failed test\n");
@@ -448,6 +448,36 @@ int main() {
         testNum += 1;
     }
 
+    // UINT_GEQUAL
+    testNum = 0;
+    for (long long int i = 0; i < testIterCap; i++) {
+        if ((testNum >= tnum1) ^ (UINT_GEQUAL(testNum, tnum1))) {
+            printf("UINT_GEQUAL Failed test\n");
+            printf("^1\n");
+            break;
+        }
+        if ((testNum >= tnum2) ^ (UINT_GEQUAL(testNum, tnum2))) {
+            printf("UINT_GEQUAL Failed test\n");
+            printf("^2\n");
+            break;
+        }
+        if ((testNum >= tnum3) ^ (UINT_GEQUAL(testNum, tnum3))) {
+            printf("UINT_GEQUAL Failed test\n");
+            printf("^3\n");
+            break;
+        }
+        if ((testNum >= tnumOnes) ^ (UINT_GEQUAL(testNum, tnumOnes))) {
+            printf("UINT_GEQUAL Failed test\n");
+            printf("^4\n");
+            break;
+        }
+        if ((testNum >= tnumZeroes) ^ (UINT_GEQUAL(testNum, tnumZeroes))) {
+            printf("UINT_GEQUAL Failed test\n");
+            printf("^5\n");
+            break;
+        }
+        testNum += 1;
+    }
 
     // EXIT ...
     return 0;
