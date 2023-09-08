@@ -266,10 +266,8 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 // Returns 1 if X > Y {OPTIMISE}
 #define UINT_GTHAN(X, Y) ({        \
     reg_t v = X ^ Y;               \
-    v = OR(v, BSR(v, 1));          \
-    v = OR(v, BSR(v, 2));          \
-    v = OR(v, BSR(v, 4));          \
-    v = OR(v, BSR(v, 8));          \
+    EXTRACT_MSB_EQ_HELPER(v,       \
+        REGISTER_SIZE_BITS_LOG2);  \
     v = UINT_SUB(v, BSR(v, 1));    \
     v = XOR(AND(Y, v), v);         \
     FOLD_BITS_TO_1_EQ_HELPER(v,    \
