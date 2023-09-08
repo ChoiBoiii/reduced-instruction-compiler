@@ -31,7 +31,7 @@
     | BW_BSL          | Bitshift left operator          | f(a, n) -> (a << n)   | Bitfield | F                       | T        |
     | BW_BSR          | Bitshift right operator         | f(a, n) -> (a >> n)   | Bitfield | F                       | T        |
     | BW_AND          | Bitwise AND operator            | f(a, b) -> (a & b)    | Bitfield | F                       | T        |
-    | OR              | Bitwise OR operator             | f(a, b) -> (a | b)    | Bitfield | F                       | T        |
+    | BW_OR           | Bitwise OR operator             | f(a, b) -> (a | b)    | Bitfield | F                       | T        |
     | NOT             | Bitwise NOT operator            | f(a)    -> (~a)       | Bitfield | F                       | T        |
     | XOR             | Bitwise XOR operator            | f(a, b) -> (a ^ b)    | Bitfield | F                       | T        |
     | NEQUAL          | Bitwise inequality              | f(a, b) -> (a != b)   | 0 or 1   | F                       | T        |
@@ -147,9 +147,9 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 
 // Other decomposed bitwise operators
 #define BW_AND(X, Y)   ( BW_NAND(BW_NAND(X, Y), BW_NAND(X, Y)) ) 
-#define OR(X, Y)    ( BW_NAND(BW_NAND(X, X), BW_NAND(Y, Y)) ) 
+#define BW_OR(X, Y)    ( BW_NAND(BW_NAND(X, X), BW_NAND(Y, Y)) ) 
 #define NOT(X)      ( BW_NAND(X, X)                   ) 
-#define XOR(X, Y)   ( BW_AND(OR(X, Y), BW_NAND(X, Y))    ) 
+#define XOR(X, Y)   ( BW_AND(BW_OR(X, Y), BW_NAND(X, Y))    ) 
 
 
 // ARITHMETIC OPERATORS ...
@@ -200,7 +200,7 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 
 // HELPER: Returns a formatted fold line for the FOLD_BITS_TO_1_EQ_HELPER method
 #define FOLD_ONCE_HELPER_(X, S)                          \
-    (X = OR(X, BW_BSR(X, S)));
+    (X = BW_OR(X, BW_BSR(X, S)));
 
 // HELPER: Returns the ammount of bitshift required for an iteration of the FOLD_BITS_TO_1_EQ_HELPER method
 #define FOLD_ONCE_GET_SHIFT_HELPER_(N)                   \
@@ -220,7 +220,7 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 
 // HELPER: Returns a formatted fold line for the EXTRACT_MSB_EQ_HELPER method
 #define EXTRACT_MSB_EQ_FOLD_ONCE_HELPER_(X, S)           \
-    (X = OR(X, BW_BSR(X, S)));
+    (X = BW_OR(X, BW_BSR(X, S)));
 
 // HELPER: Returns the ammount of bitshift required for an iteration of the EXTRACT_MSB_EQ_HELPER method
 #define EXTRACT_MSB_EQ_GET_SHIFT_HELPER_(N)              \
@@ -285,7 +285,7 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 
 // Returns 1 if X >= Y {OPTIMISE}
 #define UINT_GEQUAL(X, Y) ({       \
-    OR(                            \
+    BW_OR(                            \
         UINT_GTHAN(X,Y),           \
         EQUAL(X,Y)                 \
     );                             \
@@ -308,14 +308,14 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
     reg_t signY = BW_AND(BW_BSR(Y, BOOST_PP_SUB(REGISTER_SIZE_BITS, 1)), 1);  \
     reg_t signYnotX = BW_AND(signY, XOR(signX, 1));                        \
     reg_t signXnotY = BW_AND(signX, XOR(signY, 1));                        \
-    out = OR(out, signYnotX);                                           \
-    out = NOT(OR(NOT(out), signXnotY));                                 \
+    out = BW_OR(out, signYnotX);                                           \
+    out = NOT(BW_OR(NOT(out), signXnotY));                                 \
     out;                                                                \
 })
 
 // Returns 1 if X >= Y {OPTIMISE}
 #define INT_GEQUAL(X, Y) ({           \
-    OR(INT_GTHAN(X, Y), EQUAL(X, Y)); \
+    BW_OR(INT_GTHAN(X, Y), EQUAL(X, Y)); \
 })
 
 // Returns 1 if X < Y {OPTIMISE}
