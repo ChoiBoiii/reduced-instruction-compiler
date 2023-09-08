@@ -37,7 +37,7 @@
     | NEQUAL          | Bitwise inequality              | f(a, b) -> (a != b)   | 0 or 1   | F                       | T        |
     | NEQUAL0         | Bitwise inequality with zero    | f(a)    -> (a != 0)   | 0 or 1   | F                       | T        |
     | BW_EQUAL        | Bitwise equality                | f(a, b) -> (a == b)   | 0 or 1   | F                       | T        |
-    | EQUAL0          | Bitwise equality with zero      | f(a)    -> (a == 0)   | 0 or 1   | F                       | T        |
+    | BW_EQUAL0          | Bitwise equality with zero      | f(a)    -> (a == 0)   | 0 or 1   | F                       | T        |
     | UINT_GTHAN      | Greater than between uints      | f(a, b) -> (a > b)    | 0 or 1   | F                       | T        |
     | UINT_GEQUAL     | Greater or equal between uints  | f(a, b) -> (a >= b)   | 0 or 1   | F                       | T        |
     | UINT_LTHAN      | Less than between uints         | f(a, b) -> (a < b)    | 0 or 1   | F                       | T        |
@@ -239,7 +239,7 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 })
 
 // Returns 1 if X is equal to zero
-#define EQUAL0(X) ({               \
+#define BW_EQUAL0(X) ({               \
     reg_t v = X;                   \
     FOLD_BITS_TO_1_EQ_HELPER(v,    \
         REGISTER_SIZE_BITS_LOG2);  \
