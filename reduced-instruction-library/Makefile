@@ -28,6 +28,7 @@ run:
 
 .PHONY: git
 git:
+	make run
 	git add .
 	git commit -m .
 	git push
