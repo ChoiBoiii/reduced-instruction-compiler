@@ -37,6 +37,7 @@ bool unit_test_BW_AND(reg_t n1, reg_t n2)  {return ((n1 & n2) ^ (BW_AND(n1, n2))
 bool unit_test_BW_OR(reg_t n1, reg_t n2)   {return ((n1 | n2) ^ (BW_OR(n1, n2)));}
 bool unit_test_BW_NOT(reg_t n1, reg_t n2)  {return ((~n1) ^ (BW_NOT(n1)));}
 bool unit_test_BW_XOR(reg_t n1, reg_t n2)  {return ((n1 ^ n2) ^ (BW_XOR(n1, n2)));}
+bool unit_test_EQUAL(reg_t n1, reg_t n2)   {return ((n1 == n2) ^ (EQUAL(n1, n2)));}
 
 // RUNS GIVEN TEST
 bool run_test(char* testName, bool (*func)(reg_t, reg_t)) {
@@ -163,30 +164,7 @@ int main() {
     }
 
     // EQUAL
-    testNum = 0;
-    for (long long int i = 0; i < testIterCap; i++) {
-        if ((testNum == tnum1) != (EQUAL(testNum, tnum1))) {
-            printf("EQUAL Failed test\n");
-            break;
-        }
-        if ((testNum == tnum2) != (EQUAL(testNum, tnum2))) {
-            printf("EQUAL Failed test\n");
-            break;
-        }
-        if ((testNum == tnum3) != (EQUAL(testNum, tnum3))) {
-            printf("EQUAL Failed test\n");
-            break;
-        }
-        if ((testNum == tnumOnes) != (EQUAL(testNum, tnumOnes))) {
-            printf("EQUAL Failed test\n");
-            break;
-        }
-        if ((testNum == tnumZeroes) != (EQUAL(testNum, tnumZeroes))) {
-            printf("EQUAL Failed test\n");
-            break;
-        }
-        testNum += 1;
-    }
+    run_test("EQUAL", unit_test_EQUAL);
 
     // UINT_ADD
     testNum = 0;
