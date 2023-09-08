@@ -149,70 +149,6 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 #define XOR(X, Y)   ( AND(OR(X, Y), NAND(X, Y))    ) 
 
 
-// EQUALITY OPERATORS ...
-
-// HELPER: Returns a formatted fold line for the FOLD_BITS_TO_1_EQ_HELPER method
-#define FOLD_ONCE_HELPER_(X, S)                          \
-    X = OR(X, BSR(X, S));
-
-// HELPER: Returns the ammount of bitshift required for an iteration of the FOLD_BITS_TO_1_EQ_HELPER method
-#define FOLD_ONCE_GET_SHIFT_HELPER_(N)                   \
-    (HELPER_STRREP(2*, BOOST_PP_SUB(                     \
-        BOOST_PP_SUB(REGISTER_SIZE_BITS_LOG2, 1), N)) 1) \
-
-// HELPER: Returns a fully formatted line for the FOLD_BITS_TO_1_EQ_HELPER method
-#define FOLD_ONCE_PARAMS_HELPER_(Z, N, X) ({             \
-    FOLD_ONCE_HELPER_(X, FOLD_ONCE_GET_SHIFT_HELPER_(N)) \
-});
-
-// HELPER: Equivalent to (X != 0). Sets X to 1 if X contains any ones, else 0.
-#define FOLD_BITS_TO_1_EQ_HELPER(X, S) ({                \
-    BOOST_PP_REPEAT(S, FOLD_ONCE_PARAMS_HELPER_, X);     \
-    X = AND(X, 1);                                       \
-})
-
-// Returns 1 if X is equal to zero
-#define EQUAL0(X) ({               \
-    reg_t v = X;                   \
-    FOLD_BITS_TO_1_EQ_HELPER(v,    \
-        REGISTER_SIZE_BITS_LOG2);  \
-    v = XOR(v, 1);                 \
-    v;                             \
-})    
-
-// Returns 1 if X is not equal to zero
-#define NEQUAL0(X) ({              \
-    reg_t v = X;                   \
-    FOLD_BITS_TO_1_EQ_HELPER(v,    \
-        REGISTER_SIZE_BITS_LOG2);  \
-    v;                             \
-})
-
-// Returns 1 if X and Y are equal
-#define EQUAL(X, Y) ({             \
-    reg_t v = XOR(X, Y);           \
-    FOLD_BITS_TO_1_EQ_HELPER(v,    \
-        REGISTER_SIZE_BITS_LOG2);  \
-    v = XOR(v, 1);                 \
-})
-
-// Returns 1 if X and Y are not equal
-#define NEQUAL(X, Y) ({            \
-    reg_t v = XOR(X, Y);           \
-    FOLD_BITS_TO_1_EQ_HELPER(v,    \
-        REGISTER_SIZE_BITS_LOG2);  \
-    v;                             \
-})
-
-// Returns 1 if X > Y
-#define UINT_GTHAN(X, Y) ({      \
-})
-
-// Returns 1 if X >= Y
-#define UINT_GEQUAL(X, Y) ({            \
-})
-
-
 // ARITHMETIC OPERATORS ...
 
 // Unsigned integer addition of X+Y
@@ -255,3 +191,80 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 
 // Unsigned integer division of X/Y
 #define UINT_DIV(X, Y) ({})
+
+
+// EQUALITY OPERATORS ...
+
+// HELPER: Returns a formatted fold line for the FOLD_BITS_TO_1_EQ_HELPER method
+#define FOLD_ONCE_HELPER_(X, S)                          \
+    X = OR(X, BSR(X, S));
+
+// HELPER: Returns the ammount of bitshift required for an iteration of the FOLD_BITS_TO_1_EQ_HELPER method
+#define FOLD_ONCE_GET_SHIFT_HELPER_(N)                   \
+    (HELPER_STRREP(2*, BOOST_PP_SUB(                     \
+        BOOST_PP_SUB(REGISTER_SIZE_BITS_LOG2, 1), N)) 1) \
+
+// HELPER: Returns a fully formatted line for the FOLD_BITS_TO_1_EQ_HELPER method
+#define FOLD_ONCE_PARAMS_HELPER_(Z, N, X) ({             \
+    FOLD_ONCE_HELPER_(X, FOLD_ONCE_GET_SHIFT_HELPER_(N)) \
+});
+
+// HELPER: Equivalent to (X != 0). Sets X to 1 if X contains any ones, else 0.
+#define FOLD_BITS_TO_1_EQ_HELPER(X, S) ({                \
+    BOOST_PP_REPEAT(S, FOLD_ONCE_PARAMS_HELPER_, X);     \
+    X = AND(X, 1);                                       \
+})
+
+// HELPER: 
+// TODO
+
+// Returns 1 if X is equal to zero
+#define EQUAL0(X) ({               \
+    reg_t v = X;                   \
+    FOLD_BITS_TO_1_EQ_HELPER(v,    \
+        REGISTER_SIZE_BITS_LOG2);  \
+    v = XOR(v, 1);                 \
+    v;                             \
+})    
+
+// Returns 1 if X is not equal to zero
+#define NEQUAL0(X) ({              \
+    reg_t v = X;                   \
+    FOLD_BITS_TO_1_EQ_HELPER(v,    \
+        REGISTER_SIZE_BITS_LOG2);  \
+    v;                             \
+})
+
+// Returns 1 if X and Y are equal
+#define EQUAL(X, Y) ({             \
+    reg_t v = XOR(X, Y);           \
+    FOLD_BITS_TO_1_EQ_HELPER(v,    \
+        REGISTER_SIZE_BITS_LOG2);  \
+    v = XOR(v, 1);                 \
+})
+
+// Returns 1 if X and Y are not equal
+#define NEQUAL(X, Y) ({            \
+    reg_t v = XOR(X, Y);           \
+    FOLD_BITS_TO_1_EQ_HELPER(v,    \
+        REGISTER_SIZE_BITS_LOG2);  \
+    v;                             \
+})
+
+// Returns 1 if X > Y {OPTIMISE}
+#define UINT_GTHAN(X, Y) ({        \
+    reg_t v = X ^ Y;             \
+    v = OR(v, BSR(v, 1));    \
+    v = OR(v, BSR(v, 2));    \
+    v = OR(v, BSR(v, 4));    \
+    v = OR(v, BSR(v, 8));    \
+    v = UINT_SUB(                \
+        v, BSR(v, 1));         \
+    v = XOR(AND(Y, v), v);   \
+    v = FOLD_BITS_TO_1_EQ_HELPER(v, REGISTER_SIZE_BITS_LOG2);\
+    v;                           \
+})
+
+// Returns 1 if X >= Y {OPTIMISE}
+#define UINT_GEQUAL(X, Y) ({       \
+})

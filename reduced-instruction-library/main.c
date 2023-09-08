@@ -35,7 +35,7 @@ int main() {
 
     // Config
     const long long int testIterCap = 66000;
-    reg_t tnum1 = 0;
+    reg_t tnum1 = 1;
     reg_t tnum2 = 41746;
     reg_t tnum3 = 7660;
     reg_t tnumOnes = 0xFFFF;
@@ -269,32 +269,6 @@ int main() {
         testNum += 1;
     }
 
-    // // GREATER_THAN
-    // testNum = 0;
-    // for (long long int i = 0; i < testIterCap; i++) {
-    //     testNum += 1;
-    //     if ((testNum > tnum1) != (GREATER_THAN(testNum, tnum1))) {
-    //         printf("GREATER_THAN Failed test\n");
-    //         break;
-    //     }
-    //     if ((testNum > tnum2) != (GREATER_THAN(testNum, tnum2))) {
-    //         printf("GREATER_THAN Failed test\n");
-    //         break;
-    //     }
-    //     if ((testNum > tnum3) != (GREATER_THAN(testNum, tnum3))) {
-    //         printf("GREATER_THAN Failed test\n");
-    //         break;
-    //     }
-    //     if ((testNum > tnumZeroes) != (GREATER_THAN(testNum, tnumZeroes))) {
-    //         printf("GREATER_THAN Failed test\n");
-    //         break;
-    //     }
-    //     if ((testNum > tnumOnes) != (GREATER_THAN(testNum, tnumOnes))) {
-    //         printf("GREATER_THAN Failed test\n");
-    //         break;
-    //     }
-    // }
-
     // UINT_ADD
     testNum = 0;
     for (long long int i = 0; i < testIterCap; i++) {
@@ -428,6 +402,47 @@ int main() {
         if ((u_int16_t)(testNum - tnumZeroes) ^ (INT_SUB(testNum, tnumZeroes))) {
             printf("INT_SUB Failed test\n");
             printf("^5 \n");
+            break;
+        }
+        testNum += 1;
+    }
+
+    // UINT_GTHAN
+    testNum = 135;
+    for (long long int i = 0; i < testIterCap; i++) {
+        if ((testNum > tnum1) ^ (UINT_GTHAN(testNum, tnum1))) {
+            printf("UINT_GTHAN Failed test\n");
+            printf("^1\n");
+            printf("%hu %hu\n", testNum, tnum1);
+            reg_t a = (testNum > tnum1);
+            reg_t b = (UINT_GTHAN(testNum, tnum1));
+            print_register(&a);
+            print_register(&b);
+            break;
+        }
+        if ((testNum > tnum2) ^ (UINT_GTHAN(testNum, tnum2))) {
+            printf("UINT_GTHAN Failed test\n");
+            printf("^2\n");
+            printf("%hu %hu\n", testNum, tnum2);
+            reg_t a = (testNum > tnum1);
+            reg_t b = (UINT_GTHAN(testNum, tnum2));
+            print_register(&a);
+            print_register(&b);
+            break;
+        }
+        if ((testNum > tnum3) ^ (UINT_GTHAN(testNum, tnum3))) {
+            printf("UINT_GTHAN Failed test\n");
+            printf("^3\n");
+            break;
+        }
+        if ((testNum > tnumOnes) ^ (UINT_GTHAN(testNum, tnumOnes))) {
+            printf("UINT_GTHAN Failed test\n");
+            printf("^4\n");
+            break;
+        }
+        if ((testNum > tnumZeroes) ^ (UINT_GTHAN(testNum, tnumZeroes))) {
+            printf("UINT_GTHAN Failed test\n");
+            printf("^5\n");
             break;
         }
         testNum += 1;
