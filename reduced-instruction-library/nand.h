@@ -37,8 +37,10 @@
     | NEQUAL0         | Bitwise inequality with zero    | f(a)    -> (a != 0)   | 0 or 1   | F                       | T        |
     | EQUAL           | Bitwise equality                | f(a, b) -> (a == b)   | 0 or 1   | F                       | T        |
     | EQUAL0          | Bitwise equality with zero      | f(a)    -> (a == 0)   | 0 or 1   | F                       | T        |
-    | UINT_GTHAN      | Greater than between uints      | f(a)    -> (a > b)    | 0 or 1   | F                       | T        |
-    | UINT_GEQUAL     | Greater or equal between uints  | f(a)    -> (a >= b)   | 0 or 1   | 
+    | UINT_GTHAN      | Greater than between uints      | f(a, b) -> (a > b)    | 0 or 1   | F                       | T        |
+    | UINT_GEQUAL     | Greater or equal between uints  | f(a, b) -> (a >= b)   | 0 or 1   | F                       | T        |
+    | UINT_LTHAN      | Less than between uints         | f(a, b) -> (a < b)    | 0 or 1   | F
+    | UINT_LEQUAL     | Less or equal between uints     | f(a, b) -> (a <= b)   | 0 or 1   | F 
     | INT_GTHAN       | Greater than between ints       | f(a)    -> (a > b)    | 0 or 1   | 
     | INT_GEQUAL      | Greater or equal between ints   | f(a)    -> (a >= b)   | 0 or 1   |
     | LESS_THAN       | Bitwise less than               | f(a, b) -> (a < b)    | 0 or 1   |                         |          |
