@@ -197,7 +197,7 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 
 // HELPER: Returns a formatted fold line for the FOLD_BITS_TO_1_EQ_HELPER method
 #define FOLD_ONCE_HELPER_(X, S)                          \
-    X = OR(X, BSR(X, S));
+    (X = OR(X, BSR(X, S)));
 
 // HELPER: Returns the ammount of bitshift required for an iteration of the FOLD_BITS_TO_1_EQ_HELPER method
 #define FOLD_ONCE_GET_SHIFT_HELPER_(N)                   \
@@ -217,7 +217,7 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 
 // HELPER: 
 #define EXTRACT_MSB_EQ_FOLD_ONCE_HELPER_(X, S)           \
-    v = OR(v, BSR(v, 1));          \
+    (X = OR(X, BSR(X, S)));
 
 #define EXTRACT_MSB_EQ_GET_SHIFT_HELPER_(N)              \
     (HELPER_STRREP(2*, N) 1)                             \
