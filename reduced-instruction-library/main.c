@@ -30,22 +30,22 @@ reg_t tnums[] = {1, 41746, 7660, 7660, 0xFFFF, 0x0000};
 const int numTestNums = sizeof(tnums) / sizeof(reg_t);
 
 // Tests
-bool unit_test_BW_NAND(reg_t n1, reg_t n2)    {return (~(n1 & n2)) ^ (BW_NAND(n1, n2));}
-bool unit_test_BW_BSL(reg_t n1, reg_t n2)     {return ((n1 << n2) ^ (BW_BSL(n1, n2)));}
-bool unit_test_BW_BSR(reg_t n1, reg_t n2)     {return ((n1 >> n2) ^ (BW_BSR(n1, n2)));}
-bool unit_test_BW_AND(reg_t n1, reg_t n2)     {return ((n1 & n2) ^ (BW_AND(n1, n2)));}
-bool unit_test_BW_OR(reg_t n1, reg_t n2)      {return ((n1 | n2) ^ (BW_OR(n1, n2)));}
-bool unit_test_BW_NOT(reg_t n1, reg_t n2)     {return ((~n1) ^ (BW_NOT(n1)));}
-bool unit_test_BW_XOR(reg_t n1, reg_t n2)     {return ((n1 ^ n2) ^ (BW_XOR(n1, n2)));}
-bool unit_test_BW_EQUAL(reg_t n1, reg_t n2)   {return ((n1 == n2) ^ (BW_EQUAL(n1, n2)));}
-bool unit_test_BW_EQUAL0(reg_t n1, reg_t n2)  {return ((n1 == 0) ^ (BW_EQUAL0(n1)));}
-bool unit_test_BW_NEQUAL0(reg_t n1, reg_t n2) {return ((n1 != 0) ^ (BW_NEQUAL0(n1)));}
-bool unit_test_BW_NEQUAL(reg_t n1, reg_t n2)  {return ((n1 != n2) ^ (BW_NEQUAL(n1, n2)));}
-// bool unit_test_BW_EQUAL(reg_t n1, reg_t n2)   {return ((n1 == n2) ^ (BW_EQUAL(n1, n2)));}
-// bool unit_test_BW_EQUAL(reg_t n1, reg_t n2)   {return ((n1 == n2) ^ (BW_EQUAL(n1, n2)));}
-// bool unit_test_BW_EQUAL(reg_t n1, reg_t n2)   {return ((n1 == n2) ^ (BW_EQUAL(n1, n2)));}
-// bool unit_test_BW_EQUAL(reg_t n1, reg_t n2)   {return ((n1 == n2) ^ (BW_EQUAL(n1, n2)));}
-// bool unit_test_BW_EQUAL(reg_t n1, reg_t n2)   {return ((n1 == n2) ^ (BW_EQUAL(n1, n2)));}
+bool unit_test_BW_NAND(reg_t n1, reg_t n2)    {return ((reg_t)~(n1 & n2)) ^ (reg_t)(BW_NAND(n1, n2));}
+bool unit_test_BW_BSL(reg_t n1, reg_t n2)     {return ((reg_t)(n1 << n2) ^ (reg_t)(BW_BSL(n1, n2)));}
+bool unit_test_BW_BSR(reg_t n1, reg_t n2)     {return ((reg_t)(n1 >> n2) ^ (BW_BSR(n1, n2)));}
+bool unit_test_BW_AND(reg_t n1, reg_t n2)     {return ((reg_t)(n1 & n2) ^ (BW_AND(n1, n2)));}
+bool unit_test_BW_OR(reg_t n1, reg_t n2)      {return ((reg_t)(n1 | n2) ^ (BW_OR(n1, n2)));}
+bool unit_test_BW_NOT(reg_t n1, reg_t n2)     {return ((reg_t)(~n1) ^ (reg_t)(BW_NOT(n1)));}
+bool unit_test_BW_XOR(reg_t n1, reg_t n2)     {return ((reg_t)(n1 ^ n2) ^ (BW_XOR(n1, n2)));}
+bool unit_test_BW_EQUAL(reg_t n1, reg_t n2)   {return ((reg_t)(n1 == n2) ^ (BW_EQUAL(n1, n2)));}
+bool unit_test_BW_EQUAL0(reg_t n1, reg_t n2)  {return ((reg_t)(n1 == 0) ^ (BW_EQUAL0(n1)));}
+bool unit_test_BW_NEQUAL0(reg_t n1, reg_t n2) {return ((reg_t)(n1 != 0) ^ (BW_NEQUAL0(n1)));}
+bool unit_test_BW_NEQUAL(reg_t n1, reg_t n2)  {return ((reg_t)(n1 != n2) ^ (BW_NEQUAL(n1, n2)));}
+bool unit_test_UINT_ADD(reg_t n1, reg_t n2)   {return ((reg_t)(n1 + n2) ^ (UINT_ADD(n1, n2)));}
+// bool unit_test_BW_EQUAL(reg_t n1, reg_t n2)   {return ((reg_t)(n1 == n2) ^ (BW_EQUAL(n1, n2)));}
+// bool unit_test_BW_EQUAL(reg_t n1, reg_t n2)   {return ((reg_t)(n1 == n2) ^ (BW_EQUAL(n1, n2)));}
+// bool unit_test_BW_EQUAL(reg_t n1, reg_t n2)   {return ((reg_t)(n1 == n2) ^ (BW_EQUAL(n1, n2)));}
+// bool unit_test_BW_EQUAL(reg_t n1, reg_t n2)   {return ((reg_t)(n1 == n2) ^ (BW_EQUAL(n1, n2)));}
 
 // RUNS GIVEN TEST
 bool run_test(char* testName, bool (*func)(reg_t, reg_t)) {
@@ -138,30 +138,7 @@ int main() {
     run_test("BW_EQUAL", unit_test_BW_EQUAL);
 
     // UINT_ADD
-    testNum = 0;
-    for (long long int i = 0; i < testIterCap; i++) {
-        if ((reg_t)(testNum + tnum1) != (UINT_ADD(testNum, tnum1))) {
-            printf("UINT_ADD Failed test\n");
-            break;
-        }
-        if ((reg_t)(testNum + tnum2) != (UINT_ADD(testNum, tnum2))) {
-            printf("UINT_ADD Failed test\n");
-            break;
-        }
-        if ((reg_t)(testNum + tnum3) != (UINT_ADD(testNum, tnum3))) {
-            printf("UINT_ADD Failed test\n");
-            break;
-        }
-        if ((reg_t)(testNum + tnumOnes) != (UINT_ADD(testNum, tnumOnes))) {
-            printf("UINT_ADD Failed test\n");
-            break;
-        }
-        if ((reg_t)(testNum + tnumZeroes) != (UINT_ADD(testNum, tnumZeroes))) {
-            printf("UINT_ADD Failed test\n");
-            break;
-        }
-        testNum += 1;
-    }
+    run_test("UINT_ADD", unit_test_UINT_ADD);
 
     // INT_ADD
     signedTestNum = 0;
