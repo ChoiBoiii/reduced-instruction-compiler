@@ -559,6 +559,10 @@ int main() {
             printf("%s Failed test\n^5\n", testName);
             break;
         }
+        if ((tnum > (int16_t)(-12453)) ^ (INT_GTHAN(tnum, (int16_t)(-12453)))) {
+            printf("%s Failed test\n^6\n", testName);
+            break;   
+        }
         testNum += 1;
     }
 

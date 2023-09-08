@@ -301,8 +301,15 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 })
 
 // Returns 1 if X > Y {OPTIMISE}
-#define INT_GTHAN(X, Y) ({         \
-    UINT_GTHAN(X, Y);              \
+#define INT_GTHAN(X, Y) ({\
+    reg_t out = UINT_GTHAN(X, Y);\
+    reg_t signX = AND(BSR(X, BOOST_PP_SUB(REGISTER_SIZE_BITS, 1)), 1);\
+    reg_t signY = AND(BSR(Y, BOOST_PP_SUB(REGISTER_SIZE_BITS, 1)), 1);\
+    reg_t signYnotX = AND(signY, XOR(signX, 1));\
+    reg_t signXnotY = AND(signX, XOR(signY, 1));\
+    out = OR(out, signYnotX);\
+    out = NOT(OR(NOT(out), signXnotY));\
+    out;\
 })
 
 

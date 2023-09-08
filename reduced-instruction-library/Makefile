@@ -18,7 +18,6 @@ test:
 
 .PHONY: run
 run: 
-	make main
 	make clean
 	make main
 	@echo --------------------------------------------------
