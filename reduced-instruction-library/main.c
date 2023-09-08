@@ -45,9 +45,17 @@ bool unit_test_BW_NEQUAL(reg_t n1, reg_t n2)       {return ((reg_t)(n1 != n2) ^ 
 bool unit_test_UINT_ADD(reg_t n1, reg_t n2)        {return ((reg_t)(n1 + n2) ^ (UINT_ADD(n1, n2)));}
 bool unit_test_INT_ADD(reg_t n1, reg_t n2)         {return ((reg_t)((signed_reg_type)n1 + (signed_reg_type)n2) ^ (INT_ADD(n1, n2)));}
 bool unit_test_INT_SIGN_INVERT(reg_t n1, reg_t n2) {return ((reg_t)(-n1) ^ (INT_SIGN_INVERT(n1)));}
-// bool unit_test_BW_EQUAL(reg_t n1, reg_t n2)   {return ((reg_t)(n1 == n2) ^ (BW_EQUAL(n1, n2)));}
-// bool unit_test_BW_EQUAL(reg_t n1, reg_t n2)   {return ((reg_t)(n1 == n2) ^ (BW_EQUAL(n1, n2)));}
-// bool unit_test_BW_EQUAL(reg_t n1, reg_t n2)   {return ((reg_t)(n1 == n2) ^ (BW_EQUAL(n1, n2)));}
+bool unit_test_UINT_SUB(reg_t n1, reg_t n2)        {return ((reg_t)(n1 - n2) ^ (UINT_SUB(n1, n2)));}
+// bool unit_test_BW_EQUAL(reg_t n1, reg_t n2)        {return ((reg_t)(n1 == n2) ^ (BW_EQUAL(n1, n2)));}
+// bool unit_test_BW_EQUAL(reg_t n1, reg_t n2)        {return ((reg_t)(n1 == n2) ^ (BW_EQUAL(n1, n2)));}
+// bool unit_test_BW_EQUAL(reg_t n1, reg_t n2)        {return ((reg_t)(n1 == n2) ^ (BW_EQUAL(n1, n2)));}
+// bool unit_test_BW_EQUAL(reg_t n1, reg_t n2)        {return ((reg_t)(n1 == n2) ^ (BW_EQUAL(n1, n2)));}
+// bool unit_test_BW_EQUAL(reg_t n1, reg_t n2)        {return ((reg_t)(n1 == n2) ^ (BW_EQUAL(n1, n2)));}
+// bool unit_test_BW_EQUAL(reg_t n1, reg_t n2)        {return ((reg_t)(n1 == n2) ^ (BW_EQUAL(n1, n2)));}
+// bool unit_test_BW_EQUAL(reg_t n1, reg_t n2)        {return ((reg_t)(n1 == n2) ^ (BW_EQUAL(n1, n2)));}
+// bool unit_test_BW_EQUAL(reg_t n1, reg_t n2)        {return ((reg_t)(n1 == n2) ^ (BW_EQUAL(n1, n2)));}
+// bool unit_test_BW_EQUAL(reg_t n1, reg_t n2)        {return ((reg_t)(n1 == n2) ^ (BW_EQUAL(n1, n2)));}
+
 
 // RUNS GIVEN TEST
 bool run_test(char* testName, bool (*func)(reg_t, reg_t)) {
@@ -148,35 +156,7 @@ int main() {
     run_test("INT_SIGN_INVERT", unit_test_INT_SIGN_INVERT);
 
     // UINT_SUB
-    testNum = 0;
-    for (long long int i = 0; i < testIterCap; i++) {
-        if ((reg_t)(testNum - tnum1) != (UINT_SUB(testNum, tnum1))) {
-            printf("UINT_SUB Failed test\n");
-            printf("^1 \n");
-            break;
-        }
-        if ((reg_t)(testNum - tnum2) != (UINT_SUB(testNum, tnum2))) {
-            printf("UINT_SUB Failed test\n");
-            printf("^2 \n");
-            break;
-        }
-        if ((reg_t)(testNum - tnum3) != (UINT_SUB(testNum, tnum3))) {
-            printf("UINT_SUB Failed test\n");
-            printf("^3 \n");
-            break;
-        }
-        if ((reg_t)(testNum - tnumOnes) != (UINT_SUB(testNum, tnumOnes))) {
-            printf("UINT_SUB Failed test\n");
-            printf("^4 \n");
-            break;
-        }
-        if ((reg_t)(testNum - tnumZeroes) != (UINT_SUB(testNum, tnumZeroes))) {
-            printf("UINT_SUB Failed test\n");
-            printf("^5 \n");
-            break;
-        }
-        testNum += 1;
-    }
+    run_test("UINT_SUB", unit_test_UINT_SUB);
 
     // INT_SUB
     testNum = 0;
