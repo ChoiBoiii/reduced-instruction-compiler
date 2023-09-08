@@ -52,7 +52,7 @@ bool unit_test_UINT_GEQUAL(reg_t n1, reg_t n2)     {return ((reg_t)(n1 >= n2) ^ 
 bool unit_test_UINT_LTHAN(reg_t n1, reg_t n2)      {return ((reg_t)(n1 < n2) ^ (UINT_LTHAN(n1, n2)));}
 bool unit_test_UINT_LEQUAL(reg_t n1, reg_t n2)     {return ((reg_t)(n1 <= n2) ^ (UINT_LEQUAL(n1, n2)));}
 bool unit_test_INT_GTHAN(reg_t n1, reg_t n2)       {return ((reg_t)((signed_reg_type)n1 > (signed_reg_type)n2) ^ (INT_GTHAN(n1, n2)));}
-// bool unit_test_BW_EQUAL(reg_t n1, reg_t n2)        {return ((reg_t)(n1 == n2) ^ (BW_EQUAL(n1, n2)));}
+bool unit_test_INT_GEQUAL(reg_t n1, reg_t n2)      {return ((reg_t)((signed_reg_type)n1 >= (signed_reg_type)n2) ^ (INT_GEQUAL(n1, n2)));}
 // bool unit_test_BW_EQUAL(reg_t n1, reg_t n2)        {return ((reg_t)(n1 == n2) ^ (BW_EQUAL(n1, n2)));}
 // bool unit_test_BW_EQUAL(reg_t n1, reg_t n2)        {return ((reg_t)(n1 == n2) ^ (BW_EQUAL(n1, n2)));}
 
@@ -177,36 +177,7 @@ int main() {
     run_test("INT_GTHAN", unit_test_INT_GTHAN);
 
     // INT_GEQUAL
-    testNum = 0;
-    testName = "INT_GEQUAL";
-    for (long long int i = 0; i < testIterCap; i++) {
-        int16_t tnum = (int16_t)testNum;
-        if ((tnum >= (int16_t)tnum1) ^ (INT_GEQUAL(tnum, (int16_t)tnum1))) {
-            printf("%s Failed test\n^1\n", testName);
-            break;
-        }
-        if ((tnum >= (int16_t)tnum2) ^ (INT_GEQUAL(tnum, (int16_t)tnum2))) {
-            printf("%s Failed test\n^2\n", testName);
-            break;
-        }
-        if ((tnum >= (int16_t)tnum3) ^ (INT_GEQUAL(tnum, (int16_t)tnum3))) {
-            printf("%s Failed test\n^3\n", testName);
-            break;
-        }
-        if ((tnum >= (int16_t)tnumOnes) ^ (INT_GEQUAL(tnum, (int16_t)tnumOnes))) {
-            printf("%s Failed test\n^4\n", testName);
-            break;
-        }
-        if ((tnum >= (int16_t)tnumZeroes) ^ (INT_GEQUAL(tnum, (int16_t)tnumZeroes))) {
-            printf("%s Failed test\n^5\n", testName);
-            break;
-        }
-        if ((tnum >= (int16_t)(-12453)) ^ (INT_GEQUAL(tnum, (int16_t)(-12453)))) {
-            printf("%s Failed test\n^6\n", testName);
-            break;   
-        }
-        testNum += 1;
-    }
+    run_test("INT_GEQUAL", unit_test_INT_GEQUAL);
 
     // INT_LTHAN
     testNum = 0;
