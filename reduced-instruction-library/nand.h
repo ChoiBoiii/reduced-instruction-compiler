@@ -206,7 +206,7 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
     (HELPER_STRREP(2*, BOOST_PP_SUB(                     \
         BOOST_PP_SUB(REGISTER_SIZE_BITS_LOG2, 1), N)) 1) \
 
-// HELPER: Returns a fully formatted line for the FOLD_BITS_TO_1_EQ_HELPER method
+// HELPER: Returns a fully formatted fold line for the FOLD_BITS_TO_1_EQ_HELPER method
 #define FOLD_ONCE_PARAMS_HELPER_(Z, N, X) ({             \
     FOLD_ONCE_HELPER_(X, FOLD_ONCE_GET_SHIFT_HELPER_(N)) \
 });
@@ -217,19 +217,24 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
     X = AND(X, 1);                                       \
 })
 
-// HELPER: 
+// HELPER: Returns a formatted fold line for the EXTRACT_MSB_EQ_HELPER method
 #define EXTRACT_MSB_EQ_FOLD_ONCE_HELPER_(X, S)           \
     (X = OR(X, BSR(X, S)));
 
+// HELPER: Returns the ammount of bitshift required for an iteration of the EXTRACT_MSB_EQ_HELPER method
 #define EXTRACT_MSB_EQ_GET_SHIFT_HELPER_(N)              \
     (HELPER_STRREP(2*, N) 1)                             \
 
+// HELPER: Returns a fully formatted fold line for the EXTRACT_MSB_EQ_HELPER method
 #define EXTRACT_MSB_EQ_FOLD_PARAMS_HELPER_(Z, N, X) ({   \
-    EXTRACT_MSB_EQ_FOLD_ONCE_HELPER_(X, EXTRACT_MSB_EQ_GET_SHIFT_HELPER_(N)) \
+    EXTRACT_MSB_EQ_FOLD_ONCE_HELPER_(                    \
+        X, EXTRACT_MSB_EQ_GET_SHIFT_HELPER_(N))          \
 });
 
+// HELPER: Used to help extract most significant bit in some equivalence instruction methods
 #define EXTRACT_MSB_EQ_HELPER(X, S) ({                   \
-    BOOST_PP_REPEAT(S, EXTRACT_MSB_EQ_FOLD_PARAMS_HELPER_, X);     \
+    BOOST_PP_REPEAT(                                     \
+        S, EXTRACT_MSB_EQ_FOLD_PARAMS_HELPER_, X);       \
 })
 
 // Returns 1 if X is equal to zero
