@@ -48,7 +48,7 @@ bool unit_test_INT_SIGN_INVERT(reg_t n1, reg_t n2) {return ((reg_t)(-n1) ^ (INT_
 bool unit_test_UINT_SUB(reg_t n1, reg_t n2)        {return ((reg_t)(n1 - n2) ^ (UINT_SUB(n1, n2)));}
 bool unit_test_INT_SUB(reg_t n1, reg_t n2)         {return ((reg_t)((signed_reg_type)n1 - (signed_reg_type)n2) ^ (INT_SUB(n1, n2)));}
 bool unit_test_UINT_GTHAN(reg_t n1, reg_t n2)      {return ((reg_t)(n1 > n2) ^ (UINT_GTHAN(n1, n2)));}
-// bool unit_test_BW_EQUAL(reg_t n1, reg_t n2)        {return ((reg_t)(n1 == n2) ^ (BW_EQUAL(n1, n2)));}
+bool unit_test_UINT_GEQUAL(reg_t n1, reg_t n2)     {return ((reg_t)(n1 >= n2) ^ (UINT_GEQUAL(n1, n2)));}
 // bool unit_test_BW_EQUAL(reg_t n1, reg_t n2)        {return ((reg_t)(n1 == n2) ^ (BW_EQUAL(n1, n2)));}
 // bool unit_test_BW_EQUAL(reg_t n1, reg_t n2)        {return ((reg_t)(n1 == n2) ^ (BW_EQUAL(n1, n2)));}
 // bool unit_test_BW_EQUAL(reg_t n1, reg_t n2)        {return ((reg_t)(n1 == n2) ^ (BW_EQUAL(n1, n2)));}
@@ -165,35 +165,7 @@ int main() {
     run_test("UINT_GTHAN", unit_test_UINT_GTHAN);
 
     // UINT_GEQUAL
-    testNum = 0;
-    for (long long int i = 0; i < testIterCap; i++) {
-        if ((testNum >= tnum1) ^ (UINT_GEQUAL(testNum, tnum1))) {
-            printf("UINT_GEQUAL Failed test\n");
-            printf("^1\n");
-            break;
-        }
-        if ((testNum >= tnum2) ^ (UINT_GEQUAL(testNum, tnum2))) {
-            printf("UINT_GEQUAL Failed test\n");
-            printf("^2\n");
-            break;
-        }
-        if ((testNum >= tnum3) ^ (UINT_GEQUAL(testNum, tnum3))) {
-            printf("UINT_GEQUAL Failed test\n");
-            printf("^3\n");
-            break;
-        }
-        if ((testNum >= tnumOnes) ^ (UINT_GEQUAL(testNum, tnumOnes))) {
-            printf("UINT_GEQUAL Failed test\n");
-            printf("^4\n");
-            break;
-        }
-        if ((testNum >= tnumZeroes) ^ (UINT_GEQUAL(testNum, tnumZeroes))) {
-            printf("UINT_GEQUAL Failed test\n");
-            printf("^5\n");
-            break;
-        }
-        testNum += 1;
-    }
+    run_test("UINT_GEQUAL", unit_test_UINT_GEQUAL);
 
     // UINT_LTHAN
     testNum = 0;
