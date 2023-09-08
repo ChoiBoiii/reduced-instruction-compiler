@@ -307,30 +307,32 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 })
 
 // Returns 1 if X > Y {OPTIMISE}
-#define INT_GTHAN(X, Y) ({                                              \
-    reg_t out = UINT_GTHAN(X, Y);                                       \
-    reg_t signX = BW_AND(BW_BSR(X, BOOST_PP_SUB(REGISTER_SIZE_BITS, 1)), 1);  \
-    reg_t signY = BW_AND(BW_BSR(Y, BOOST_PP_SUB(REGISTER_SIZE_BITS, 1)), 1);  \
-    reg_t signYnotX = BW_AND(signY, BW_XOR(signX, 1));                        \
-    reg_t signXnotY = BW_AND(signX, BW_XOR(signY, 1));                        \
-    out = BW_OR(out, signYnotX);                                           \
-    out = BW_NOT(BW_OR(BW_NOT(out), signXnotY));                                 \
-    out;                                                                \
+#define INT_GTHAN(X, Y) ({                              \
+    reg_t out = UINT_GTHAN(X, Y);                       \
+    reg_t signX = BW_AND(BW_BSR(                        \
+        X, BOOST_PP_SUB(REGISTER_SIZE_BITS, 1)), 1);    \
+    reg_t signY = BW_AND(BW_BSR(                        \
+        Y, BOOST_PP_SUB(REGISTER_SIZE_BITS, 1)), 1);    \
+    reg_t signYnotX = BW_AND(signY, BW_XOR(signX, 1));  \
+    reg_t signXnotY = BW_AND(signX, BW_XOR(signY, 1));  \
+    out = BW_OR(out, signYnotX);                        \
+    out = BW_NOT(BW_OR(BW_NOT(out), signXnotY));        \
+    out;                                                \
 })
 
 // Returns 1 if X >= Y {OPTIMISE}
-#define INT_GEQUAL(X, Y) ({           \
+#define INT_GEQUAL(X, Y) ({                 \
     BW_OR(INT_GTHAN(X, Y), BW_EQUAL(X, Y)); \
 })
 
 // Returns 1 if X < Y {OPTIMISE}
-#define INT_LTHAN(X, Y) ({            \
-    BW_XOR(INT_GEQUAL(X, Y), 1);         \
+#define INT_LTHAN(X, Y) ({                  \
+    BW_XOR(INT_GEQUAL(X, Y), 1);            \
 })
 
 // Returns 1 if X <= Y {OPTIMISE}
-#define INT_LEQUAL(X, Y) ({           \
-    BW_XOR(INT_GTHAN(X, Y), 1);          \
+#define INT_LEQUAL(X, Y) ({                 \
+    BW_XOR(INT_GTHAN(X, Y), 1);             \
 })
 
 
