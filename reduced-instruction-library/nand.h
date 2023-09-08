@@ -27,13 +27,13 @@
     |----------------------------------------------------------------------------------------------------------------------------
     | Instruction     | Description                     | Equivalent Operator   | Returns  | Register Size Dependant | Has Test |
     |----------------------------------------------------------------------------------------------------------------------------
-    | BW_NAND         | NAND Bitwise operator           | f(a, b) -> ~(a & b)   | Bitfield | F                       | T        |
+    | BW_NAND         | Bitwise NAND operator           | f(a, b) -> ~(a & b)   | Bitfield | F                       | T        |
     | BW_BSL          | Bitshift left operator          | f(a, n) -> (a << n)   | Bitfield | F                       | T        |
     | BW_BSR          | Bitshift right operator         | f(a, n) -> (a >> n)   | Bitfield | F                       | T        |
-    | AND             | AND bitwise operator            | f(a, b) -> (a & b)    | Bitfield | F                       | T        |
-    | OR              | OR bitwise operator             | f(a, b) -> (a | b)    | Bitfield | F                       | T        |
-    | NOT             | NOT bitwise operator            | f(a)    -> (~a)       | Bitfield | F                       | T        |
-    | XOR             | XOR bitwise operator            | f(a, b) -> (a ^ b)    | Bitfield | F                       | T        |
+    | BW_AND          | Bitwise AND operator            | f(a, b) -> (a & b)    | Bitfield | F                       | T        |
+    | OR              | Bitwise OR operator             | f(a, b) -> (a | b)    | Bitfield | F                       | T        |
+    | NOT             | Bitwise NOT operator            | f(a)    -> (~a)       | Bitfield | F                       | T        |
+    | XOR             | Bitwise XOR operator            | f(a, b) -> (a ^ b)    | Bitfield | F                       | T        |
     | NEQUAL          | Bitwise inequality              | f(a, b) -> (a != b)   | 0 or 1   | F                       | T        |
     | NEQUAL0         | Bitwise inequality with zero    | f(a)    -> (a != 0)   | 0 or 1   | F                       | T        |
     | EQUAL           | Bitwise equality                | f(a, b) -> (a == b)   | 0 or 1   | F                       | T        |
@@ -146,10 +146,10 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 #define BW_BSR(X, N)   ( (X >> N)                     ) 
 
 // Other decomposed bitwise operators
-#define AND(X, Y)   ( BW_NAND(BW_NAND(X, Y), BW_NAND(X, Y)) ) 
+#define BW_AND(X, Y)   ( BW_NAND(BW_NAND(X, Y), BW_NAND(X, Y)) ) 
 #define OR(X, Y)    ( BW_NAND(BW_NAND(X, X), BW_NAND(Y, Y)) ) 
 #define NOT(X)      ( BW_NAND(X, X)                   ) 
-#define XOR(X, Y)   ( AND(OR(X, Y), BW_NAND(X, Y))    ) 
+#define XOR(X, Y)   ( BW_AND(OR(X, Y), BW_NAND(X, Y))    ) 
 
 
 // ARITHMETIC OPERATORS ...
@@ -157,12 +157,12 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 // Unsigned integer addition of X+Y
 #define UINT_ADD_HELPER(T, K, R) ({                    \
     T = K;                                             \
-    K = BW_BSL(AND(K, R), 1);                          \
+    K = BW_BSL(BW_AND(K, R), 1);                          \
     R = XOR(T, R);                                     \
 })
 #define UINT_ADD(X, Y) ({                              \
     reg_t tmp, keep, res;                              \
-    keep = BW_BSL(AND(X, Y), 1);                       \
+    keep = BW_BSL(BW_AND(X, Y), 1);                       \
     res = XOR(X, Y);                                   \
     HELPER_STRREP(UINT_ADD_HELPER(tmp, keep, res);,    \
         REGISTER_SIZE_BITS);                           \
@@ -215,7 +215,7 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 // HELPER: Equivalent to (X != 0). Sets X to 1 if X contains any ones, else 0.
 #define FOLD_BITS_TO_1_EQ_HELPER(X, S) ({                \
     BOOST_PP_REPEAT(S, FOLD_ONCE_PARAMS_HELPER_, X);     \
-    X = AND(X, 1);                                       \
+    X = BW_AND(X, 1);                                       \
 })
 
 // HELPER: Returns a formatted fold line for the EXTRACT_MSB_EQ_HELPER method
@@ -277,7 +277,7 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
     EXTRACT_MSB_EQ_HELPER(v,       \
         REGISTER_SIZE_BITS_LOG2);  \
     v = UINT_SUB(v, BW_BSR(v, 1));    \
-    v = XOR(AND(Y, v), v);         \
+    v = XOR(BW_AND(Y, v), v);         \
     FOLD_BITS_TO_1_EQ_HELPER(v,    \
         REGISTER_SIZE_BITS_LOG2);  \
     v;                             \
@@ -304,10 +304,10 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 // Returns 1 if X > Y {OPTIMISE}
 #define INT_GTHAN(X, Y) ({                                              \
     reg_t out = UINT_GTHAN(X, Y);                                       \
-    reg_t signX = AND(BW_BSR(X, BOOST_PP_SUB(REGISTER_SIZE_BITS, 1)), 1);  \
-    reg_t signY = AND(BW_BSR(Y, BOOST_PP_SUB(REGISTER_SIZE_BITS, 1)), 1);  \
-    reg_t signYnotX = AND(signY, XOR(signX, 1));                        \
-    reg_t signXnotY = AND(signX, XOR(signY, 1));                        \
+    reg_t signX = BW_AND(BW_BSR(X, BOOST_PP_SUB(REGISTER_SIZE_BITS, 1)), 1);  \
+    reg_t signY = BW_AND(BW_BSR(Y, BOOST_PP_SUB(REGISTER_SIZE_BITS, 1)), 1);  \
+    reg_t signYnotX = BW_AND(signY, XOR(signX, 1));                        \
+    reg_t signXnotY = BW_AND(signX, XOR(signY, 1));                        \
     out = OR(out, signYnotX);                                           \
     out = NOT(OR(NOT(out), signXnotY));                                 \
     out;                                                                \
