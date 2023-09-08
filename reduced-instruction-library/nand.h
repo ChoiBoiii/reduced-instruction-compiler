@@ -29,7 +29,7 @@
     |----------------------------------------------------------------------------------------------------------------------------
     | BW_NAND         | NAND Bitwise operator           | f(a, b) -> ~(a & b)   | Bitfield | F                       | T        |
     | BW_BSL          | Bitshift left operator          | f(a, n) -> (a << n)   | Bitfield | F                       | T        |
-    | BSR             | Bitshift right operator         | f(a, n) -> (a >> n)   | Bitfield | F                       | T        |
+    | BW_BSR          | Bitshift right operator         | f(a, n) -> (a >> n)   | Bitfield | F                       | T        |
     | AND             | AND bitwise operator            | f(a, b) -> (a & b)    | Bitfield | F                       | T        |
     | OR              | OR bitwise operator             | f(a, b) -> (a | b)    | Bitfield | F                       | T        |
     | NOT             | NOT bitwise operator            | f(a)    -> (~a)       | Bitfield | F                       | T        |
@@ -143,7 +143,7 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 // Base operators (not NAND based)
 #define BW_NAND(X, Y)  ( ~(X & Y)                     ) 
 #define BW_BSL(X, N)   ( (X << N)                     ) 
-#define BSR(X, N)   ( (X >> N)                     ) 
+#define BW_BSR(X, N)   ( (X >> N)                     ) 
 
 // Other decomposed bitwise operators
 #define AND(X, Y)   ( BW_NAND(BW_NAND(X, Y), BW_NAND(X, Y)) ) 
@@ -200,7 +200,7 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 
 // HELPER: Returns a formatted fold line for the FOLD_BITS_TO_1_EQ_HELPER method
 #define FOLD_ONCE_HELPER_(X, S)                          \
-    (X = OR(X, BSR(X, S)));
+    (X = OR(X, BW_BSR(X, S)));
 
 // HELPER: Returns the ammount of bitshift required for an iteration of the FOLD_BITS_TO_1_EQ_HELPER method
 #define FOLD_ONCE_GET_SHIFT_HELPER_(N)                   \
@@ -220,7 +220,7 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 
 // HELPER: Returns a formatted fold line for the EXTRACT_MSB_EQ_HELPER method
 #define EXTRACT_MSB_EQ_FOLD_ONCE_HELPER_(X, S)           \
-    (X = OR(X, BSR(X, S)));
+    (X = OR(X, BW_BSR(X, S)));
 
 // HELPER: Returns the ammount of bitshift required for an iteration of the EXTRACT_MSB_EQ_HELPER method
 #define EXTRACT_MSB_EQ_GET_SHIFT_HELPER_(N)              \
@@ -276,7 +276,7 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
     reg_t v = X ^ Y;               \
     EXTRACT_MSB_EQ_HELPER(v,       \
         REGISTER_SIZE_BITS_LOG2);  \
-    v = UINT_SUB(v, BSR(v, 1));    \
+    v = UINT_SUB(v, BW_BSR(v, 1));    \
     v = XOR(AND(Y, v), v);         \
     FOLD_BITS_TO_1_EQ_HELPER(v,    \
         REGISTER_SIZE_BITS_LOG2);  \
@@ -304,8 +304,8 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 // Returns 1 if X > Y {OPTIMISE}
 #define INT_GTHAN(X, Y) ({                                              \
     reg_t out = UINT_GTHAN(X, Y);                                       \
-    reg_t signX = AND(BSR(X, BOOST_PP_SUB(REGISTER_SIZE_BITS, 1)), 1);  \
-    reg_t signY = AND(BSR(Y, BOOST_PP_SUB(REGISTER_SIZE_BITS, 1)), 1);  \
+    reg_t signX = AND(BW_BSR(X, BOOST_PP_SUB(REGISTER_SIZE_BITS, 1)), 1);  \
+    reg_t signY = AND(BW_BSR(Y, BOOST_PP_SUB(REGISTER_SIZE_BITS, 1)), 1);  \
     reg_t signYnotX = AND(signY, XOR(signX, 1));                        \
     reg_t signXnotY = AND(signX, XOR(signY, 1));                        \
     out = OR(out, signYnotX);                                           \
