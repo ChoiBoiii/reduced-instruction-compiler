@@ -30,7 +30,7 @@ reg_t tnums[] = {1, 41746, 7660, 7660, 0xFFFF, 0x0000};
 const int numTestNums = sizeof(tnums) / sizeof(reg_t);
 typedef int16_t signed_reg_type;
 
-// Tests
+// INDIVIDUAL TEST PASS CASES  ...
 bool unit_test_BW_NAND(reg_t n1, reg_t n2)         {return ((reg_t)~(n1 & n2)) ^ (reg_t)(BW_NAND(n1, n2));}
 bool unit_test_BW_BSL(reg_t n1, reg_t n2)          {return ((reg_t)(n1 << n2) ^ (reg_t)(BW_BSL(n1, n2)));}
 bool unit_test_BW_BSR(reg_t n1, reg_t n2)          {return ((reg_t)(n1 >> n2) ^ (BW_BSR(n1, n2)));}
@@ -57,7 +57,7 @@ bool unit_test_INT_LTHAN(reg_t n1, reg_t n2)       {return ((reg_t)((signed_reg_
 bool unit_test_INT_LEQUAL(reg_t n1, reg_t n2)      {return ((reg_t)((signed_reg_type)n1 <= (signed_reg_type)n2) ^ (INT_LEQUAL(n1, n2)));}
 
 
-// RUNS GIVEN TEST
+// TEST RUNNER DRIVERS ...
 bool run_test(char* testName, bool (*func)(reg_t, reg_t)) {
     reg_t tnum1 = 0;
     for (long long int i = 0; i < testIterCap; i++) {
@@ -72,6 +72,7 @@ bool run_test(char* testName, bool (*func)(reg_t, reg_t)) {
     }
     return false;
 }
+
 bool run_bitshift_test(char* testName, bool (*func)(reg_t, reg_t)) {
     reg_t tnum1 = 0;
     for (long long int i = 0; i < testIterCap; i++) {
@@ -86,6 +87,8 @@ bool run_bitshift_test(char* testName, bool (*func)(reg_t, reg_t)) {
     }
     return false;
 }
+
+// RUN ALL TESTS
 
 
 // Execute`

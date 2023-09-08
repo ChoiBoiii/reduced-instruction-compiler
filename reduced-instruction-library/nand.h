@@ -68,6 +68,11 @@
 */
 
 
+// HEADER GUARD ...
+#ifndef REDUCED_INSTRUCTION_COMPILER_H
+#define REDUCED_INSTRUCTION_COMPILER_H
+
+
 // INCLUDE LIBRARIES ...
 
 // Local
@@ -328,3 +333,6 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
     BW_XOR(INT_GTHAN(X, Y), 1);          \
 })
 
+
+// END HEADER GUARD ... 
+#endif
