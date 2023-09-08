@@ -27,7 +27,7 @@
     |----------------------------------------------------------------------------------------------------------------------------
     | Instruction     | Description                     | Equivalent Operator   | Returns  | Register Size Dependant | Has Test |
     |----------------------------------------------------------------------------------------------------------------------------
-    | NAND            | NAND Bitwise operator           | f(a, b) -> ~(a & b)   | Bitfield | F                       | T        |
+    | BW_NAND         | NAND Bitwise operator           | f(a, b) -> ~(a & b)   | Bitfield | F                       | T        |
     | BSL             | Bitshift left operator          | f(a, n) -> (a << n)   | Bitfield | F                       | T        |
     | BSR             | Bitshift right operator         | f(a, n) -> (a >> n)   | Bitfield | F                       | T        |
     | AND             | AND bitwise operator            | f(a, b) -> (a & b)    | Bitfield | F                       | T        |
@@ -141,15 +141,15 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 // BITWISE OPERATORS ...
 
 // Base operators (not NAND based)
-#define NAND(X, Y)  ( ~(X & Y)                     ) 
+#define BW_NAND(X, Y)  ( ~(X & Y)                     ) 
 #define BSL(X, N)   ( (X << N)                     ) 
 #define BSR(X, N)   ( (X >> N)                     ) 
 
 // Other decomposed bitwise operators
-#define AND(X, Y)   ( NAND(NAND(X, Y), NAND(X, Y)) ) 
-#define OR(X, Y)    ( NAND(NAND(X, X), NAND(Y, Y)) ) 
-#define NOT(X)      ( NAND(X, X)                   ) 
-#define XOR(X, Y)   ( AND(OR(X, Y), NAND(X, Y))    ) 
+#define AND(X, Y)   ( BW_NAND(BW_NAND(X, Y), BW_NAND(X, Y)) ) 
+#define OR(X, Y)    ( BW_NAND(BW_NAND(X, X), BW_NAND(Y, Y)) ) 
+#define NOT(X)      ( BW_NAND(X, X)                   ) 
+#define XOR(X, Y)   ( AND(OR(X, Y), BW_NAND(X, Y))    ) 
 
 
 // ARITHMETIC OPERATORS ...

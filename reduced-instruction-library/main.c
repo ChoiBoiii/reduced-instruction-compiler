@@ -47,27 +47,27 @@ int main() {
 
     // BITWISE OPERATORS ...
 
-    // NAND
+    // BW_NAND
     testNum = 0;
     for (long long int i = 0; i < testIterCap; i++) {
-        if ((~(testNum & tnum1)) != (NAND(testNum, tnum1))) {
-            printf("NAND Failed test\n");
+        if ((~(testNum & tnum1)) != (BW_NAND(testNum, tnum1))) {
+            printf("BW_NAND Failed test\n");
             break;
         }
-        if ((~(testNum & tnum2)) != (NAND(testNum, tnum2))) {
-            printf("NAND Failed test\n");
+        if ((~(testNum & tnum2)) != (BW_NAND(testNum, tnum2))) {
+            printf("BW_NAND Failed test\n");
             break;
         }
-        if ((~(testNum & tnum3)) != (NAND(testNum, tnum3))) {
-            printf("NAND Failed test\n");
+        if ((~(testNum & tnum3)) != (BW_NAND(testNum, tnum3))) {
+            printf("BW_NAND Failed test\n");
             break;
         }
-        if ((~(testNum & tnumOnes)) != (NAND(testNum, tnumOnes))) {
-            printf("NAND Failed test\n");
+        if ((~(testNum & tnumOnes)) != (BW_NAND(testNum, tnumOnes))) {
+            printf("BW_NAND Failed test\n");
             break;
         }
-        if ((~(testNum & tnumZeroes)) != (NAND(testNum, tnumZeroes))) {
-            printf("NAND Failed test\n");
+        if ((~(testNum & tnumZeroes)) != (BW_NAND(testNum, tnumZeroes))) {
+            printf("BW_NAND Failed test\n");
             break;
         }
         testNum += 1;
