@@ -216,7 +216,8 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 })
 
 // HELPER: 
-// TODO
+#define GET_MSB_EQ_HELPER(X, Y) ({ \
+})
 
 // Returns 1 if X is equal to zero
 #define EQUAL0(X) ({               \
