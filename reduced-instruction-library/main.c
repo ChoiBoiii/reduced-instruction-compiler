@@ -22,7 +22,35 @@ void print_register(void* ptr) {
 }
 
 
-// Execute
+// DEFINE TESTS ...
+
+// CONFIG
+const long long int testIterCap = 70000;
+reg_t tnums[] = {1, 41746, 7660, 7660, 0xFFFF, 0x0000};
+const int numTestNums = sizeof(tnums) / sizeof(reg_t);
+
+// BW_NAND
+bool unit_test_BW_NAND(reg_t n1, reg_t n2) {
+    return (~(n1 & n2)) ^ (BW_NAND(n1, n2));
+}
+
+// Run given test
+bool run_test(char* testName, bool (*func)(reg_t, reg_t)) {
+    reg_t tnum1 = 0;
+    for (long long int i = 0; i < testIterCap; i++) {
+        for (int j = 0; j < numTestNums; j++) {
+            reg_t tnum2 = tnums[j];
+            if (func(tnum1, tnum2)) {
+                printf("Test [%s] failed\n", testName);
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+
+// Execute`
 int main() {
 
     // TIMER
@@ -33,8 +61,6 @@ int main() {
 
     // RUN TESTS (TESTS OPERATE ON 16 BIT UINT EMULATED REGISTERS) ...
 
-    // Config
-    const long long int testIterCap = 66000;
     reg_t tnum1 = 1;
     reg_t tnum2 = 41746;
     reg_t tnum3 = 7660;
@@ -48,30 +74,7 @@ int main() {
     // BITWISE OPERATORS ...
 
     // BW_NAND
-    testNum = 0;
-    for (long long int i = 0; i < testIterCap; i++) {
-        if ((~(testNum & tnum1)) != (BW_NAND(testNum, tnum1))) {
-            printf("BW_NAND Failed test\n");
-            break;
-        }
-        if ((~(testNum & tnum2)) != (BW_NAND(testNum, tnum2))) {
-            printf("BW_NAND Failed test\n");
-            break;
-        }
-        if ((~(testNum & tnum3)) != (BW_NAND(testNum, tnum3))) {
-            printf("BW_NAND Failed test\n");
-            break;
-        }
-        if ((~(testNum & tnumOnes)) != (BW_NAND(testNum, tnumOnes))) {
-            printf("BW_NAND Failed test\n");
-            break;
-        }
-        if ((~(testNum & tnumZeroes)) != (BW_NAND(testNum, tnumZeroes))) {
-            printf("BW_NAND Failed test\n");
-            break;
-        }
-        testNum += 1;
-    }
+    run_test("BW_NAND", unit_test_BW_NAND);
 
     // BSL
     testNum = 0;
