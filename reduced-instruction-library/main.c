@@ -35,7 +35,7 @@ bool unit_test_BW_BSL(reg_t n1, reg_t n2)  {return ((n1 << n2) ^ (BW_BSL(n1, n2)
 bool unit_test_BW_BSR(reg_t n1, reg_t n2)  {return ((n1 >> n2) ^ (BW_BSR(n1, n2)));}
 bool unit_test_BW_AND(reg_t n1, reg_t n2)  {return ((n1 & n2) ^ (BW_AND(n1, n2)));}
 bool unit_test_BW_OR(reg_t n1, reg_t n2)   {return ((n1 | n2) ^ (BW_OR(n1, n2)));}
-bool unit_test_BW_OR(reg_t n1, reg_t n2)   {return ((n1 | n2) ^ (BW_OR(n1, n2)));}
+bool unit_test_BW_NOT(reg_t n1, reg_t n2)  {return ((~n1) ^ (BW_NOT(n1)));}
 
 // RUNS GIVEN TEST
 bool run_test(char* testName, bool (*func)(reg_t, reg_t)) {
@@ -106,15 +106,8 @@ int main() {
     // BW_OR
     run_test("BW_OR", unit_test_BW_OR);
 
-    // NOT
-    testNum = 0;
-    for (long long int i = 0; i < testIterCap; i++) {
-        if ((~testNum) != (NOT(testNum))) {
-            printf("NOT Failed test\n");
-            break;
-        }
-        testNum += 1;
-    }
+    // BW_NOT
+    run_test("BW_NOT", unit_test_BW_NOT);
 
     // XOR
     testNum = 0;

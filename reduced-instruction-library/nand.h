@@ -32,7 +32,7 @@
     | BW_BSR          | Bitshift right operator         | f(a, n) -> (a >> n)   | Bitfield | F                       | T        |
     | BW_AND          | Bitwise AND operator            | f(a, b) -> (a & b)    | Bitfield | F                       | T        |
     | BW_OR           | Bitwise OR operator             | f(a, b) -> (a | b)    | Bitfield | F                       | T        |
-    | NOT             | Bitwise NOT operator            | f(a)    -> (~a)       | Bitfield | F                       | T        |
+    | BW_NOT          | Bitwise NOT operator            | f(a)    -> (~a)       | Bitfield | F                       | T        |
     | XOR             | Bitwise XOR operator            | f(a, b) -> (a ^ b)    | Bitfield | F                       | T        |
     | NEQUAL          | Bitwise inequality              | f(a, b) -> (a != b)   | 0 or 1   | F                       | T        |
     | NEQUAL0         | Bitwise inequality with zero    | f(a)    -> (a != 0)   | 0 or 1   | F                       | T        |
@@ -148,7 +148,7 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 // Other decomposed bitwise operators
 #define BW_AND(X, Y)   ( BW_NAND(BW_NAND(X, Y), BW_NAND(X, Y)) ) 
 #define BW_OR(X, Y)    ( BW_NAND(BW_NAND(X, X), BW_NAND(Y, Y)) ) 
-#define NOT(X)      ( BW_NAND(X, X)                   ) 
+#define BW_NOT(X)      ( BW_NAND(X, X)                   ) 
 #define XOR(X, Y)   ( BW_AND(BW_OR(X, Y), BW_NAND(X, Y))    ) 
 
 
@@ -171,7 +171,7 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 
 // Inverts the sign of the given int using two's compliment: invert then add 1
 #define INT_SIGN_INVERT(X) ({                          \
-    UINT_ADD(NOT(X), 1);                               \
+    UINT_ADD(BW_NOT(X), 1);                               \
 })                                                  
 
 // Signed integer addition of X+Y
@@ -309,7 +309,7 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
     reg_t signYnotX = BW_AND(signY, XOR(signX, 1));                        \
     reg_t signXnotY = BW_AND(signX, XOR(signY, 1));                        \
     out = BW_OR(out, signYnotX);                                           \
-    out = NOT(BW_OR(NOT(out), signXnotY));                                 \
+    out = BW_NOT(BW_OR(BW_NOT(out), signXnotY));                                 \
     out;                                                                \
 })
 
