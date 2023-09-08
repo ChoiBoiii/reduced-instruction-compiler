@@ -146,14 +146,14 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 // BITWISE OPERATORS ...
 
 // Base operators (not NAND based)
-#define BW_NAND(X, Y)  ( ~(X & Y)                     ) 
-#define BW_BSL(X, N)   ( (X << N)                     ) 
-#define BW_BSR(X, N)   ( (X >> N)                     ) 
+#define BW_NAND(X, Y)  ( ~(X & Y) ) 
+#define BW_BSL(X, N)   ( (X << N) ) 
+#define BW_BSR(X, N)   ( (X >> N) ) 
 
 // Other decomposed bitwise operators
 #define BW_AND(X, Y)   ( BW_NAND(BW_NAND(X, Y), BW_NAND(X, Y)) ) 
 #define BW_OR(X, Y)    ( BW_NAND(BW_NAND(X, X), BW_NAND(Y, Y)) ) 
-#define BW_NOT(X)      ( BW_NAND(X, X)                   ) 
+#define BW_NOT(X)      ( BW_NAND(X, X)                         ) 
 #define BW_XOR(X, Y)   ( BW_AND(BW_OR(X, Y), BW_NAND(X, Y))    ) 
 
 
@@ -162,13 +162,13 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 // Unsigned integer addition of X+Y
 #define UINT_ADD_HELPER(T, K, R) ({                    \
     T = K;                                             \
-    K = BW_BSL(BW_AND(K, R), 1);                          \
-    R = BW_XOR(T, R);                                     \
+    K = BW_BSL(BW_AND(K, R), 1);                       \
+    R = BW_XOR(T, R);                                  \
 })
 #define UINT_ADD(X, Y) ({                              \
     reg_t tmp, keep, res;                              \
-    keep = BW_BSL(BW_AND(X, Y), 1);                       \
-    res = BW_XOR(X, Y);                                   \
+    keep = BW_BSL(BW_AND(X, Y), 1);                    \
+    res = BW_XOR(X, Y);                                \
     HELPER_STRREP(UINT_ADD_HELPER(tmp, keep, res);,    \
         REGISTER_SIZE_BITS);                           \
     res;                                               \
@@ -176,7 +176,7 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 
 // Inverts the sign of the given int using two's compliment: invert then add 1
 #define INT_SIGN_INVERT(X) ({                          \
-    UINT_ADD(BW_NOT(X), 1);                               \
+    UINT_ADD(BW_NOT(X), 1);                            \
 })                                                  
 
 // Signed integer addition of X+Y
@@ -220,7 +220,7 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 // HELPER: Equivalent to (X != 0). Sets X to 1 if X contains any ones, else 0.
 #define FOLD_BITS_TO_1_EQ_HELPER(X, S) ({                \
     BOOST_PP_REPEAT(S, FOLD_ONCE_PARAMS_HELPER_, X);     \
-    X = BW_AND(X, 1);                                       \
+    X = BW_AND(X, 1);                                    \
 })
 
 // HELPER: Returns a formatted fold line for the EXTRACT_MSB_EQ_HELPER method
@@ -245,64 +245,64 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 
 // Returns 1 if X is equal to zero
 #define BW_EQUAL0(X) ({               \
-    reg_t v = X;                   \
-    FOLD_BITS_TO_1_EQ_HELPER(v,    \
-        REGISTER_SIZE_BITS_LOG2);  \
+    reg_t v = X;                      \
+    FOLD_BITS_TO_1_EQ_HELPER(v,       \
+        REGISTER_SIZE_BITS_LOG2);     \
     v = BW_XOR(v, 1);                 \
-    v;                             \
+    v;                                \
 })    
 
 // Returns 1 if X is not equal to zero
 #define BW_NEQUAL0(X) ({              \
-    reg_t v = X;                   \
-    FOLD_BITS_TO_1_EQ_HELPER(v,    \
-        REGISTER_SIZE_BITS_LOG2);  \
-    v;                             \
+    reg_t v = X;                      \
+    FOLD_BITS_TO_1_EQ_HELPER(v,       \
+        REGISTER_SIZE_BITS_LOG2);     \
+    v;                                \
 })
 
 // Returns 1 if X and Y are equal
 #define BW_EQUAL(X, Y) ({             \
     reg_t v = BW_XOR(X, Y);           \
-    FOLD_BITS_TO_1_EQ_HELPER(v,    \
-        REGISTER_SIZE_BITS_LOG2);  \
+    FOLD_BITS_TO_1_EQ_HELPER(v,       \
+        REGISTER_SIZE_BITS_LOG2);     \
     v = BW_XOR(v, 1);                 \
 })
 
 // Returns 1 if X and Y are not equal
 #define BW_NEQUAL(X, Y) ({            \
     reg_t v = BW_XOR(X, Y);           \
-    FOLD_BITS_TO_1_EQ_HELPER(v,    \
-        REGISTER_SIZE_BITS_LOG2);  \
-    v;                             \
+    FOLD_BITS_TO_1_EQ_HELPER(v,       \
+        REGISTER_SIZE_BITS_LOG2);     \
+    v;                                \
 })
 
 // Returns 1 if X > Y {OPTIMISE}
-#define UINT_GTHAN(X, Y) ({        \
-    reg_t v = X ^ Y;               \
-    EXTRACT_MSB_EQ_HELPER(v,       \
-        REGISTER_SIZE_BITS_LOG2);  \
+#define UINT_GTHAN(X, Y) ({           \
+    reg_t v = X ^ Y;                  \
+    EXTRACT_MSB_EQ_HELPER(v,          \
+        REGISTER_SIZE_BITS_LOG2);     \
     v = UINT_SUB(v, BW_BSR(v, 1));    \
-    v = BW_XOR(BW_AND(Y, v), v);         \
-    FOLD_BITS_TO_1_EQ_HELPER(v,    \
-        REGISTER_SIZE_BITS_LOG2);  \
-    v;                             \
+    v = BW_XOR(BW_AND(Y, v), v);      \
+    FOLD_BITS_TO_1_EQ_HELPER(v,       \
+        REGISTER_SIZE_BITS_LOG2);     \
+    v;                                \
 })
 
 // Returns 1 if X >= Y {OPTIMISE}
-#define UINT_GEQUAL(X, Y) ({       \
+#define UINT_GEQUAL(X, Y) ({          \
     BW_OR(                            \
-        UINT_GTHAN(X,Y),           \
+        UINT_GTHAN(X,Y),              \
         BW_EQUAL(X,Y)                 \
-    );                             \
+    );                                \
 })
 
 // Returns 1 if X < Y {OPTIMISE}
-#define UINT_LTHAN(X, Y) ({        \
+#define UINT_LTHAN(X, Y) ({           \
     BW_XOR(UINT_GEQUAL(X, Y), 1);     \
 })
 
 // Returns 1 if X <= Y {OPTIMISE} 
-#define UINT_LEQUAL(X, Y) ({       \
+#define UINT_LEQUAL(X, Y) ({          \
     BW_XOR(UINT_GTHAN(X, Y), 1);      \
 })
 
