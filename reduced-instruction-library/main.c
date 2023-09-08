@@ -40,7 +40,7 @@ bool unit_test_BW_XOR(reg_t n1, reg_t n2)     {return ((n1 ^ n2) ^ (BW_XOR(n1, n
 bool unit_test_BW_EQUAL(reg_t n1, reg_t n2)   {return ((n1 == n2) ^ (BW_EQUAL(n1, n2)));}
 bool unit_test_BW_EQUAL0(reg_t n1, reg_t n2)  {return ((n1 == 0) ^ (BW_EQUAL0(n1)));}
 bool unit_test_BW_NEQUAL0(reg_t n1, reg_t n2) {return ((n1 != 0) ^ (BW_NEQUAL0(n1)));}
-// bool unit_test_BW_EQUAL(reg_t n1, reg_t n2)   {return ((n1 == n2) ^ (BW_EQUAL(n1, n2)));}
+bool unit_test_BW_NEQUAL(reg_t n1, reg_t n2)  {return ((n1 != n2) ^ (BW_NEQUAL(n1, n2)));}
 // bool unit_test_BW_EQUAL(reg_t n1, reg_t n2)   {return ((n1 == n2) ^ (BW_EQUAL(n1, n2)));}
 // bool unit_test_BW_EQUAL(reg_t n1, reg_t n2)   {return ((n1 == n2) ^ (BW_EQUAL(n1, n2)));}
 // bool unit_test_BW_EQUAL(reg_t n1, reg_t n2)   {return ((n1 == n2) ^ (BW_EQUAL(n1, n2)));}
@@ -131,31 +131,8 @@ int main() {
     // BW_NEQUAL0
     run_test("BW_NEQUAL0", unit_test_BW_NEQUAL0);
 
-    // NEQUAL
-    testNum = 0;
-    for (long long int i = 0; i < testIterCap; i++) {
-        if ((testNum != tnum1) != (NEQUAL(testNum, tnum1))) {
-            printf("NEQUAL Failed test\n");
-            break;
-        }
-        if ((testNum != tnum2) != (NEQUAL(testNum, tnum2))) {
-            printf("NEQUAL Failed test\n");
-            break;
-        }
-        if ((testNum != tnum3) != (NEQUAL(testNum, tnum3))) {
-            printf("NEQUAL Failed test\n");
-            break;
-        }
-        if ((testNum != tnumOnes) != (NEQUAL(testNum, tnumOnes))) {
-            printf("NEQUAL Failed test\n");
-            break;
-        }
-        if ((testNum != tnumZeroes) != (NEQUAL(testNum, tnumZeroes))) {
-            printf("NEQUAL Failed test\n");
-            break;
-        }
-        testNum += 1;
-    }
+    // BW_NEQUAL
+    run_test("BW_NEQUAL", unit_test_BW_NEQUAL);
 
     // BW_EQUAL
     run_test("BW_EQUAL", unit_test_BW_EQUAL);
