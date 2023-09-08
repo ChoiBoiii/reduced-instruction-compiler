@@ -45,8 +45,6 @@
     | INT_GEQUAL      | Greater or equal between ints   | f(a, b) -> (a >= b)   | 0 or 1   |
     | INT_LTHAN       | Less than between ints          | f(a, b) -> (a < b)    | 0 or 1   |
     | INT_LEQUAL      | Less or equal between ints      | f(a, b) -> (a <= b)   | 0 or 1   |
-    | LESS_THAN       | Bitwise less than               | f(a, b) -> (a < b)    | 0 or 1   |
-    | LEQUAL          | Bitwise less than or equal to   | f(a, b) -> (a <= b)   | 0 or 1   |
     | INT_SIGN_INVERT | Integer sign inversion          | f(a)    -> (-a)       | -n       | F                       | T        |
     | UINT_ADD        | Add two unsigned integers       | f(a, b) -> (a + b)    | n        | F                       | T        |
     | UINT_SUB        | Subtract two unsigned integers  | f(a, b) -> (a - b)    | n        | F                       | T        |
