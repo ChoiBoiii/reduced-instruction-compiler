@@ -222,11 +222,12 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 #define EXTRACT_MSB_EQ_GET_SHIFT_HELPER_(N)              \
     (HELPER_STRREP(2*, N) 1)                             \
 
-#define HELPER_2() ({                                    \
-})
+#define EXTRACT_MSB_EQ_FOLD_PARAMS_HELPER_(Z, N, X) ({   \
+    EXTRACT_MSB_EQ_FOLD_ONCE_HELPER_(X, EXTRACT_MSB_EQ_GET_SHIFT_HELPER_(N)) \
+});
 
 #define EXTRACT_MSB_EQ_HELPER(X, S) ({                   \
-    BOOST_PP_REPEAT(S, FOLD_ONCE_PARAMS_HELPER_, X);     \
+    BOOST_PP_REPEAT(S, EXTRACT_MSB_EQ_FOLD_PARAMS_HELPER_, X);     \
 })
 
 // Returns 1 if X is equal to zero
