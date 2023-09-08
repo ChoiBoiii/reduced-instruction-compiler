@@ -209,13 +209,16 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 })
 
 // Returns 1 if X >= Y
-#define GEQUAL(X, Y)
+#define GEQUAL(X, Y) ({            \
+})
 
 // Returns 1 if X < Y
-#define LESS_THAN(X, Y)
+#define LESS_THAN(X, Y) ({         \
+})
 
 // Returns 1 if X <= Y
-#define LEQUAL(X, Y)
+#define LEQUAL(X, Y) ({            \
+})
 
 
 // ARITHMETIC OPERATORS ...
