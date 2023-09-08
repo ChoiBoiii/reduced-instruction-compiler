@@ -40,20 +40,22 @@
     | UINT_GTHAN      | Greater than between uints      | f(a, b) -> (a > b)    | 0 or 1   | F                       | T        |
     | UINT_GEQUAL     | Greater or equal between uints  | f(a, b) -> (a >= b)   | 0 or 1   | F                       | T        |
     | UINT_LTHAN      | Less than between uints         | f(a, b) -> (a < b)    | 0 or 1   | F                       | T        |
-    | UINT_LEQUAL     | Less or equal between uints     | f(a, b) -> (a <= b)   | 0 or 1   | F  
-    | INT_GTHAN       | Greater than between ints       | f(a)    -> (a > b)    | 0 or 1   | 
-    | INT_GEQUAL      | Greater or equal between ints   | f(a)    -> (a >= b)   | 0 or 1   |
-    | LESS_THAN       | Bitwise less than               | f(a, b) -> (a < b)    | 0 or 1   |                         |          |
-    | LEQUAL          | Bitwise less than or equal to   | f(a, b) -> (a <= b)   | 0 or 1   |                         |          |
+    | UINT_LEQUAL     | Less or equal between uints     | f(a, b) -> (a <= b)   | 0 or 1   | F                       | T        |
+    | INT_GTHAN       | Greater than between ints       | f(a, b) -> (a > b)    | 0 or 1   |
+    | INT_GEQUAL      | Greater or equal between ints   | f(a, b) -> (a >= b)   | 0 or 1   |
+    | INT_LTHAN       | Less than between ints          | f(a, b) -> (a < b)    | 0 or 1   |
+    | INT_LEQUAL      | Less or equal between ints      | f(a, b) -> (a <= b)   | 0 or 1   |
+    | LESS_THAN       | Bitwise less than               | f(a, b) -> (a < b)    | 0 or 1   |
+    | LEQUAL          | Bitwise less than or equal to   | f(a, b) -> (a <= b)   | 0 or 1   |
+    | INT_SIGN_INVERT | Integer sign inversion          | f(a)    -> (-a)       | -n       | F                       | T        |
     | UINT_ADD        | Add two unsigned integers       | f(a, b) -> (a + b)    | n        | F                       | T        |
     | UINT_SUB        | Subtract two unsigned integers  | f(a, b) -> (a - b)    | n        | F                       | T        |
-    | UINT_MULT       | Unsigned integer multiplication | f(a, b) -> (a * b)    | n        |                         |          |
-    | UINT_DIV        | Unsigned integer division       | f(a, b) -> int(a / b) | n        |                         |          |
+    | UINT_MULT       | Unsigned integer multiplication | f(a, b) -> (a * b)    | n        |
+    | UINT_DIV        | Unsigned integer division       | f(a, b) -> int(a / b) | n        |
     | INT_ADD         | Signed integer addition         | f(a, b) -> (a + b)    | n        | F                       | T        |
     | INT_SUB         | Signed integer subtraction      | f(a, b) -> (a - b)    | n        | F                       | T        |
-    | INT_MULT        | Signed integer multiplication   | f(a, b) -> (a * b)    | n        |                         |          |
-    | INT_DIV         | Signed integer division         | f(a, b) -> int(a / b) | n        |                         |          |
-    | INT_SIGN_INVERT | Integer sign inversion          | f(a)    -> (-a)       | -n       | F                       | T        |
+    | INT_MULT        | Signed integer multiplication   | f(a, b) -> (a * b)    | n        |
+    | INT_DIV         | Signed integer division         | f(a, b) -> int(a / b) | n        |
     |----------------------------------------------------------------------------------------------------------------------------
 
     COMMENT TAGS
