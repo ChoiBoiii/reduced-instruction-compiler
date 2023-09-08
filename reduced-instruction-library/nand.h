@@ -33,7 +33,7 @@
     | BW_AND          | Bitwise AND operator            | f(a, b) -> (a & b)    | Bitfield | F                       | T        |
     | BW_OR           | Bitwise OR operator             | f(a, b) -> (a | b)    | Bitfield | F                       | T        |
     | BW_NOT          | Bitwise NOT operator            | f(a)    -> (~a)       | Bitfield | F                       | T        |
-    | XOR             | Bitwise XOR operator            | f(a, b) -> (a ^ b)    | Bitfield | F                       | T        |
+    | BW_XOR          | Bitwise XOR operator            | f(a, b) -> (a ^ b)    | Bitfield | F                       | T        |
     | NEQUAL          | Bitwise inequality              | f(a, b) -> (a != b)   | 0 or 1   | F                       | T        |
     | NEQUAL0         | Bitwise inequality with zero    | f(a)    -> (a != 0)   | 0 or 1   | F                       | T        |
     | EQUAL           | Bitwise equality                | f(a, b) -> (a == b)   | 0 or 1   | F                       | T        |
@@ -149,7 +149,7 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 #define BW_AND(X, Y)   ( BW_NAND(BW_NAND(X, Y), BW_NAND(X, Y)) ) 
 #define BW_OR(X, Y)    ( BW_NAND(BW_NAND(X, X), BW_NAND(Y, Y)) ) 
 #define BW_NOT(X)      ( BW_NAND(X, X)                   ) 
-#define XOR(X, Y)   ( BW_AND(BW_OR(X, Y), BW_NAND(X, Y))    ) 
+#define BW_XOR(X, Y)   ( BW_AND(BW_OR(X, Y), BW_NAND(X, Y))    ) 
 
 
 // ARITHMETIC OPERATORS ...
@@ -158,12 +158,12 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 #define UINT_ADD_HELPER(T, K, R) ({                    \
     T = K;                                             \
     K = BW_BSL(BW_AND(K, R), 1);                          \
-    R = XOR(T, R);                                     \
+    R = BW_XOR(T, R);                                     \
 })
 #define UINT_ADD(X, Y) ({                              \
     reg_t tmp, keep, res;                              \
     keep = BW_BSL(BW_AND(X, Y), 1);                       \
-    res = XOR(X, Y);                                   \
+    res = BW_XOR(X, Y);                                   \
     HELPER_STRREP(UINT_ADD_HELPER(tmp, keep, res);,    \
         REGISTER_SIZE_BITS);                           \
     res;                                               \
@@ -243,7 +243,7 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
     reg_t v = X;                   \
     FOLD_BITS_TO_1_EQ_HELPER(v,    \
         REGISTER_SIZE_BITS_LOG2);  \
-    v = XOR(v, 1);                 \
+    v = BW_XOR(v, 1);                 \
     v;                             \
 })    
 
@@ -257,15 +257,15 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 
 // Returns 1 if X and Y are equal
 #define EQUAL(X, Y) ({             \
-    reg_t v = XOR(X, Y);           \
+    reg_t v = BW_XOR(X, Y);           \
     FOLD_BITS_TO_1_EQ_HELPER(v,    \
         REGISTER_SIZE_BITS_LOG2);  \
-    v = XOR(v, 1);                 \
+    v = BW_XOR(v, 1);                 \
 })
 
 // Returns 1 if X and Y are not equal
 #define NEQUAL(X, Y) ({            \
-    reg_t v = XOR(X, Y);           \
+    reg_t v = BW_XOR(X, Y);           \
     FOLD_BITS_TO_1_EQ_HELPER(v,    \
         REGISTER_SIZE_BITS_LOG2);  \
     v;                             \
@@ -277,7 +277,7 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
     EXTRACT_MSB_EQ_HELPER(v,       \
         REGISTER_SIZE_BITS_LOG2);  \
     v = UINT_SUB(v, BW_BSR(v, 1));    \
-    v = XOR(BW_AND(Y, v), v);         \
+    v = BW_XOR(BW_AND(Y, v), v);         \
     FOLD_BITS_TO_1_EQ_HELPER(v,    \
         REGISTER_SIZE_BITS_LOG2);  \
     v;                             \
@@ -293,12 +293,12 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 
 // Returns 1 if X < Y {OPTIMISE}
 #define UINT_LTHAN(X, Y) ({        \
-    XOR(UINT_GEQUAL(X, Y), 1);     \
+    BW_XOR(UINT_GEQUAL(X, Y), 1);     \
 })
 
 // Returns 1 if X <= Y {OPTIMISE} 
 #define UINT_LEQUAL(X, Y) ({       \
-    XOR(UINT_GTHAN(X, Y), 1);      \
+    BW_XOR(UINT_GTHAN(X, Y), 1);      \
 })
 
 // Returns 1 if X > Y {OPTIMISE}
@@ -306,8 +306,8 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
     reg_t out = UINT_GTHAN(X, Y);                                       \
     reg_t signX = BW_AND(BW_BSR(X, BOOST_PP_SUB(REGISTER_SIZE_BITS, 1)), 1);  \
     reg_t signY = BW_AND(BW_BSR(Y, BOOST_PP_SUB(REGISTER_SIZE_BITS, 1)), 1);  \
-    reg_t signYnotX = BW_AND(signY, XOR(signX, 1));                        \
-    reg_t signXnotY = BW_AND(signX, XOR(signY, 1));                        \
+    reg_t signYnotX = BW_AND(signY, BW_XOR(signX, 1));                        \
+    reg_t signXnotY = BW_AND(signX, BW_XOR(signY, 1));                        \
     out = BW_OR(out, signYnotX);                                           \
     out = BW_NOT(BW_OR(BW_NOT(out), signXnotY));                                 \
     out;                                                                \
@@ -320,11 +320,11 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 
 // Returns 1 if X < Y {OPTIMISE}
 #define INT_LTHAN(X, Y) ({            \
-    XOR(INT_GEQUAL(X, Y), 1);         \
+    BW_XOR(INT_GEQUAL(X, Y), 1);         \
 })
 
 // Returns 1 if X <= Y {OPTIMISE}
 #define INT_LEQUAL(X, Y) ({           \
-    XOR(INT_GTHAN(X, Y), 1);          \
+    BW_XOR(INT_GTHAN(X, Y), 1);          \
 })
 

@@ -36,6 +36,7 @@ bool unit_test_BW_BSR(reg_t n1, reg_t n2)  {return ((n1 >> n2) ^ (BW_BSR(n1, n2)
 bool unit_test_BW_AND(reg_t n1, reg_t n2)  {return ((n1 & n2) ^ (BW_AND(n1, n2)));}
 bool unit_test_BW_OR(reg_t n1, reg_t n2)   {return ((n1 | n2) ^ (BW_OR(n1, n2)));}
 bool unit_test_BW_NOT(reg_t n1, reg_t n2)  {return ((~n1) ^ (BW_NOT(n1)));}
+bool unit_test_BW_XOR(reg_t n1, reg_t n2)  {return ((n1 ^ n2) ^ (BW_XOR(n1, n2)));}
 
 // RUNS GIVEN TEST
 bool run_test(char* testName, bool (*func)(reg_t, reg_t)) {
@@ -109,31 +110,8 @@ int main() {
     // BW_NOT
     run_test("BW_NOT", unit_test_BW_NOT);
 
-    // XOR
-    testNum = 0;
-    for (long long int i = 0; i < testIterCap; i++) {
-        if ((testNum ^ tnum1) != (XOR(testNum, tnum1))) {
-            printf("XOR Failed test\n");
-            break;
-        }
-        if ((testNum ^ tnum2) != (XOR(testNum, tnum2))) {
-            printf("XOR Failed test\n");
-            break;
-        }
-        if ((testNum ^ tnum3) != (XOR(testNum, tnum3))) {
-            printf("XOR Failed test\n");
-            break;
-        }
-        if ((testNum ^ tnumOnes) != (XOR(testNum, tnumOnes))) {
-            printf("XOR Failed test\n");
-            break;
-        }
-        if ((testNum ^ tnumZeroes) != (XOR(testNum, tnumZeroes))) {
-            printf("XOR Failed test\n");
-            break;
-        }
-        testNum += 1;
-    }
+    // BW_XOR
+    run_test("BW_XOR", unit_test_BW_XOR);
 
 
     // EQUALITY OPERATORS ...
