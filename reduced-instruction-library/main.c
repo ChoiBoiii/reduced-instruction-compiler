@@ -42,6 +42,7 @@ int main() {
     reg_t tnumZeroes = 0x0000;
     reg_t testNum;
     int16_t signedTestNum;
+    char* testName;
 
 
     // BITWISE OPERATORS ...
@@ -481,7 +482,7 @@ int main() {
 
     // UINT_LTHAN
     testNum = 0;
-    char* testName = "UINT_LTHAN";
+    testName = "UINT_LTHAN";
     for (long long int i = 0; i < testIterCap; i++) {
         if ((testNum < tnum1) ^ (UINT_LTHAN(testNum, tnum1))) {
             printf("%s Failed test\n^1\n", testName);
@@ -500,6 +501,33 @@ int main() {
             break;
         }
         if ((testNum < tnumZeroes) ^ (UINT_LTHAN(testNum, tnumZeroes))) {
+            printf("%s Failed test\n^5\n", testName);
+            break;
+        }
+        testNum += 1;
+    }
+
+    // UINT_LEQUAL
+    testNum = 0;
+    testName = "UINT_LEQUAL";
+    for (long long int i = 0; i < testIterCap; i++) {
+        if ((testNum <= tnum1) ^ (UINT_LEQUAL(testNum, tnum1))) {
+            printf("%s Failed test\n^1\n", testName);
+            break;
+        }
+        if ((testNum <= tnum2) ^ (UINT_LEQUAL(testNum, tnum2))) {
+            printf("%s Failed test\n^2\n", testName);
+            break;
+        }
+        if ((testNum <= tnum3) ^ (UINT_LEQUAL(testNum, tnum3))) {
+            printf("%s Failed test\n^3\n", testName);
+            break;
+        }
+        if ((testNum <= tnumOnes) ^ (UINT_LEQUAL(testNum, tnumOnes))) {
+            printf("%s Failed test\n^4\n", testName);
+            break;
+        }
+        if ((testNum <= tnumZeroes) ^ (UINT_LEQUAL(testNum, tnumZeroes))) {
             printf("%s Failed test\n^5\n", testName);
             break;
         }
