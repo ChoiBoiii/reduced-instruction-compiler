@@ -216,7 +216,17 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 })
 
 // HELPER: 
-#define GET_MSB_EQ_HELPER(X, Y) ({ \
+#define HELPER_1() ({                                    \
+})
+
+#define EXTRACT_MSB_EQ_GET_SHIFT_HELPER_(N)              \
+    (HELPER_STRREP(2*, N) 1)                             \
+
+#define HELPER_2() ({                                    \
+})
+
+#define EXTRACT_MSB_EQ_HELPER(X, S) ({                   \
+    BOOST_PP_REPEAT(S, FOLD_ONCE_PARAMS_HELPER_, X);     \
 })
 
 // Returns 1 if X is equal to zero
@@ -269,3 +279,5 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 // Returns 1 if X >= Y {OPTIMISE}
 #define UINT_GEQUAL(X, Y) ({       \
 })
+
+
