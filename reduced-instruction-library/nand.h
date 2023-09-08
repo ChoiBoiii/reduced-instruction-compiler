@@ -35,9 +35,9 @@
     | BW_NOT          | Bitwise NOT operator            | f(a)    -> (~a)       | Bitfield | F                       | T        |
     | BW_XOR          | Bitwise XOR operator            | f(a, b) -> (a ^ b)    | Bitfield | F                       | T        |
     | NEQUAL          | Bitwise inequality              | f(a, b) -> (a != b)   | 0 or 1   | F                       | T        |
-    | NEQUAL0         | Bitwise inequality with zero    | f(a)    -> (a != 0)   | 0 or 1   | F                       | T        |
+    | BW_NEQUAL0      | Bitwise inequality with zero    | f(a)    -> (a != 0)   | 0 or 1   | F                       | T        |
     | BW_EQUAL        | Bitwise equality                | f(a, b) -> (a == b)   | 0 or 1   | F                       | T        |
-    | BW_EQUAL0          | Bitwise equality with zero      | f(a)    -> (a == 0)   | 0 or 1   | F                       | T        |
+    | BW_EQUAL0       | Bitwise equality with zero      | f(a)    -> (a == 0)   | 0 or 1   | F                       | T        |
     | UINT_GTHAN      | Greater than between uints      | f(a, b) -> (a > b)    | 0 or 1   | F                       | T        |
     | UINT_GEQUAL     | Greater or equal between uints  | f(a, b) -> (a >= b)   | 0 or 1   | F                       | T        |
     | UINT_LTHAN      | Less than between uints         | f(a, b) -> (a < b)    | 0 or 1   | F                       | T        |
@@ -248,7 +248,7 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 })    
 
 // Returns 1 if X is not equal to zero
-#define NEQUAL0(X) ({              \
+#define BW_NEQUAL0(X) ({              \
     reg_t v = X;                   \
     FOLD_BITS_TO_1_EQ_HELPER(v,    \
         REGISTER_SIZE_BITS_LOG2);  \
