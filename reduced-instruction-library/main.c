@@ -47,7 +47,7 @@ bool unit_test_INT_ADD(reg_t n1, reg_t n2)         {return ((reg_t)((signed_reg_
 bool unit_test_INT_SIGN_INVERT(reg_t n1, reg_t n2) {return ((reg_t)(-n1) ^ (INT_SIGN_INVERT(n1)));}
 bool unit_test_UINT_SUB(reg_t n1, reg_t n2)        {return ((reg_t)(n1 - n2) ^ (UINT_SUB(n1, n2)));}
 bool unit_test_INT_SUB(reg_t n1, reg_t n2)         {return ((reg_t)((signed_reg_type)n1 - (signed_reg_type)n2) ^ (INT_SUB(n1, n2)));}
-// bool unit_test_BW_EQUAL(reg_t n1, reg_t n2)        {return ((reg_t)(n1 == n2) ^ (BW_EQUAL(n1, n2)));}
+bool unit_test_UINT_GTHAN(reg_t n1, reg_t n2)      {return ((reg_t)(n1 > n2) ^ (UINT_GTHAN(n1, n2)));}
 // bool unit_test_BW_EQUAL(reg_t n1, reg_t n2)        {return ((reg_t)(n1 == n2) ^ (BW_EQUAL(n1, n2)));}
 // bool unit_test_BW_EQUAL(reg_t n1, reg_t n2)        {return ((reg_t)(n1 == n2) ^ (BW_EQUAL(n1, n2)));}
 // bool unit_test_BW_EQUAL(reg_t n1, reg_t n2)        {return ((reg_t)(n1 == n2) ^ (BW_EQUAL(n1, n2)));}
@@ -162,45 +162,7 @@ int main() {
     run_test("INT_SUB", unit_test_INT_SUB);
 
     // UINT_GTHAN
-    testNum = 0;
-    for (long long int i = 0; i < testIterCap; i++) {
-        if ((testNum > tnum1) ^ (UINT_GTHAN(testNum, tnum1))) {
-            printf("UINT_GTHAN Failed test\n");
-            printf("^1\n");
-            printf("%hu %hu\n", testNum, tnum1);
-            reg_t a = (testNum > tnum1);
-            reg_t b = (UINT_GTHAN(testNum, tnum1));
-            print_register(&a);
-            print_register(&b);
-            break;
-        }
-        if ((testNum > tnum2) ^ (UINT_GTHAN(testNum, tnum2))) {
-            printf("UINT_GTHAN Failed test\n");
-            printf("^2\n");
-            printf("%hu %hu\n", testNum, tnum2);
-            reg_t a = (testNum > tnum1);
-            reg_t b = (UINT_GTHAN(testNum, tnum2));
-            print_register(&a);
-            print_register(&b);
-            break;
-        }
-        if ((testNum > tnum3) ^ (UINT_GTHAN(testNum, tnum3))) {
-            printf("UINT_GTHAN Failed test\n");
-            printf("^3\n");
-            break;
-        }
-        if ((testNum > tnumOnes) ^ (UINT_GTHAN(testNum, tnumOnes))) {
-            printf("UINT_GTHAN Failed test\n");
-            printf("^4\n");
-            break;
-        }
-        if ((testNum > tnumZeroes) ^ (UINT_GTHAN(testNum, tnumZeroes))) {
-            printf("UINT_GTHAN Failed test\n");
-            printf("^5\n");
-            break;
-        }
-        testNum += 1;
-    }
+    run_test("UINT_GTHAN", unit_test_UINT_GTHAN);
 
     // UINT_GEQUAL
     testNum = 0;
