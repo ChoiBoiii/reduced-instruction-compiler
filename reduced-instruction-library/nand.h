@@ -313,4 +313,9 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
     out;                                                                \
 })
 
+// Returns 1 if X >= Y {OPTIMISE}
+#define INT_GEQUAL(X, Y) ({           \
+    OR(INT_GTHAN(X, Y), EQUAL(X, Y)); \
+})
+
 

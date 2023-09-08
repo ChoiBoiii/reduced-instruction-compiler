@@ -566,6 +566,39 @@ int main() {
         testNum += 1;
     }
 
+    // INT_GEQUAL
+    testNum = 0;
+    testName = "INT_GEQUAL";
+    for (long long int i = 0; i < testIterCap; i++) {
+        int16_t tnum = (int16_t)testNum;
+        if ((tnum >= (int16_t)tnum1) ^ (INT_GEQUAL(tnum, (int16_t)tnum1))) {
+            printf("%s Failed test\n^1\n", testName);
+            break;
+        }
+        if ((tnum >= (int16_t)tnum2) ^ (INT_GEQUAL(tnum, (int16_t)tnum2))) {
+            printf("%s Failed test\n^2\n", testName);
+            break;
+        }
+        if ((tnum >= (int16_t)tnum3) ^ (INT_GEQUAL(tnum, (int16_t)tnum3))) {
+            printf("%s Failed test\n^3\n", testName);
+            break;
+        }
+        if ((tnum >= (int16_t)tnumOnes) ^ (INT_GEQUAL(tnum, (int16_t)tnumOnes))) {
+            printf("%s Failed test\n^4\n", testName);
+            break;
+        }
+        if ((tnum >= (int16_t)tnumZeroes) ^ (INT_GEQUAL(tnum, (int16_t)tnumZeroes))) {
+            printf("%s Failed test\n^5\n", testName);
+            break;
+        }
+        if ((tnum >= (int16_t)(-12453)) ^ (INT_GEQUAL(tnum, (int16_t)(-12453)))) {
+            printf("%s Failed test\n^6\n", testName);
+            break;   
+        }
+        testNum += 1;
+    }
+
+
     // EXIT ...
     return 0;
 }
