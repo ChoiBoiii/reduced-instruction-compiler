@@ -295,7 +295,9 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
     XOR(UINT_GTHAN(X, Y), 1);      \
 })
 
-
-
+// Returns 1 if X > Y {OPTIMISE}
+#define INT_GTHAN(X, Y) ({         \
+    UINT_GTHAN(X, Y);              \
+})
 
 
