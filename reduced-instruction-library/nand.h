@@ -43,8 +43,8 @@
     | UINT_LTHAN      | Less than between uints         | f(a, b) -> (a < b)    | 0 or 1   | F                       | T        |
     | UINT_LEQUAL     | Less or equal between uints     | f(a, b) -> (a <= b)   | 0 or 1   | F                       | T        |
     | INT_GTHAN       | Greater than between ints       | f(a, b) -> (a > b)    | 0 or 1   | F                       | T        |
-    | INT_GEQUAL      | Greater or equal between ints   | f(a, b) -> (a >= b)   | 0 or 1   |
-    | INT_LTHAN       | Less than between ints          | f(a, b) -> (a < b)    | 0 or 1   |
+    | INT_GEQUAL      | Greater or equal between ints   | f(a, b) -> (a >= b)   | 0 or 1   | F                       | T        |
+    | INT_LTHAN       | Less than between ints          | f(a, b) -> (a < b)    | 0 or 1   | 
     | INT_LEQUAL      | Less or equal between ints      | f(a, b) -> (a <= b)   | 0 or 1   |
     | INT_SIGN_INVERT | Integer sign inversion          | f(a)    -> (-a)       | -n       | F                       | T        |
     | UINT_ADD        | Add two unsigned integers       | f(a, b) -> (a + b)    | n        | F                       | T        |
@@ -318,4 +318,13 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
     OR(INT_GTHAN(X, Y), EQUAL(X, Y)); \
 })
 
+// Returns 1 if X < Y {OPTIMISE}
+#define INT_LTHAN(X, Y) ({            \
+    NAND(INT_GEQUAL(X, Y), 1);        \
+})
+
+// Returns 1 if X <= Y {OPTIMISE}
+#define INT_LEQUAL(X, Y) ({           \
+    NAND(INT_GTHAN(X, Y), 1);         \
+})
 
