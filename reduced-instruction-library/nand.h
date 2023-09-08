@@ -320,11 +320,11 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 
 // Returns 1 if X < Y {OPTIMISE}
 #define INT_LTHAN(X, Y) ({            \
-    NAND(INT_GEQUAL(X, Y), 1);        \
+    XOR(INT_GEQUAL(X, Y), 1);         \
 })
 
 // Returns 1 if X <= Y {OPTIMISE}
 #define INT_LEQUAL(X, Y) ({           \
-    NAND(INT_GTHAN(X, Y), 1);         \
+    XOR(INT_GTHAN(X, Y), 1);          \
 })
 
