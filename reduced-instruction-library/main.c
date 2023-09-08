@@ -49,8 +49,8 @@ bool unit_test_UINT_SUB(reg_t n1, reg_t n2)        {return ((reg_t)(n1 - n2) ^ (
 bool unit_test_INT_SUB(reg_t n1, reg_t n2)         {return ((reg_t)((signed_reg_type)n1 - (signed_reg_type)n2) ^ (INT_SUB(n1, n2)));}
 bool unit_test_UINT_GTHAN(reg_t n1, reg_t n2)      {return ((reg_t)(n1 > n2) ^ (UINT_GTHAN(n1, n2)));}
 bool unit_test_UINT_GEQUAL(reg_t n1, reg_t n2)     {return ((reg_t)(n1 >= n2) ^ (UINT_GEQUAL(n1, n2)));}
-// bool unit_test_BW_EQUAL(reg_t n1, reg_t n2)        {return ((reg_t)(n1 == n2) ^ (BW_EQUAL(n1, n2)));}
-// bool unit_test_BW_EQUAL(reg_t n1, reg_t n2)        {return ((reg_t)(n1 == n2) ^ (BW_EQUAL(n1, n2)));}
+bool unit_test_UINT_LTHAN(reg_t n1, reg_t n2)      {return ((reg_t)(n1 < n2) ^ (UINT_LTHAN(n1, n2)));}
+bool unit_test_UINT_LEQUAL(reg_t n1, reg_t n2)     {return ((reg_t)(n1 <= n2) ^ (UINT_LEQUAL(n1, n2)));}
 // bool unit_test_BW_EQUAL(reg_t n1, reg_t n2)        {return ((reg_t)(n1 == n2) ^ (BW_EQUAL(n1, n2)));}
 // bool unit_test_BW_EQUAL(reg_t n1, reg_t n2)        {return ((reg_t)(n1 == n2) ^ (BW_EQUAL(n1, n2)));}
 // bool unit_test_BW_EQUAL(reg_t n1, reg_t n2)        {return ((reg_t)(n1 == n2) ^ (BW_EQUAL(n1, n2)));}
@@ -168,58 +168,10 @@ int main() {
     run_test("UINT_GEQUAL", unit_test_UINT_GEQUAL);
 
     // UINT_LTHAN
-    testNum = 0;
-    testName = "UINT_LTHAN";
-    for (long long int i = 0; i < testIterCap; i++) {
-        if ((testNum < tnum1) ^ (UINT_LTHAN(testNum, tnum1))) {
-            printf("%s Failed test\n^1\n", testName);
-            break;
-        }
-        if ((testNum < tnum2) ^ (UINT_LTHAN(testNum, tnum2))) {
-            printf("%s Failed test\n^2\n", testName);
-            break;
-        }
-        if ((testNum < tnum3) ^ (UINT_LTHAN(testNum, tnum3))) {
-            printf("%s Failed test\n^3\n", testName);
-            break;
-        }
-        if ((testNum < tnumOnes) ^ (UINT_LTHAN(testNum, tnumOnes))) {
-            printf("%s Failed test\n^4\n", testName);
-            break;
-        }
-        if ((testNum < tnumZeroes) ^ (UINT_LTHAN(testNum, tnumZeroes))) {
-            printf("%s Failed test\n^5\n", testName);
-            break;
-        }
-        testNum += 1;
-    }
+    run_test("UINT_LTHAN", unit_test_UINT_LTHAN);
 
     // UINT_LEQUAL
-    testNum = 0;
-    testName = "UINT_LEQUAL";
-    for (long long int i = 0; i < testIterCap; i++) {
-        if ((testNum <= tnum1) ^ (UINT_LEQUAL(testNum, tnum1))) {
-            printf("%s Failed test\n^1\n", testName);
-            break;
-        }
-        if ((testNum <= tnum2) ^ (UINT_LEQUAL(testNum, tnum2))) {
-            printf("%s Failed test\n^2\n", testName);
-            break;
-        }
-        if ((testNum <= tnum3) ^ (UINT_LEQUAL(testNum, tnum3))) {
-            printf("%s Failed test\n^3\n", testName);
-            break;
-        }
-        if ((testNum <= tnumOnes) ^ (UINT_LEQUAL(testNum, tnumOnes))) {
-            printf("%s Failed test\n^4\n", testName);
-            break;
-        }
-        if ((testNum <= tnumZeroes) ^ (UINT_LEQUAL(testNum, tnumZeroes))) {
-            printf("%s Failed test\n^5\n", testName);
-            break;
-        }
-        testNum += 1;
-    }
+    run_test("UINT_LEQUAL", unit_test_UINT_LEQUAL);
 
     // INT_GTHAN
     testNum = 0;
