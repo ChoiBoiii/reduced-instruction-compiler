@@ -28,7 +28,7 @@
     | Instruction     | Description                     | Equivalent Operator   | Returns  | Register Size Dependant | Has Test |
     |----------------------------------------------------------------------------------------------------------------------------
     | BW_NAND         | NAND Bitwise operator           | f(a, b) -> ~(a & b)   | Bitfield | F                       | T        |
-    | BSL             | Bitshift left operator          | f(a, n) -> (a << n)   | Bitfield | F                       | T        |
+    | BW_BSL          | Bitshift left operator          | f(a, n) -> (a << n)   | Bitfield | F                       | T        |
     | BSR             | Bitshift right operator         | f(a, n) -> (a >> n)   | Bitfield | F                       | T        |
     | AND             | AND bitwise operator            | f(a, b) -> (a & b)    | Bitfield | F                       | T        |
     | OR              | OR bitwise operator             | f(a, b) -> (a | b)    | Bitfield | F                       | T        |
@@ -142,7 +142,7 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 
 // Base operators (not NAND based)
 #define BW_NAND(X, Y)  ( ~(X & Y)                     ) 
-#define BSL(X, N)   ( (X << N)                     ) 
+#define BW_BSL(X, N)   ( (X << N)                     ) 
 #define BSR(X, N)   ( (X >> N)                     ) 
 
 // Other decomposed bitwise operators
@@ -157,12 +157,12 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 // Unsigned integer addition of X+Y
 #define UINT_ADD_HELPER(T, K, R) ({                    \
     T = K;                                             \
-    K = BSL(AND(K, R), 1);                             \
+    K = BW_BSL(AND(K, R), 1);                          \
     R = XOR(T, R);                                     \
 })
 #define UINT_ADD(X, Y) ({                              \
     reg_t tmp, keep, res;                              \
-    keep = BSL(AND(X, Y), 1);                          \
+    keep = BW_BSL(AND(X, Y), 1);                       \
     res = XOR(X, Y);                                   \
     HELPER_STRREP(UINT_ADD_HELPER(tmp, keep, res);,    \
         REGISTER_SIZE_BITS);                           \

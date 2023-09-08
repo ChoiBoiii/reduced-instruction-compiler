@@ -34,7 +34,12 @@ bool unit_test_BW_NAND(reg_t n1, reg_t n2) {
     return (~(n1 & n2)) ^ (BW_NAND(n1, n2));
 }
 
-// Run given test
+// BW_BSL
+bool unit_test_BW_BSL(reg_t n1, reg_t n2) {
+    return ((n1 << n2) ^ (BW_BSL(n1, n2)));
+}
+
+// RUNS GIVEN TEST
 bool run_test(char* testName, bool (*func)(reg_t, reg_t)) {
     reg_t tnum1 = 0;
     for (long long int i = 0; i < testIterCap; i++) {
@@ -45,6 +50,21 @@ bool run_test(char* testName, bool (*func)(reg_t, reg_t)) {
                 return true;
             }
         }
+        tnum1++;
+    }
+    return false;
+}
+bool run_bitshift_test(char* testName, bool (*func)(reg_t, reg_t)) {
+    reg_t tnum1 = 0;
+    for (long long int i = 0; i < testIterCap; i++) {
+        for (long long int j = 0; j < REGISTER_SIZE_BITS + 8; j++) {
+            reg_t tnum2 = j;
+            if (func(tnum1, tnum2)) {
+                printf("Test [%s] failed\n", testName);
+                return true;
+            }
+        }
+        tnum1++;
     }
     return false;
 }
@@ -76,22 +96,25 @@ int main() {
     // BW_NAND
     run_test("BW_NAND", unit_test_BW_NAND);
 
-    // BSL
-    testNum = 0;
-    for (long long int i = 0; i < testIterCap; i++) {
-        bool failed = false;
-        for (int shiftAmmount = 0; shiftAmmount < sizeof(reg_t) * 8 + 1; shiftAmmount++) {
-            if ((testNum << shiftAmmount) != (BSL(testNum, shiftAmmount))) {
-                printf("BSL Failed test\n");
-                failed = true;
-                break;
-            }
-        }
-        if (failed) {
-            break;
-        }
-        testNum += 1;
-    }
+    // BW_BSL
+    run_bitshift_test("BW_BSL", unit_test_BW_BSL);
+
+    // testNum = 0;
+    // for (long long int i = 0; i < testIterCap; i++) {
+    //     bool failed = false;
+    //     for (int shiftAmmount = 0; shiftAmmount < sizeof(reg_t) * 8 + 1; shiftAmmount++) {
+    //         if ((testNum << shiftAmmount) != (BSL(testNum, shiftAmmount))) {
+    //             printf("BSL Failed test\n");
+    //             failed = true;
+    //             break;
+    //         }
+    //     }
+    //     if (failed) {
+    //         break;
+    //     }
+    //     testNum += 1;
+    // }
+
 
     // BSR
     testNum = 0;
