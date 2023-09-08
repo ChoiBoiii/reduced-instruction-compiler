@@ -96,7 +96,7 @@ int main() {
     // <- Enter code here
     // printf("%f seconds\n", ((float)(clock() - t)) / CLOCKS_PER_SEC);
 
- 
+
     // BITWISE OPERATORS ...
 
     // BW_NAND
@@ -135,21 +135,6 @@ int main() {
     // BW_EQUAL
     run_test("BW_EQUAL", unit_test_BW_EQUAL);
 
-    // UINT_ADD
-    run_test("UINT_ADD", unit_test_UINT_ADD);
-
-    // INT_ADD
-    run_test("INT_ADD", unit_test_INT_ADD);
-
-    // INT_SIGN_INVERT
-    run_test("INT_SIGN_INVERT", unit_test_INT_SIGN_INVERT);
-
-    // UINT_SUB
-    run_test("UINT_SUB", unit_test_UINT_SUB);
-
-    // INT_SUB
-    run_test("INT_SUB", unit_test_INT_SUB);
-
     // UINT_GTHAN
     run_test("UINT_GTHAN", unit_test_UINT_GTHAN);
 
@@ -173,6 +158,25 @@ int main() {
 
     // INT_LEQUAL
     run_test("INT_LEQUAL", unit_test_INT_LEQUAL);
+
+
+    // ARITHMETIC OPERATORS ...
+
+    // INT_SIGN_INVERT
+    run_test("INT_SIGN_INVERT", unit_test_INT_SIGN_INVERT);
+    
+    // UINT_ADD
+    run_test("UINT_ADD", unit_test_UINT_ADD);
+
+    // INT_ADD
+    run_test("INT_ADD", unit_test_INT_ADD);
+
+    // UINT_SUB
+    run_test("UINT_SUB", unit_test_UINT_SUB);
+
+    // INT_SUB
+    run_test("INT_SUB", unit_test_INT_SUB);
+
 
     // EXIT ...
     return 0;
