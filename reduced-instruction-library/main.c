@@ -30,14 +30,14 @@ reg_t tnums[] = {1, 41746, 7660, 7660, 0xFFFF, 0x0000};
 const int numTestNums = sizeof(tnums) / sizeof(reg_t);
 
 // Tests
-bool unit_test_BW_NAND(reg_t n1, reg_t n2) {return (~(n1 & n2)) ^ (BW_NAND(n1, n2));}
-bool unit_test_BW_BSL(reg_t n1, reg_t n2)  {return ((n1 << n2) ^ (BW_BSL(n1, n2)));}
-bool unit_test_BW_BSR(reg_t n1, reg_t n2)  {return ((n1 >> n2) ^ (BW_BSR(n1, n2)));}
-bool unit_test_BW_AND(reg_t n1, reg_t n2)  {return ((n1 & n2) ^ (BW_AND(n1, n2)));}
-bool unit_test_BW_OR(reg_t n1, reg_t n2)   {return ((n1 | n2) ^ (BW_OR(n1, n2)));}
-bool unit_test_BW_NOT(reg_t n1, reg_t n2)  {return ((~n1) ^ (BW_NOT(n1)));}
-bool unit_test_BW_XOR(reg_t n1, reg_t n2)  {return ((n1 ^ n2) ^ (BW_XOR(n1, n2)));}
-bool unit_test_EQUAL(reg_t n1, reg_t n2)   {return ((n1 == n2) ^ (EQUAL(n1, n2)));}
+bool unit_test_BW_NAND(reg_t n1, reg_t n2)    {return (~(n1 & n2)) ^ (BW_NAND(n1, n2));}
+bool unit_test_BW_BSL(reg_t n1, reg_t n2)     {return ((n1 << n2) ^ (BW_BSL(n1, n2)));}
+bool unit_test_BW_BSR(reg_t n1, reg_t n2)     {return ((n1 >> n2) ^ (BW_BSR(n1, n2)));}
+bool unit_test_BW_AND(reg_t n1, reg_t n2)     {return ((n1 & n2) ^ (BW_AND(n1, n2)));}
+bool unit_test_BW_OR(reg_t n1, reg_t n2)      {return ((n1 | n2) ^ (BW_OR(n1, n2)));}
+bool unit_test_BW_NOT(reg_t n1, reg_t n2)     {return ((~n1) ^ (BW_NOT(n1)));}
+bool unit_test_BW_XOR(reg_t n1, reg_t n2)     {return ((n1 ^ n2) ^ (BW_XOR(n1, n2)));}
+bool unit_test_BW_EQUAL(reg_t n1, reg_t n2)   {return ((n1 == n2) ^ (BW_EQUAL(n1, n2)));}
 
 // RUNS GIVEN TEST
 bool run_test(char* testName, bool (*func)(reg_t, reg_t)) {
@@ -163,8 +163,8 @@ int main() {
         testNum += 1;
     }
 
-    // EQUAL
-    run_test("EQUAL", unit_test_EQUAL);
+    // BW_EQUAL
+    run_test("BW_EQUAL", unit_test_BW_EQUAL);
 
     // UINT_ADD
     testNum = 0;

@@ -36,7 +36,7 @@
     | BW_XOR          | Bitwise XOR operator            | f(a, b) -> (a ^ b)    | Bitfield | F                       | T        |
     | NEQUAL          | Bitwise inequality              | f(a, b) -> (a != b)   | 0 or 1   | F                       | T        |
     | NEQUAL0         | Bitwise inequality with zero    | f(a)    -> (a != 0)   | 0 or 1   | F                       | T        |
-    | EQUAL           | Bitwise equality                | f(a, b) -> (a == b)   | 0 or 1   | F                       | T        |
+    | BW_EQUAL        | Bitwise equality                | f(a, b) -> (a == b)   | 0 or 1   | F                       | T        |
     | EQUAL0          | Bitwise equality with zero      | f(a)    -> (a == 0)   | 0 or 1   | F                       | T        |
     | UINT_GTHAN      | Greater than between uints      | f(a, b) -> (a > b)    | 0 or 1   | F                       | T        |
     | UINT_GEQUAL     | Greater or equal between uints  | f(a, b) -> (a >= b)   | 0 or 1   | F                       | T        |
@@ -256,7 +256,7 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 })
 
 // Returns 1 if X and Y are equal
-#define EQUAL(X, Y) ({             \
+#define BW_EQUAL(X, Y) ({             \
     reg_t v = BW_XOR(X, Y);           \
     FOLD_BITS_TO_1_EQ_HELPER(v,    \
         REGISTER_SIZE_BITS_LOG2);  \
@@ -287,7 +287,7 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 #define UINT_GEQUAL(X, Y) ({       \
     BW_OR(                            \
         UINT_GTHAN(X,Y),           \
-        EQUAL(X,Y)                 \
+        BW_EQUAL(X,Y)                 \
     );                             \
 })
 
@@ -315,7 +315,7 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 
 // Returns 1 if X >= Y {OPTIMISE}
 #define INT_GEQUAL(X, Y) ({           \
-    BW_OR(INT_GTHAN(X, Y), EQUAL(X, Y)); \
+    BW_OR(INT_GTHAN(X, Y), BW_EQUAL(X, Y)); \
 })
 
 // Returns 1 if X < Y {OPTIMISE}
