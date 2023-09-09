@@ -244,14 +244,9 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 
 // EQUALITY OPERATORS ...
 
-// HELPER: Returns a formatted fold line for the EXTRACT_MSB_EQ_HELPER method
-#define EXTRACT_MSB_EQ_FOLD_ONCE_HELPER_(X, S)           \
-    (X = BW_OR(X, BW_BSR(X, S)));
-
 // HELPER: Returns a fully formatted fold line for the EXTRACT_MSB_EQ_HELPER method
 #define EXTRACT_MSB_EQ_FOLD_PARAMS_HELPER_(Z, N, X) ({   \
-    EXTRACT_MSB_EQ_FOLD_ONCE_HELPER_(                    \
-        X, (STRREP(2*, N) 1))          \
+    (X = BW_OR(X, BW_BSR(X, (STRREP(2*, N) 1))));        \
 });
 
 // HELPER: Used to help extract most significant bit in some equivalence instruction methods
