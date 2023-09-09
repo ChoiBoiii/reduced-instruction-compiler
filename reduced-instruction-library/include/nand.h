@@ -326,16 +326,19 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 
 // Returns 1 if X > Y {OPTIMISE}
 #define INT_GTHAN(X, Y) ({                              \
-    reg_t out = UINT_GTHAN(X, Y);                       \
-    reg_t signX = BW_AND(BW_BSR(                        \
+    reg_t _ric_out = UINT_GTHAN(X, Y);                  \
+    reg_t _ric_signX = BW_AND(BW_BSR(                   \
         X, BOOST_PP_SUB(REGISTER_SIZE_BITS, 1)), 1);    \
-    reg_t signY = BW_AND(BW_BSR(                        \
+    reg_t _ric_signY = BW_AND(BW_BSR(                   \
         Y, BOOST_PP_SUB(REGISTER_SIZE_BITS, 1)), 1);    \
-    reg_t signYnotX = BW_AND(signY, BW_XOR(signX, 1));  \
-    reg_t signXnotY = BW_AND(signX, BW_XOR(signY, 1));  \
-    out = BW_OR(out, signYnotX);                        \
-    out = BW_NOT(BW_OR(BW_NOT(out), signXnotY));        \
-    out;                                                \
+    reg_t _ric_signYnotX = BW_AND(                      \
+        _ric_signY, BW_XOR(_ric_signX, 1));             \
+    reg_t _ric_signXnotY = BW_AND(                      \
+        _ric_signX, BW_XOR(_ric_signY, 1));             \
+    _ric_out = BW_OR(_ric_out, _ric_signYnotX);         \
+    _ric_out = BW_NOT(                                  \
+        BW_OR(BW_NOT(_ric_out), _ric_signXnotY));       \
+    _ric_out;                                           \
 })
 
 // Returns 1 if X >= Y {OPTIMISE}
