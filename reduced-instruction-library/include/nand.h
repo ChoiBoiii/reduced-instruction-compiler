@@ -247,21 +247,6 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
     UINT_SUB(X, Y);                                    \
 })
 
-// // // Unsigned integer multiplication of X*Y
-// #define UINT_MULT(A, B) ({                             \
-//     reg_t ifmask;                                      \
-//     reg_t a = A;                                       \
-//     reg_t b = B;                                       \
-//     reg_t result = 0;                                  \
-//     while (b > 0) {                                    \
-//         ifmask = GENERATE_IFMASK(b);       \
-//         result = INT_ADD(result, BW_AND(a, ifmask));    \
-//         a = BW_BSL(a, 1);                  \
-//         b = BW_BSR(b, 1);                  \
-//     }                                      \
-//     result;                                            \
-// })
-
 // Unsigned integer multiplication of X*Y
 #define UINT_MULT_PERFORM_MULT_CYCLE_                  \
     ifmask = GENERATE_IFMASK(b);                       \
