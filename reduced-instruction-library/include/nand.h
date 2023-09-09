@@ -212,7 +212,7 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 
 // ARITHMETIC OPERATORS ...
 
-// Universally adds signed or unsigned ints [int, uint]
+// Universally adds signed and unsigned ints [int, uint]
 #define SIGN_INDEPENDANT_INT_ADD_PERFORM_ADD_CYCLE_     \
     _ric_tmp = _ric_keep;                               \
     _ric_keep = BW_BSL(BW_AND(_ric_keep, _ric_res), 1); \
@@ -251,7 +251,7 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
     SIGN_INDEPENDANT_INT_ADD(X, INT_SIGN_INVERT(Y));    \
 })
 
-//
+// Universally multiplies signed and unsigned ints [int, uint]
 #define SIGN_INDEPENDANT_INT_MULT_CYCLE_                \
     _ric_ifmask = GENERATE_IFMASK(_ric_b);              \
     _ric_result = INT_ADD(                              \
