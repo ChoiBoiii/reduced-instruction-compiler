@@ -138,6 +138,8 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 
 // HELPER MACROS ...
 
+// REPEAT GIVEN LINE X TIMES
+
 // Helper function to filter inputs allowing folding in STRREP
 #define STRREP_FOLD_HELPER_(_, N, T)  T
 
@@ -145,6 +147,8 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 #define STRREP(S, N)                                \
     BOOST_PP_REPEAT(N, STRREP_FOLD_HELPER_, S)
 
+
+// GET BITMASK 0b1111... IF X ELSE 0b0000...
 
 // Helper function to generate a line for the bitmask generation in GENERATE_IFMASK
 #define GENERATE_IFMASK_HELPER_(_, N, X)            \
@@ -158,6 +162,8 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
     ifmask;                                         \
 })
 
+
+// GET 0b01 IF X ELSE 0b00
 
 // Helper function to generate line for the bitfield folding in FOLD_BITS_TO_1
 #define FOLD_BITS_TO_1_HELPER_(_, N, X)             \
@@ -174,6 +180,8 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
     out;                                            \
 })
 
+
+// GENERATE BITMSK OF 1's FROM LEAST SIGNIFICANT BIT TO MSB IN GIVEN VALUE X
 
 // Helper function to generate a line for MSB bitmask extraction in GENERATE_MASK_UP_TO_MSB
 #define GENERATE_MASK_UP_TO_MSB_HELPER_(Z, N, X)    \
