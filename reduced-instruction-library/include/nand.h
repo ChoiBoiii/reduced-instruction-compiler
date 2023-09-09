@@ -270,60 +270,60 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 // EQUALITY OPERATORS ...
 
 // Returns 1 if X is equal to zero
-#define BW_EQUAL0(X) ({               \
-    reg_t v = X;                      \
-    v = FOLD_BITS_TO_1(v);            \
-    v = BW_XOR(v, 1);                 \
-    v;                                \
+#define BW_EQUAL0(X) ({                                 \
+    reg_t v = X;                                        \
+    v = FOLD_BITS_TO_1(v);                              \
+    v = BW_XOR(v, 1);                                   \
+    v;                                                  \
 })    
 
 // Returns 1 if X is not equal to zero
-#define BW_NEQUAL0(X) ({              \
-    reg_t v = X;                      \
-    v = FOLD_BITS_TO_1(v);            \
-    v;                                \
+#define BW_NEQUAL0(X) ({                                \
+    reg_t v = X;                                        \
+    v = FOLD_BITS_TO_1(v);                              \
+    v;                                                  \
 })
 
 // Returns 1 if X and Y are equal
-#define BW_EQUAL(X, Y) ({             \
-    reg_t v = BW_XOR(X, Y);           \
-    v = FOLD_BITS_TO_1(v);            \
-    v = BW_XOR(v, 1);                 \
+#define BW_EQUAL(X, Y) ({                               \
+    reg_t v = BW_XOR(X, Y);                             \
+    v = FOLD_BITS_TO_1(v);                              \
+    v = BW_XOR(v, 1);                                   \
 })
 
 // Returns 1 if X and Y are not equal
-#define BW_NEQUAL(X, Y) ({            \
-    reg_t v = BW_XOR(X, Y);           \
-    v = FOLD_BITS_TO_1(v);            \
-    v;                                \
+#define BW_NEQUAL(X, Y) ({                              \
+    reg_t v = BW_XOR(X, Y);                             \
+    v = FOLD_BITS_TO_1(v);                              \
+    v;                                                  \
 })
 
 // Returns 1 if X > Y {OPTIMISE}
-#define UINT_GTHAN(X, Y) ({           \
-    reg_t v = X ^ Y;                  \
-    v = GENERATE_MASK_UP_TO_MSB(v);   \
-    v = UINT_SUB(v, BW_BSR(v, 1));    \
-    v = BW_XOR(BW_AND(Y, v), v);      \
-    v = FOLD_BITS_TO_1(v);            \
-    v;                                \
+#define UINT_GTHAN(X, Y) ({                             \
+    reg_t v = X ^ Y;                                    \
+    v = GENERATE_MASK_UP_TO_MSB(v);                     \
+    v = UINT_SUB(v, BW_BSR(v, 1));                      \
+    v = BW_XOR(BW_AND(Y, v), v);                        \
+    v = FOLD_BITS_TO_1(v);                              \
+    v;                                                  \
 })
 
 // Returns 1 if X >= Y {OPTIMISE}
-#define UINT_GEQUAL(X, Y) ({          \
-    BW_OR(                            \
-        UINT_GTHAN(X,Y),              \
-        BW_EQUAL(X,Y)                 \
-    );                                \
+#define UINT_GEQUAL(X, Y) ({                            \
+    BW_OR(                                              \
+        UINT_GTHAN(X,Y),                                \
+        BW_EQUAL(X,Y)                                   \
+    );                                                  \
 })
 
 // Returns 1 if X < Y {OPTIMISE}
-#define UINT_LTHAN(X, Y) ({           \
-    BW_XOR(UINT_GEQUAL(X, Y), 1);     \
+#define UINT_LTHAN(X, Y) ({                             \
+    BW_XOR(UINT_GEQUAL(X, Y), 1);                       \
 })
 
 // Returns 1 if X <= Y {OPTIMISE} 
-#define UINT_LEQUAL(X, Y) ({          \
-    BW_XOR(UINT_GTHAN(X, Y), 1);      \
+#define UINT_LEQUAL(X, Y) ({                            \
+    BW_XOR(UINT_GTHAN(X, Y), 1);                        \
 })
 
 // Returns 1 if X > Y {OPTIMISE}
@@ -341,18 +341,18 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 })
 
 // Returns 1 if X >= Y {OPTIMISE}
-#define INT_GEQUAL(X, Y) ({                 \
-    BW_OR(INT_GTHAN(X, Y), BW_EQUAL(X, Y)); \
+#define INT_GEQUAL(X, Y) ({                             \
+    BW_OR(INT_GTHAN(X, Y), BW_EQUAL(X, Y));             \
 })
 
 // Returns 1 if X < Y {OPTIMISE}
-#define INT_LTHAN(X, Y) ({                  \
-    BW_XOR(INT_GEQUAL(X, Y), 1);            \
+#define INT_LTHAN(X, Y) ({                              \
+    BW_XOR(INT_GEQUAL(X, Y), 1);                        \
 })
 
 // Returns 1 if X <= Y {OPTIMISE}
-#define INT_LEQUAL(X, Y) ({                 \
-    BW_XOR(INT_GTHAN(X, Y), 1);             \
+#define INT_LEQUAL(X, Y) ({                             \
+    BW_XOR(INT_GTHAN(X, Y), 1);                         \
 })
 
 
