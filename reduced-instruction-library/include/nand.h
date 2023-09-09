@@ -157,10 +157,11 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
     ifmask;                                       \
 })
 
+// Helper function to generate line for the bitfield folding in FOLD_BITS_TO_1
 #define FOLD_BITS_TO_1_HELPER_(Z, N, X) \
     X = BW_OR(X, BW_BSR(X, (STRREP(2*, BOOST_PP_SUB(BOOST_PP_SUB(REGISTER_SIZE_BITS_LOG2, 1), N)) 1)));
 
-
+// Returns 0x01 if (X != 0) else 0x00
 #define FOLD_BITS_TO_1(X) ({                \
     BOOST_PP_REPEAT(REGISTER_SIZE_BITS_LOG2, FOLD_BITS_TO_1_HELPER_, X);     \
     X = BW_AND(X, 1);                                    \
