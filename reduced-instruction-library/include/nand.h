@@ -219,9 +219,15 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
     _ric_keep = BW_BSL(BW_AND(_ric_keep, _ric_res), 1); \
     _ric_res = BW_XOR(_ric_tmp, _ric_res);                                   
 #define SIGN_INDEPENDANT_INT_ADD(X, Y) ({               \
+    const reg_t _ric_scope_clash_workaround1 = X;       \
+    const reg_t _ric_scope_clash_workaround2 = Y;       \
     reg_t _ric_tmp, _ric_keep, _ric_res;                \
-    _ric_keep = BW_BSL(BW_AND(X, Y), 1);                \
-    _ric_res = BW_XOR(X, Y);                            \
+    _ric_keep = BW_BSL(BW_AND(                          \
+        _ric_scope_clash_workaround1,                   \
+        _ric_scope_clash_workaround2), 1);              \
+    _ric_res = BW_XOR(                                  \
+        _ric_scope_clash_workaround1,                   \
+        _ric_scope_clash_workaround2);                  \
     STRREP(SIGN_INDEPENDANT_INT_ADD_PERFORM_ADD_CYCLE_, \
         REGISTER_SIZE_BITS);                            \
     _ric_res;                                           \
