@@ -213,60 +213,58 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 // ARITHMETIC OPERATORS ...
 
 // Unsigned integer addition of X+Y
-#define UINT_ADD_HELPER(T, K, R) ({                    \
-    T = K;                                             \
-    K = BW_BSL(BW_AND(K, R), 1);                       \
-    R = BW_XOR(T, R);                                  \
+#define UINT_ADD_HELPER(T, K, R) ({                     \
+    T = K;                                              \
+    K = BW_BSL(BW_AND(K, R), 1);                        \
+    R = BW_XOR(T, R);                                   \
 })
-#define UINT_ADD(X, Y) ({                              \
-    reg_t tmp, keep, res;                              \
-    keep = BW_BSL(BW_AND(X, Y), 1);                    \
-    res = BW_XOR(X, Y);                                \
-    STRREP(UINT_ADD_HELPER(tmp, keep, res);,           \
-        REGISTER_SIZE_BITS);                           \
-    res;                                               \
+#define UINT_ADD(X, Y) ({                               \
+    reg_t tmp, keep, res;                               \
+    keep = BW_BSL(BW_AND(X, Y), 1);                     \
+    res = BW_XOR(X, Y);                                 \
+    STRREP(UINT_ADD_HELPER(tmp, keep, res);,            \
+        REGISTER_SIZE_BITS);                            \
+    res;                                                \
 })
 
 // Inverts the sign of the given int using two's compliment: invert then add 1
-#define INT_SIGN_INVERT(X) ({                          \
-    UINT_ADD(BW_NOT(X), 1);                            \
+#define INT_SIGN_INVERT(X) ({                           \
+    UINT_ADD(BW_NOT(X), 1);                             \
 })                                                  
 
 // Signed integer addition of X+Y
-#define INT_ADD(X, Y) ({                               \
-    UINT_ADD(X, Y);                                    \
+#define INT_ADD(X, Y) ({                                \
+    UINT_ADD(X, Y);                                     \
 })
 
 // Unsigned integer subtraction of X-Y
-#define UINT_SUB(X, Y) ({                              \
-    INT_ADD(X, INT_SIGN_INVERT(Y));                    \
+#define UINT_SUB(X, Y) ({                               \
+    INT_ADD(X, INT_SIGN_INVERT(Y));                     \
 })
 
 // Signed integer subtraction of X-Y
-#define INT_SUB(X, Y) ({                               \
-    UINT_SUB(X, Y);                                    \
+#define INT_SUB(X, Y) ({                                \
+    UINT_SUB(X, Y);                                     \
 })
 
 // Unsigned integer multiplication of X*Y
-#define UINT_MULT_PERFORM_MULT_CYCLE_                  \
-    ifmask = GENERATE_IFMASK(b);                       \
-    result = INT_ADD(result, BW_AND(a, ifmask));       \
-    a = BW_BSL(a, 1);                                  \
+#define UINT_MULT_PERFORM_MULT_CYCLE_                   \
+    ifmask = GENERATE_IFMASK(b);                        \
+    result = INT_ADD(result, BW_AND(a, ifmask));        \
+    a = BW_BSL(a, 1);                                   \
     b = BW_BSR(b, 1);                                  
-#define UINT_MULT(A, B) ({                             \
-    reg_t ifmask;                                      \
-    reg_t a = A;                                       \
-    reg_t b = B;                                       \
-    reg_t result = 0;                                  \
-    STRREP(UINT_MULT_PERFORM_MULT_CYCLE_,              \
-        REGISTER_SIZE_BITS);                           \
-    result;                                            \
+#define UINT_MULT(A, B) ({                              \
+    reg_t ifmask;                                       \
+    reg_t a = A;                                        \
+    reg_t b = B;                                        \
+    reg_t result = 0;                                   \
+    STRREP(UINT_MULT_PERFORM_MULT_CYCLE_,               \
+        REGISTER_SIZE_BITS);                            \
+    result;                                             \
 })
 
-
-
 // Unsigned integer division of X/Y
-#define UINT_DIV(X, Y) ({                              \
+#define UINT_DIV(X, Y) ({                               \
 })
 
 
