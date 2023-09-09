@@ -231,13 +231,13 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 
 // EQUALITY OPERATORS ...
 
-// HELPER: Returns a fully formatted fold line for the FOLD_BITS_TO_1_EQ_HELPER method
-#define FOLD_ONCE_PARAMS_HELPER_(Z, N, X) \
+
+#define FOLD_BITS_TO_1_HELPER_(Z, N, X) \
     X = BW_OR(X, BW_BSR(X, (STRREP(2*, BOOST_PP_SUB(BOOST_PP_SUB(REGISTER_SIZE_BITS_LOG2, 1), N)) 1)));
 
-// HELPER: Equivalent to (X != 0). Sets X to 1 if X contains any ones, else 0.
-#define FOLD_BITS_TO_1_EQ_HELPER(X) ({                \
-    BOOST_PP_REPEAT(REGISTER_SIZE_BITS_LOG2, FOLD_ONCE_PARAMS_HELPER_, X);     \
+
+#define FOLD_BITS_TO_1(X) ({                \
+    BOOST_PP_REPEAT(REGISTER_SIZE_BITS_LOG2, FOLD_BITS_TO_1_HELPER_, X);     \
     X = BW_AND(X, 1);                                    \
 })
 
@@ -267,7 +267,7 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 // Returns 1 if X is equal to zero
 #define BW_EQUAL0(X) ({               \
     reg_t v = X;                      \
-    FOLD_BITS_TO_1_EQ_HELPER(v); \
+    FOLD_BITS_TO_1(v); \
     v = BW_XOR(v, 1);                 \
     v;                                \
 })    
@@ -275,21 +275,21 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 // Returns 1 if X is not equal to zero
 #define BW_NEQUAL0(X) ({              \
     reg_t v = X;                      \
-    FOLD_BITS_TO_1_EQ_HELPER(v); \
+    FOLD_BITS_TO_1(v); \
     v;                                \
 })
 
 // Returns 1 if X and Y are equal
 #define BW_EQUAL(X, Y) ({             \
     reg_t v = BW_XOR(X, Y);           \
-    FOLD_BITS_TO_1_EQ_HELPER(v); \
+    FOLD_BITS_TO_1(v); \
     v = BW_XOR(v, 1);                 \
 })
 
 // Returns 1 if X and Y are not equal
 #define BW_NEQUAL(X, Y) ({            \
     reg_t v = BW_XOR(X, Y);           \
-    FOLD_BITS_TO_1_EQ_HELPER(v); \
+    FOLD_BITS_TO_1(v); \
     v;                                \
 })
 
@@ -300,7 +300,7 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
         REGISTER_SIZE_BITS_LOG2);     \
     v = UINT_SUB(v, BW_BSR(v, 1));    \
     v = BW_XOR(BW_AND(Y, v), v);      \
-    FOLD_BITS_TO_1_EQ_HELPER(v); \
+    FOLD_BITS_TO_1(v); \
     v;                                \
 })
 
