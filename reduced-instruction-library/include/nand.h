@@ -212,7 +212,7 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 
 // ARITHMETIC OPERATORS ...
 
-//
+// Universally adds signed or unsigned ints [int, uint]
 #define SIGNLESS_INT_ADD_PERFORM_ADD_CYCLE_             \
     _ric_tmp = _ric_keep;                               \
     _ric_keep = BW_BSL(BW_AND(_ric_keep, _ric_res), 1); \
@@ -227,8 +227,8 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 })
 
 // Unsigned integer addition of X+Y
-#define UINT_ADD(X, Y) ({ \
-    SIGNLESS_INT_ADD(X, Y); \
+#define UINT_ADD(X, Y) ({                               \
+    SIGNLESS_INT_ADD(X, Y);                             \
 })
 
 // Inverts the sign of the given int using two's compliment: invert then add 1
