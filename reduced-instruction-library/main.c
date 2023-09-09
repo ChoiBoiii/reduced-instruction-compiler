@@ -3,42 +3,7 @@
 #include <stdbool.h>
 
 
-// // 
-// #define UINT_MULT(A, B) ({  \
-//     reg_t a = A;            \
-//     reg_t b = B;            \
-//     reg_t result = 0;       \
-//     while (b > 0) {         \
-//         if (b & 1) {        \
-//             result += a;    \
-//         }                   \
-//         a = BW_BSL(a, 1);   \
-//         b = BW_BSR(b, 1);   \
-//     }                       \
-//     result;                 \
-// })
-
-
-
-// // 
-// #define UINT_MULT(A, B) ({  \
-//     reg_t a = A;            \
-//     reg_t b = B;            \
-//     reg_t result = 0;       \
-//     while (b > 0) {         \
-//         reg_t ifmask = BW_AND(b, 1);   \
-//         ifmask |= (ifmask << 1); \
-//         ifmask |= (ifmask << 2); \
-//         ifmask |= (ifmask << 4); \
-//         ifmask |= (ifmask << 8); \
-//         result += BW_AND(a, ifmask);    \
-//         a = BW_BSL(a, 1);   \
-//         b = BW_BSR(b, 1);   \
-//     }                       \
-//     result;                 \
-// })
-
-
+//
 #include "tests.h"
 
 
