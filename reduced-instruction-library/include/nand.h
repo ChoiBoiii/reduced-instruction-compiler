@@ -147,7 +147,7 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 
 // Helper function to generate a line for the bitmask generation in GENERATE_IFMASK
 #define GENERATE_IFMASK_HELPER_(Z, N, X)          \
-    (X |= (X << (STRREP(2*, N) 1)));
+    X |= (X << (STRREP(2*, N) 1));
 
 // Returns a full 0xFFFF... bitmask if (X & 1) else 0x0000...
 #define GENERATE_IFMASK(X) ({                     \
@@ -155,6 +155,15 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
     BOOST_PP_REPEAT(REGISTER_SIZE_BITS_LOG2,      \
         GENERATE_IFMASK_HELPER_, ifmask);         \
     ifmask;                                       \
+})
+
+#define FOLD_BITS_TO_1_HELPER_(Z, N, X) \
+    X = BW_OR(X, BW_BSR(X, (STRREP(2*, BOOST_PP_SUB(BOOST_PP_SUB(REGISTER_SIZE_BITS_LOG2, 1), N)) 1)));
+
+
+#define FOLD_BITS_TO_1(X) ({                \
+    BOOST_PP_REPEAT(REGISTER_SIZE_BITS_LOG2, FOLD_BITS_TO_1_HELPER_, X);     \
+    X = BW_AND(X, 1);                                    \
 })
 
 
@@ -230,19 +239,6 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 
 
 // EQUALITY OPERATORS ...
-
-
-#define FOLD_BITS_TO_1_HELPER_(Z, N, X) \
-    X = BW_OR(X, BW_BSR(X, (STRREP(2*, BOOST_PP_SUB(BOOST_PP_SUB(REGISTER_SIZE_BITS_LOG2, 1), N)) 1)));
-
-
-#define FOLD_BITS_TO_1(X) ({                \
-    BOOST_PP_REPEAT(REGISTER_SIZE_BITS_LOG2, FOLD_BITS_TO_1_HELPER_, X);     \
-    X = BW_AND(X, 1);                                    \
-})
-
-
-
 
 // HELPER: Returns a formatted fold line for the EXTRACT_MSB_EQ_HELPER method
 #define EXTRACT_MSB_EQ_FOLD_ONCE_HELPER_(X, S)           \
