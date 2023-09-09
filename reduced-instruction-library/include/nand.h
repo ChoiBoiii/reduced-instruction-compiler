@@ -173,11 +173,11 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 
 // Returns 0x01 if (X != 0) else 0x00
 #define FOLD_BITS_TO_1(X) ({                        \
-    reg_t out = X;                                  \
+    reg_t _ric_out_ = X;                            \
     BOOST_PP_REPEAT(REGISTER_SIZE_BITS_LOG2,        \
-        FOLD_BITS_TO_1_HELPER_, out);               \
-    out = BW_AND(out, 1);                           \
-    out;                                            \
+        FOLD_BITS_TO_1_HELPER_, _ric_out_);         \
+    _ric_out_ = BW_AND(_ric_out_, 1);               \
+    _ric_out_;                                      \
 })
 
 
