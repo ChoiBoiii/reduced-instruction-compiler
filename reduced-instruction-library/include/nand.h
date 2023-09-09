@@ -288,7 +288,8 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 
 // Returns 1 if X is equal to zero
 #define BW_EQUAL0(X) ({                                 \
-    reg_t _ric_out = X;                                 \
+    const reg_t _ric_scope_clash_workaround = X;        \
+    reg_t _ric_out = _ric_scope_clash_workaround;       \
     _ric_out = FOLD_BITS_TO_1(_ric_out);                \
     _ric_out = BW_XOR(_ric_out, 1);                     \
     _ric_out;                                           \
@@ -296,16 +297,22 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 
 // Returns 1 if X is not equal to zero
 #define BW_NEQUAL0(X) ({                                \
-    reg_t _ric_out = X;                                 \
+    const reg_t _ric_scope_clash_workaround = X;        \
+    reg_t _ric_out = _ric_scope_clash_workaround;       \
     _ric_out = FOLD_BITS_TO_1(_ric_out);                \
     _ric_out;                                           \
 })
 
 // Returns 1 if X and Y are equal
 #define BW_EQUAL(X, Y) ({                               \
-    reg_t _ric_out = BW_XOR(X, Y);                      \
+    const reg_t _ric_scope_clash_workaround1 = X;       \
+    const reg_t _ric_scope_clash_workaround2 = Y;       \
+    reg_t _ric_out = BW_XOR(                            \
+        _ric_scope_clash_workaround1,                   \
+        _ric_scope_clash_workaround2);                  \
     _ric_out = FOLD_BITS_TO_1(_ric_out);                \
     _ric_out = BW_XOR(_ric_out, 1);                     \
+    _ric_out;                                           \
 })
 
 // Returns 1 if X and Y are not equal
