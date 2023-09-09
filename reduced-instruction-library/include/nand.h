@@ -258,15 +258,18 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
         _ric_result, BW_AND(_ric_a, _ric_ifmask));      \
     _ric_a = BW_BSL(_ric_a, 1);                         \
     _ric_b = BW_BSR(_ric_b, 1);                  
-#define UINT_MULT(A, B) ({                              \
+#define UINT_MULT(X, Y) ({                              \
     reg_t _ric_ifmask;                                  \
-    reg_t _ric_a = A;                                   \
-    reg_t _ric_b = B;                                   \
+    reg_t _ric_a = X;                                   \
+    reg_t _ric_b = Y;                                   \
     reg_t _ric_result = 0;                              \
     STRREP(UINT_MULT_PERFORM_MULT_CYCLE_,               \
         REGISTER_SIZE_BITS);                            \
     _ric_result;                                        \
 })
+
+// Signed integer multiplication of X*Y
+#define INT_MULT(X, Y)
 
 // Unsigned integer division of X/Y
 #define UINT_DIV(X, Y) ({                               \
