@@ -9,13 +9,6 @@ clean:
 	@echo Removing main
 	rm main
 
-.PHONY: test
-test:
-	gcc test.c -o test -I "include"
-	@echo --------------------------------------------------
-	@echo Running test
-	./test
-
 .PHONY: run
 run: 
 	make clean
@@ -31,3 +24,11 @@ git:
 	git commit -m .
 	git push
 
+.PHONY: test
+test:
+	gcc test.c -o test -O3 -Wall -mcpu=apple-m1 -std=c11 -I "./include" -fmacro-backtrace-limit=0 
+	@echo --------------------------------------------------
+	@echo Running test
+	./test
+	@echo --------------------------------------------------
+	rm test
