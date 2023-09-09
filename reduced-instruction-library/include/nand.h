@@ -187,7 +187,7 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 // GENERATE BITMSK OF 1's FROM LEAST SIGNIFICANT BIT TO MSB IN GIVEN VALUE X
 
 // Helper function to generate a line for MSB bitmask extraction in GENERATE_MASK_UP_TO_MSB
-#define GENERATE_MASK_UP_TO_MSB_HELPER_(Z, N, X)    \
+#define GENERATE_MASK_UP_TO_MSB_HELPER_(_, N, X)    \
     X = BW_OR(X, BW_BSR(X, (STRREP(2*, N) 1)));
 
 // HELPER: Used to help extract most significant bit in some equivalence instruction methods
