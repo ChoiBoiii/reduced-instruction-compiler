@@ -248,7 +248,7 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 
 // Signed integer subtraction of X-Y
 #define INT_SUB(X, Y) ({                                \
-    SIGN_INDEPENDANT_INT_ADD(X, Y);                     \
+    SIGN_INDEPENDANT_INT_ADD(X, INT_SIGN_INVERT(Y));    \
 })
 
 // Unsigned integer multiplication of X*Y
