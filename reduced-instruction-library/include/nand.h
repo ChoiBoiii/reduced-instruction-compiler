@@ -178,9 +178,9 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
     X = BW_OR(X, BW_BSR(X, (STRREP(2*, N) 1)));
 
 // HELPER: Used to help extract most significant bit in some equivalence instruction methods
-#define GENERATE_MASK_UP_TO_MSB(X) ({                   \
-    reg_t out = X;   \
-    BOOST_PP_REPEAT(REGISTER_SIZE_BITS_LOG2, GENERATE_MASK_UP_TO_MSB_HELPER_, out);       \
+#define GENERATE_MASK_UP_TO_MSB(X) ({ \
+    reg_t out = X; \
+    BOOST_PP_REPEAT(REGISTER_SIZE_BITS_LOG2, GENERATE_MASK_UP_TO_MSB_HELPER_, out);  \
     out; \
 })
 
@@ -252,7 +252,7 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 })
 
 // Unsigned integer division of X/Y
-#define UINT_DIV(X, Y) ({                              \
+#define UINT_DIV(X, Y) ({                  \
 })
 
 
