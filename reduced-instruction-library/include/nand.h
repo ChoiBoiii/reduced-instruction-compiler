@@ -317,7 +317,11 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 
 // Returns 1 if X and Y are not equal
 #define BW_NEQUAL(X, Y) ({                              \
-    reg_t _ric_out = BW_XOR(X, Y);                      \
+    const reg_t _ric_scope_clash_workaround1 = X;       \
+    const reg_t _ric_scope_clash_workaround2 = Y;       \
+    reg_t _ric_out = BW_XOR(                            \
+        _ric_scope_clash_workaround1,                   \
+        _ric_scope_clash_workaround2);                  \
     _ric_out = FOLD_BITS_TO_1(_ric_out);                \
     _ric_out;                                           \
 })
