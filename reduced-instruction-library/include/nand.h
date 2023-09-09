@@ -184,7 +184,7 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
     reg_t tmp, keep, res;                              \
     keep = BW_BSL(BW_AND(X, Y), 1);                    \
     res = BW_XOR(X, Y);                                \
-    STRREP(UINT_ADD_HELPER(tmp, keep, res);,    \
+    STRREP(UINT_ADD_HELPER(tmp, keep, res);,           \
         REGISTER_SIZE_BITS);                           \
     res;                                               \
 })
