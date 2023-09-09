@@ -214,16 +214,16 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 
 // Unsigned integer addition of X+Y
 #define UINT_ADD_PERFORM_ADD_CYCLE_                     \
-    tmp = keep;                                         \
-    keep = BW_BSL(BW_AND(keep, res), 1);                \
-    res = BW_XOR(tmp, res);                                   
+    _ric_tmp = _ric_keep;                               \
+    _ric_keep = BW_BSL(BW_AND(_ric_keep, _ric_res), 1); \
+    _ric_res = BW_XOR(_ric_tmp, _ric_res);                                   
 #define UINT_ADD(X, Y) ({                               \
-    reg_t tmp, keep, res;                               \
-    keep = BW_BSL(BW_AND(X, Y), 1);                     \
-    res = BW_XOR(X, Y);                                 \
+    reg_t _ric_tmp, _ric_keep, _ric_res;                \
+    _ric_keep = BW_BSL(BW_AND(X, Y), 1);                \
+    _ric_res = BW_XOR(X, Y);                            \
     STRREP(UINT_ADD_PERFORM_ADD_CYCLE_,                 \
         REGISTER_SIZE_BITS);                            \
-    res;                                                \
+    _ric_res;                                           \
 })
 
 // Inverts the sign of the given int using two's compliment: invert then add 1
