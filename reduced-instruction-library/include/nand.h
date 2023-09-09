@@ -142,47 +142,49 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 #define STRREP_FOLD_HELPER_(_, N, T)  T
 
 // Call 'STRREP' to repeat 'S' 'N' times
-#define STRREP(S, N)                              \
+#define STRREP(S, N)                                \
     BOOST_PP_REPEAT(N, STRREP_FOLD_HELPER_, S)
 
 
 // Helper function to generate a line for the bitmask generation in GENERATE_IFMASK
-#define GENERATE_IFMASK_HELPER_(_, N, X)          \
+#define GENERATE_IFMASK_HELPER_(_, N, X)            \
     X |= (X << (STRREP(2*, N) 1));
 
 // Returns a full 0xFFFF... bitmask if (X & 1) else 0x0000...
-#define GENERATE_IFMASK(X) ({                     \
-    reg_t ifmask = BW_AND(X, 1);                  \
-    BOOST_PP_REPEAT(REGISTER_SIZE_BITS_LOG2,      \
-        GENERATE_IFMASK_HELPER_, ifmask);         \
-    ifmask;                                       \
+#define GENERATE_IFMASK(X) ({                       \
+    reg_t ifmask = BW_AND(X, 1);                    \
+    BOOST_PP_REPEAT(REGISTER_SIZE_BITS_LOG2,        \
+        GENERATE_IFMASK_HELPER_, ifmask);           \
+    ifmask;                                         \
 })
 
 
 // Helper function to generate line for the bitfield folding in FOLD_BITS_TO_1
-#define FOLD_BITS_TO_1_HELPER_(_, N, X)           \
-    X = BW_OR(X, BW_BSR(X, (STRREP(2*, BOOST_PP_SUB(BOOST_PP_SUB(REGISTER_SIZE_BITS_LOG2, 1), N)) 1)));
+#define FOLD_BITS_TO_1_HELPER_(_, N, X)             \
+    X = BW_OR(X, BW_BSR(X, (STRREP(2*,              \
+        BOOST_PP_SUB(BOOST_PP_SUB(                  \
+            REGISTER_SIZE_BITS_LOG2, 1), N)) 1)));  \
 
 // Returns 0x01 if (X != 0) else 0x00
-#define FOLD_BITS_TO_1(X) ({                      \
-    reg_t out = X;                                \
-    BOOST_PP_REPEAT(REGISTER_SIZE_BITS_LOG2,      \
-        FOLD_BITS_TO_1_HELPER_, out);             \
-    out = BW_AND(out, 1);                         \
-    out;                                          \
+#define FOLD_BITS_TO_1(X) ({                        \
+    reg_t out = X;                                  \
+    BOOST_PP_REPEAT(REGISTER_SIZE_BITS_LOG2,        \
+        FOLD_BITS_TO_1_HELPER_, out);               \
+    out = BW_AND(out, 1);                           \
+    out;                                            \
 })
 
 
 // Helper function to generate a line for MSB bitmask extraction in GENERATE_MASK_UP_TO_MSB
-#define GENERATE_MASK_UP_TO_MSB_HELPER_(Z, N, X)  \
+#define GENERATE_MASK_UP_TO_MSB_HELPER_(Z, N, X)    \
     X = BW_OR(X, BW_BSR(X, (STRREP(2*, N) 1)));
 
 // HELPER: Used to help extract most significant bit in some equivalence instruction methods
-#define GENERATE_MASK_UP_TO_MSB(X) ({             \
-    reg_t out = X;                                \
-    BOOST_PP_REPEAT(REGISTER_SIZE_BITS_LOG2,      \
-        GENERATE_MASK_UP_TO_MSB_HELPER_, out);    \
-    out;                                          \
+#define GENERATE_MASK_UP_TO_MSB(X) ({               \
+    reg_t out = X;                                  \
+    BOOST_PP_REPEAT(REGISTER_SIZE_BITS_LOG2,        \
+        GENERATE_MASK_UP_TO_MSB_HELPER_, out);      \
+    out;                                            \
 })
 
 
