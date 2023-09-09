@@ -231,13 +231,9 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 
 // EQUALITY OPERATORS ...
 
-// HELPER: Returns the ammount of bitshift required for an iteration of the FOLD_BITS_TO_1_EQ_HELPER method
-#define FOLD_ONCE_GET_SHIFT_HELPER_(N)                   \
-    (STRREP(2*, BOOST_PP_SUB(BOOST_PP_SUB(REGISTER_SIZE_BITS_LOG2, 1), N)) 1)
-
 // HELPER: Returns a fully formatted fold line for the FOLD_BITS_TO_1_EQ_HELPER method
 #define FOLD_ONCE_PARAMS_HELPER_(Z, N, X) ({             \
-    (X = BW_OR(X, BW_BSR(X, FOLD_ONCE_GET_SHIFT_HELPER_(N)))); \
+    (X = BW_OR(X, BW_BSR(X, (STRREP(2*, BOOST_PP_SUB(BOOST_PP_SUB(REGISTER_SIZE_BITS_LOG2, 1), N)) 1)))); \
 });
 
 // HELPER: Equivalent to (X != 0). Sets X to 1 if X contains any ones, else 0.
