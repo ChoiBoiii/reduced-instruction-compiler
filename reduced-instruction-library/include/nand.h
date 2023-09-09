@@ -142,6 +142,14 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 #define HELPER_FOLD_STR(Z, N, T)  T                                // Helper function for HELPER_STRREP
 #define HELPER_STRREP(S, N) BOOST_PP_REPEAT(N, HELPER_FOLD_STR, S) // Call 'HELPER_STRREP' to repeat 'S' 'N' times
 
+// Returns a full 0xFFFF bitmask if 
+#define GENERATE_IFMASK_HELPER_(Z, N, X)                      \
+    (X |= (X << (HELPER_STRREP(2*, N) 1)));    
+#define GENERATE_IFMASK(X) ({                   \
+    reg_t ifmask = BW_AND(X, 1);             \
+    BOOST_PP_REPEAT(REGISTER_SIZE_BITS_LOG2, GENERATE_IFMASK_HELPER_, ifmask);           \
+    ifmask;                                              \
+})
 
 // BITWISE OPERATORS ...
 
@@ -194,24 +202,6 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
     UINT_SUB(X, Y);                                    \
 })
 
-
-
-
-
-// HELPER: Returns a fully formatted fold line for the EXTRACT_MSB_EQ_HELPER method
-#define GENERATE_IFMASK_HELPER_(Z, N, X)                      \
-    (X |= (X << (HELPER_STRREP(2*, N) 1)));    \
-
-// HELPER: Used to help extract most significant bit in some equivalence instruction methods
-#define GENERATE_IFMASK(X, S) ({                   \
-    reg_t ifmask = BW_AND(X, 1);             \
-    BOOST_PP_REPEAT(S, GENERATE_IFMASK_HELPER_, ifmask);           \
-    ifmask;                                              \
-})
-
-
-
-
 // // Unsigned integer multiplication of X*Y
 #define UINT_MULT(A, B) ({                 \
     reg_t ifmask;                          \
@@ -219,7 +209,7 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
     reg_t b = B;                           \
     reg_t result = 0;                      \
     while (b > 0) {                        \
-        ifmask = GENERATE_IFMASK(b, REGISTER_SIZE_BITS_LOG2);    \
+        ifmask = GENERATE_IFMASK(b);    \
         result = INT_ADD(result, BW_AND(a, ifmask));    \
         a = BW_BSL(a, 1);                  \
         b = BW_BSR(b, 1);                  \
