@@ -260,9 +260,11 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
     _ric_a = BW_BSL(_ric_a, 1);                         \
     _ric_b = BW_BSR(_ric_b, 1);                  
 #define SIGN_INDEPENDANT_INT_MULT(X, Y) ({              \
+    const reg_t _ric_scope_clash_workaround1 = X;       \
+    const reg_t _ric_scope_clash_workaround2 = Y;       \
     reg_t _ric_ifmask;                                  \
-    reg_t _ric_a = X;                                   \
-    reg_t _ric_b = Y;                                   \
+    reg_t _ric_a = _ric_scope_clash_workaround1;        \
+    reg_t _ric_b = _ric_scope_clash_workaround2;        \
     reg_t _ric_result = 0;                              \
     STRREP(SIGN_INDEPENDANT_INT_MULT_CYCLE_,            \
         REGISTER_SIZE_BITS);                            \
