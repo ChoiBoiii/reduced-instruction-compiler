@@ -203,7 +203,7 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 
 // HELPER: Returns a formatted fold line for the EXTRACT_MSB_EQ_HELPER method
 #define HELPER_1(X, S)           \
-    (X = BW_OR(X, BW_BSR(X, S)));
+    (ifmask |= (ifmask << S));
 
 // HELPER: Returns the ammount of bitshift required for an iteration of the EXTRACT_MSB_EQ_HELPER method
 #define HELPER_2(N)              \
@@ -232,10 +232,7 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
     reg_t result = 0;                      \
     while (b > 0) {                        \
         ifmask = BW_AND(b, 1);             \
-        ifmask |= (ifmask << 1);           \
-        ifmask |= (ifmask << 2);           \
-        ifmask |= (ifmask << 4);           \
-        ifmask |= (ifmask << 8);           \
+        HELPER_LOOP(ifmask, REGISTER_SIZE_BITS_LOG2);    \
         result = INT_ADD(                  \
             result, BW_AND(a, ifmask));    \
         a = BW_BSL(a, 1);                  \
