@@ -37,7 +37,7 @@ int main() {
     reg_t tb = 0;
     for (long long int a = 0; a < 65540; a++) {
         for (long long int b = 0; b < 65540; b++) {
-            if (((reg_t)(ta * tb) ^ (reg_t)(UINT_MULT(ta, tb)))) {
+            if (((reg_t)(ta * tb) ^ (UINT_MULT(ta, tb)))) {
                 printf("%hd %hd\n", (reg_t)(ta * tb), (reg_t)(UINT_MULT(ta, tb)));
                 break;
             }
