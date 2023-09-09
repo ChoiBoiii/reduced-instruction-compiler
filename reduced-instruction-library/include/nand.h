@@ -142,14 +142,16 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 #define HELPER_FOLD_STR(Z, N, T)  T                                // Helper function for HELPER_STRREP
 #define HELPER_STRREP(S, N) BOOST_PP_REPEAT(N, HELPER_FOLD_STR, S) // Call 'HELPER_STRREP' to repeat 'S' 'N' times
 
-// Returns a full 0xFFFF bitmask if 
-#define GENERATE_IFMASK_HELPER_(Z, N, X)                      \
-    (X |= (X << (HELPER_STRREP(2*, N) 1)));    
-#define GENERATE_IFMASK(X) ({                   \
-    reg_t ifmask = BW_AND(X, 1);             \
-    BOOST_PP_REPEAT(REGISTER_SIZE_BITS_LOG2, GENERATE_IFMASK_HELPER_, ifmask);           \
-    ifmask;                                              \
+// Returns a full 0xFFFF... bitmask if (X & 1) else 0x0000...
+#define GENERATE_IFMASK_HELPER_(Z, N, X)      \
+    (X |= (X << (HELPER_STRREP(2*, N) 1)));
+#define GENERATE_IFMASK(X) ({                 \
+    reg_t ifmask = BW_AND(X, 1);              \
+    BOOST_PP_REPEAT(REGISTER_SIZE_BITS_LOG2,  \
+        GENERATE_IFMASK_HELPER_, ifmask);     \
+    ifmask;                                   \
 })
+
 
 // BITWISE OPERATORS ...
 
