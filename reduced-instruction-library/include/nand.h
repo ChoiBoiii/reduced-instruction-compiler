@@ -251,8 +251,7 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 
 // HELPER: Used to help extract most significant bit in some equivalence instruction methods
 #define EXTRACT_MSB_EQ_HELPER(X) ({                   \
-    BOOST_PP_REPEAT(                                     \
-        REGISTER_SIZE_BITS_LOG2, EXTRACT_MSB_EQ_FOLD_PARAMS_HELPER_, X);       \
+    BOOST_PP_REPEAT(REGISTER_SIZE_BITS_LOG2, EXTRACT_MSB_EQ_FOLD_PARAMS_HELPER_, X);       \
 })
 
 // Returns 1 if X is equal to zero
