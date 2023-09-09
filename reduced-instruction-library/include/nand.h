@@ -251,26 +251,31 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
     SIGN_INDEPENDANT_INT_ADD(X, INT_SIGN_INVERT(Y));    \
 })
 
-// Unsigned integer multiplication of X*Y
-#define UINT_MULT_PERFORM_MULT_CYCLE_                   \
+//
+#define SIGN_INDEPENDANT_INT_MULT_CYCLE_                \
     _ric_ifmask = GENERATE_IFMASK(_ric_b);              \
     _ric_result = INT_ADD(                              \
         _ric_result, BW_AND(_ric_a, _ric_ifmask));      \
     _ric_a = BW_BSL(_ric_a, 1);                         \
     _ric_b = BW_BSR(_ric_b, 1);                  
-#define UINT_MULT(X, Y) ({                              \
+#define SIGN_INDEPENDANT_INT_MULT(X, Y) ({              \
     reg_t _ric_ifmask;                                  \
     reg_t _ric_a = X;                                   \
     reg_t _ric_b = Y;                                   \
     reg_t _ric_result = 0;                              \
-    STRREP(UINT_MULT_PERFORM_MULT_CYCLE_,               \
+    STRREP(SIGN_INDEPENDANT_INT_MULT_CYCLE_,            \
         REGISTER_SIZE_BITS);                            \
     _ric_result;                                        \
 })
 
+// Unsigned integer multiplication of X*Y
+#define UINT_MULT(X, Y) ({                              \
+    SIGN_INDEPENDANT_INT_MULT(X, Y);                    \
+})
+
 // Signed integer multiplication of X*Y
 #define INT_MULT(X, Y) ({                               \
-    UINT_MULT(X, Y);                                    \
+    SIGN_INDEPENDANT_INT_MULT(X, Y);                    \
 })
 
 // Unsigned integer division of X/Y
