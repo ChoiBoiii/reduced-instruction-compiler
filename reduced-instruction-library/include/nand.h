@@ -139,8 +139,8 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 // HELPER MACROS ...
 
 // Function to allow repeat of given repeat lines
-#define HELPER_FOLD_STR(Z, N, T)  T                                // Helper function for STRREP
-#define STRREP(S, N) BOOST_PP_REPEAT(N, HELPER_FOLD_STR, S) // Call 'STRREP' to repeat 'S' 'N' times
+#define STRREP_FOLD_HELPER_(Z, N, T)  T                                // Helper function for STRREP
+#define STRREP(S, N) BOOST_PP_REPEAT(N, STRREP_FOLD_HELPER_, S) // Call 'STRREP' to repeat 'S' 'N' times
 
 // Returns a full 0xFFFF... bitmask if (X & 1) else 0x0000...
 #define GENERATE_IFMASK_HELPER_(Z, N, X)      \
