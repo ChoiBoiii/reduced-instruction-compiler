@@ -311,10 +311,7 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 
 // Returns 1 if X >= Y {OPTIMISE}
 #define UINT_GEQUAL(X, Y) ({                            \
-    BW_OR(                                              \
-        UINT_GTHAN(X,Y),                                \
-        BW_EQUAL(X,Y)                                   \
-    );                                                  \
+    BW_OR(UINT_GTHAN(X,Y), BW_EQUAL(X,Y));              \
 })
 
 // Returns 1 if X < Y {OPTIMISE}
