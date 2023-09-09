@@ -294,9 +294,9 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 
 // Returns 1 if X and Y are not equal
 #define BW_NEQUAL(X, Y) ({                              \
-    reg_t v = BW_XOR(X, Y);                             \
-    v = FOLD_BITS_TO_1(v);                              \
-    v;                                                  \
+    reg_t _ric_out = BW_XOR(X, Y);                      \
+    _ric_out = FOLD_BITS_TO_1(_ric_out);                \
+    _ric_out;                                           \
 })
 
 // Returns 1 if X > Y {OPTIMISE}
