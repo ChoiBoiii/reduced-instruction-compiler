@@ -63,6 +63,7 @@ bool unit_test_INT_GTHAN(reg_t n1, reg_t n2)       {return ((reg_t)((signed_reg_
 bool unit_test_INT_GEQUAL(reg_t n1, reg_t n2)      {return ((reg_t)((signed_reg_type)n1 >= (signed_reg_type)n2) ^ (INT_GEQUAL(n1, n2)));}
 bool unit_test_INT_LTHAN(reg_t n1, reg_t n2)       {return ((reg_t)((signed_reg_type)n1 < (signed_reg_type)n2) ^ (INT_LTHAN(n1, n2)));}
 bool unit_test_INT_LEQUAL(reg_t n1, reg_t n2)      {return ((reg_t)((signed_reg_type)n1 <= (signed_reg_type)n2) ^ (INT_LEQUAL(n1, n2)));}
+bool unit_test_UINT_MULT(reg_t n1, reg_t n2)       {return ((reg_t)(n1 * n2) ^ (UINT_MULT(n1, n2)));}
 
 
 // TEST RUNNER DRIVERS ...
@@ -182,6 +183,9 @@ void run_all_tests() {
 
     // INT_SUB
     run_test("INT_SUB", unit_test_INT_SUB);
+
+    // UINT_MULT
+    run_test("UINT_MULT", unit_test_UINT_MULT);
 
 }
 
