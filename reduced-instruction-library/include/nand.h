@@ -269,7 +269,9 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 })
 
 // Signed integer multiplication of X*Y
-#define INT_MULT(X, Y)
+#define INT_MULT(X, Y) ({                               \
+    UINT_MULT(X, Y);                                    \
+})
 
 // Unsigned integer division of X/Y
 #define UINT_DIV(X, Y) ({                               \
