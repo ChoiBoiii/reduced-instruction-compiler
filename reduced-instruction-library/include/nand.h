@@ -145,6 +145,7 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 #define STRREP(S, N)                              \
     BOOST_PP_REPEAT(N, STRREP_FOLD_HELPER_, S)
 
+
 // Helper function to generate a line for the bitmask generation in GENERATE_IFMASK
 #define GENERATE_IFMASK_HELPER_(_, N, X)          \
     X |= (X << (STRREP(2*, N) 1));
@@ -157,6 +158,7 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
     ifmask;                                       \
 })
 
+
 // Helper function to generate line for the bitfield folding in FOLD_BITS_TO_1
 #define FOLD_BITS_TO_1_HELPER_(_, N, X)           \
     X = BW_OR(X, BW_BSR(X, (STRREP(2*, BOOST_PP_SUB(BOOST_PP_SUB(REGISTER_SIZE_BITS_LOG2, 1), N)) 1)));
@@ -168,6 +170,18 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
         FOLD_BITS_TO_1_HELPER_, out);             \
     out = BW_AND(out, 1);                         \
     out;                                          \
+})
+
+
+// HELPER: Returns a fully formatted fold line for the EXTRACT_MSB_EQ_HELPER method
+#define EXTRACT_MSB_EQ_FOLD_PARAMS_HELPER_(Z, N, X)  \
+    X = BW_OR(X, BW_BSR(X, (STRREP(2*, N) 1)));
+
+// HELPER: Used to help extract most significant bit in some equivalence instruction methods
+#define EXTRACT_MSB_EQ_HELPER(X) ({                   \
+    reg_t out = X;   \
+    BOOST_PP_REPEAT(REGISTER_SIZE_BITS_LOG2, EXTRACT_MSB_EQ_FOLD_PARAMS_HELPER_, out);       \
+    out;    \
 })
 
 
@@ -243,18 +257,6 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 
 
 // EQUALITY OPERATORS ...
-
-// HELPER: Returns a fully formatted fold line for the EXTRACT_MSB_EQ_HELPER method
-#define EXTRACT_MSB_EQ_FOLD_PARAMS_HELPER_(Z, N, X) ({   \
-    (X = BW_OR(X, BW_BSR(X, (STRREP(2*, N) 1))));        \
-});
-
-// HELPER: Used to help extract most significant bit in some equivalence instruction methods
-#define EXTRACT_MSB_EQ_HELPER(X) ({                   \
-    reg_t out = X;   \
-    BOOST_PP_REPEAT(REGISTER_SIZE_BITS_LOG2, EXTRACT_MSB_EQ_FOLD_PARAMS_HELPER_, out);       \
-    out;    \
-})
 
 // Returns 1 if X is equal to zero
 #define BW_EQUAL0(X) ({               \
