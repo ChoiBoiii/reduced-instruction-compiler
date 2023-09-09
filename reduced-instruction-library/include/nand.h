@@ -139,12 +139,12 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 // HELPER MACROS ...
 
 // Function to allow repeat of given repeat lines
-#define HELPER_FOLD_STR(Z, N, T)  T                                // Helper function for HELPER_STRREP
-#define HELPER_STRREP(S, N) BOOST_PP_REPEAT(N, HELPER_FOLD_STR, S) // Call 'HELPER_STRREP' to repeat 'S' 'N' times
+#define HELPER_FOLD_STR(Z, N, T)  T                                // Helper function for STRREP
+#define STRREP(S, N) BOOST_PP_REPEAT(N, HELPER_FOLD_STR, S) // Call 'STRREP' to repeat 'S' 'N' times
 
 // Returns a full 0xFFFF... bitmask if (X & 1) else 0x0000...
 #define GENERATE_IFMASK_HELPER_(Z, N, X)      \
-    (X |= (X << (HELPER_STRREP(2*, N) 1)));
+    (X |= (X << (STRREP(2*, N) 1)));
 #define GENERATE_IFMASK(X) ({                 \
     reg_t ifmask = BW_AND(X, 1);              \
     BOOST_PP_REPEAT(REGISTER_SIZE_BITS_LOG2,  \
@@ -179,7 +179,7 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
     reg_t tmp, keep, res;                              \
     keep = BW_BSL(BW_AND(X, Y), 1);                    \
     res = BW_XOR(X, Y);                                \
-    HELPER_STRREP(UINT_ADD_HELPER(tmp, keep, res);,    \
+    STRREP(UINT_ADD_HELPER(tmp, keep, res);,    \
         REGISTER_SIZE_BITS);                           \
     res;                                               \
 })
@@ -235,7 +235,7 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 
 // HELPER: Returns the ammount of bitshift required for an iteration of the FOLD_BITS_TO_1_EQ_HELPER method
 #define FOLD_ONCE_GET_SHIFT_HELPER_(N)                   \
-    (HELPER_STRREP(2*, BOOST_PP_SUB(                     \
+    (STRREP(2*, BOOST_PP_SUB(                     \
         BOOST_PP_SUB(REGISTER_SIZE_BITS_LOG2, 1), N)) 1) \
 
 // HELPER: Returns a fully formatted fold line for the FOLD_BITS_TO_1_EQ_HELPER method
@@ -255,7 +255,7 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 
 // HELPER: Returns the ammount of bitshift required for an iteration of the EXTRACT_MSB_EQ_HELPER method
 #define EXTRACT_MSB_EQ_GET_SHIFT_HELPER_(N)              \
-    (HELPER_STRREP(2*, N) 1)                             \
+    (STRREP(2*, N) 1)                             \
 
 // HELPER: Returns a fully formatted fold line for the EXTRACT_MSB_EQ_HELPER method
 #define EXTRACT_MSB_EQ_FOLD_PARAMS_HELPER_(Z, N, X) ({   \
