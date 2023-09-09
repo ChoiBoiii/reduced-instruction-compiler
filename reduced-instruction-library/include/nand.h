@@ -138,18 +138,23 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 
 // HELPER MACROS ...
 
-// Function to allow repeat of given repeat lines
-#define STRREP_FOLD_HELPER_(Z, N, T)  T                                // Helper function for STRREP
-#define STRREP(S, N) BOOST_PP_REPEAT(N, STRREP_FOLD_HELPER_, S) // Call 'STRREP' to repeat 'S' 'N' times
+// Helper function to filter inputs allowing folding in STRREP
+#define STRREP_FOLD_HELPER_(Z, N, T)  T
+
+// Call 'STRREP' to repeat 'S' 'N' times
+#define STRREP(S, N)                              \
+    BOOST_PP_REPEAT(N, STRREP_FOLD_HELPER_, S)
+
+// Helper function to generate a line for the bitmask generation in GENERATE_IFMASK
+#define GENERATE_IFMASK_HELPER_(Z, N, X)          \
+    (X |= (X << (STRREP(2*, N) 1)));
 
 // Returns a full 0xFFFF... bitmask if (X & 1) else 0x0000...
-#define GENERATE_IFMASK_HELPER_(Z, N, X)      \
-    (X |= (X << (STRREP(2*, N) 1)));
-#define GENERATE_IFMASK(X) ({                 \
-    reg_t ifmask = BW_AND(X, 1);              \
-    BOOST_PP_REPEAT(REGISTER_SIZE_BITS_LOG2,  \
-        GENERATE_IFMASK_HELPER_, ifmask);     \
-    ifmask;                                   \
+#define GENERATE_IFMASK(X) ({                     \
+    reg_t ifmask = BW_AND(X, 1);                  \
+    BOOST_PP_REPEAT(REGISTER_SIZE_BITS_LOG2,      \
+        GENERATE_IFMASK_HELPER_, ifmask);         \
+    ifmask;                                       \
 })
 
 
