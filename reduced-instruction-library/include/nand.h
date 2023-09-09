@@ -216,16 +216,13 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
     reg_t b = B;                           \
     reg_t result = 0;                      \
     while (b > 0) {                        \
-        ifmask = GENERATE_IFMASK(b);    \
+        ifmask = GENERATE_IFMASK(b);       \
         result = INT_ADD(result, BW_AND(a, ifmask));    \
         a = BW_BSL(a, 1);                  \
         b = BW_BSR(b, 1);                  \
     }                                      \
     result;                                \
 })
-
-
-
 
 // Unsigned integer division of X/Y
 #define UINT_DIV(X, Y) ({                              \
@@ -240,7 +237,7 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 
 // HELPER: Returns the ammount of bitshift required for an iteration of the FOLD_BITS_TO_1_EQ_HELPER method
 #define FOLD_ONCE_GET_SHIFT_HELPER_(N)                   \
-    (STRREP(2*, BOOST_PP_SUB(                     \
+    (STRREP(2*, BOOST_PP_SUB(                            \
         BOOST_PP_SUB(REGISTER_SIZE_BITS_LOG2, 1), N)) 1) \
 
 // HELPER: Returns a fully formatted fold line for the FOLD_BITS_TO_1_EQ_HELPER method
@@ -260,7 +257,7 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 
 // HELPER: Returns the ammount of bitshift required for an iteration of the EXTRACT_MSB_EQ_HELPER method
 #define EXTRACT_MSB_EQ_GET_SHIFT_HELPER_(N)              \
-    (STRREP(2*, N) 1)                             \
+    (STRREP(2*, N) 1)                                    \
 
 // HELPER: Returns a fully formatted fold line for the EXTRACT_MSB_EQ_HELPER method
 #define EXTRACT_MSB_EQ_FOLD_PARAMS_HELPER_(Z, N, X) ({   \
