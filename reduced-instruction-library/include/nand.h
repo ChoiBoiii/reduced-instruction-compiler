@@ -272,7 +272,7 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 // Returns 1 if X is equal to zero
 #define BW_EQUAL0(X) ({               \
     reg_t v = X;                      \
-    v = FOLD_BITS_TO_1(v); \
+    v = FOLD_BITS_TO_1(v);            \
     v = BW_XOR(v, 1);                 \
     v;                                \
 })    
@@ -280,21 +280,21 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 // Returns 1 if X is not equal to zero
 #define BW_NEQUAL0(X) ({              \
     reg_t v = X;                      \
-    v = FOLD_BITS_TO_1(v); \
+    v = FOLD_BITS_TO_1(v);            \
     v;                                \
 })
 
 // Returns 1 if X and Y are equal
 #define BW_EQUAL(X, Y) ({             \
     reg_t v = BW_XOR(X, Y);           \
-    v = FOLD_BITS_TO_1(v); \
+    v = FOLD_BITS_TO_1(v);            \
     v = BW_XOR(v, 1);                 \
 })
 
 // Returns 1 if X and Y are not equal
 #define BW_NEQUAL(X, Y) ({            \
     reg_t v = BW_XOR(X, Y);           \
-    v = FOLD_BITS_TO_1(v); \
+    v = FOLD_BITS_TO_1(v);            \
     v;                                \
 })
 
@@ -304,7 +304,7 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
     v = GENERATE_MASK_UP_TO_MSB(v);   \
     v = UINT_SUB(v, BW_BSR(v, 1));    \
     v = BW_XOR(BW_AND(Y, v), v);      \
-    v = FOLD_BITS_TO_1(v); \
+    v = FOLD_BITS_TO_1(v);            \
     v;                                \
 })
 
