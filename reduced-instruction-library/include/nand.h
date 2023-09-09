@@ -231,10 +231,6 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 
 // EQUALITY OPERATORS ...
 
-// HELPER: Returns a formatted fold line for the FOLD_BITS_TO_1_EQ_HELPER method
-#define FOLD_ONCE_HELPER_(X, S)                          \
-    (X = BW_OR(X, BW_BSR(X, S)));
-
 // HELPER: Returns the ammount of bitshift required for an iteration of the FOLD_BITS_TO_1_EQ_HELPER method
 #define FOLD_ONCE_GET_SHIFT_HELPER_(N)                   \
     (STRREP(2*, BOOST_PP_SUB(                            \
@@ -242,7 +238,7 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 
 // HELPER: Returns a fully formatted fold line for the FOLD_BITS_TO_1_EQ_HELPER method
 #define FOLD_ONCE_PARAMS_HELPER_(Z, N, X) ({             \
-    FOLD_ONCE_HELPER_(X, FOLD_ONCE_GET_SHIFT_HELPER_(N)) \
+    (X = BW_OR(X, BW_BSR(X, FOLD_ONCE_GET_SHIFT_HELPER_(N)))); \
 });
 
 // HELPER: Equivalent to (X != 0). Sets X to 1 if X contains any ones, else 0.
@@ -250,6 +246,9 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
     BOOST_PP_REPEAT(S, FOLD_ONCE_PARAMS_HELPER_, X);     \
     X = BW_AND(X, 1);                                    \
 })
+
+
+
 
 // HELPER: Returns a formatted fold line for the EXTRACT_MSB_EQ_HELPER method
 #define EXTRACT_MSB_EQ_FOLD_ONCE_HELPER_(X, S)           \
