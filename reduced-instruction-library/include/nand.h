@@ -163,7 +163,7 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 })
 
 
-// GET 0b01 IF X ELSE 0b00
+// GET 0b01 IF X != 0 ELSE 0b00
 
 // Helper function to generate line for the bitfield folding in FOLD_BITS_TO_1
 #define FOLD_BITS_TO_1_HELPER_(_, N, X)             \
