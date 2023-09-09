@@ -199,12 +199,12 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 
 
 // HELPER: Returns a fully formatted fold line for the EXTRACT_MSB_EQ_HELPER method
-#define HELPER_3(Z, N, X)                    \
+#define GENERATE_IFMASK_HELPER(Z, N, X)                      \
     (X |= (X << (HELPER_STRREP(2*, N) 1)));    \
 
 // HELPER: Used to help extract most significant bit in some equivalence instruction methods
-#define HELPER_LOOP(X, S) ({                   \
-    BOOST_PP_REPEAT(S, HELPER_3, X);           \
+#define GENERATE_IFMASK(X, S) ({                   \
+    BOOST_PP_REPEAT(S, GENERATE_IFMASK_HELPER, X);           \
 })
 
 
@@ -218,7 +218,7 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
     reg_t result = 0;                      \
     while (b > 0) {                        \
         ifmask = BW_AND(b, 1);             \
-        HELPER_LOOP(ifmask, REGISTER_SIZE_BITS_LOG2);    \
+        GENERATE_IFMASK(ifmask, REGISTER_SIZE_BITS_LOG2);    \
         result = INT_ADD(result, BW_AND(a, ifmask));    \
         a = BW_BSL(a, 1);                  \
         b = BW_BSR(b, 1);                  \
