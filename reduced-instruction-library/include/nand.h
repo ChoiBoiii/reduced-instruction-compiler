@@ -204,7 +204,9 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 
 // HELPER: Used to help extract most significant bit in some equivalence instruction methods
 #define GENERATE_IFMASK(X, S) ({                   \
-    BOOST_PP_REPEAT(S, GENERATE_IFMASK_HELPER, X);           \
+    reg_t ifmask = BW_AND(X, 1);             \
+    BOOST_PP_REPEAT(S, GENERATE_IFMASK_HELPER, ifmask);           \
+    ifmask; \
 })
 
 
@@ -217,8 +219,7 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
     reg_t b = B;                           \
     reg_t result = 0;                      \
     while (b > 0) {                        \
-        ifmask = BW_AND(b, 1);             \
-        GENERATE_IFMASK(ifmask, REGISTER_SIZE_BITS_LOG2);    \
+        ifmask = GENERATE_IFMASK(b, REGISTER_SIZE_BITS_LOG2);    \
         result = INT_ADD(result, BW_AND(a, ifmask));    \
         a = BW_BSL(a, 1);                  \
         b = BW_BSR(b, 1);                  \
