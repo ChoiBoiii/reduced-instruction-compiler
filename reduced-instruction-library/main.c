@@ -17,8 +17,8 @@ test_t multiplyTwoNumbers(test_t a, test_t b) {
       if (b & 1) {
          result += a;
          }
-      a = a << 1;
-      b = b >> 1;
+      a = BW_BSL(a, 1);
+      b = BW_BSR(b, 1);
    }
    return result;
 }
