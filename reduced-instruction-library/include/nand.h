@@ -195,19 +195,24 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 })
 
 // // Unsigned integer multiplication of X*Y
-// #define UINT_MULT(X, Y) ({                             \
-//     reg_t result = 0;                                  \
-//     reg_t a = X;                                       \
-//     reg_t b = Y;                                       \
-//     for (int i = 0; i < REGISTER_SIZE_BITS; i++) {     \
-//         if (b & 1) {                                   \
-//             result = result + a;                       \
-//             a = BW_BSL(a, 1);                          \
-//             b = BW_BSR(b, 1);                          \
-//         }                                              \
-//     }                                                  \
-//     result;                                            \
-// })
+#define UINT_MULT(A, B) ({                 \
+    reg_t ifmask;                          \
+    reg_t a = A;                           \
+    reg_t b = B;                           \
+    reg_t result = 0;                      \
+    while (b > 0) {                        \
+        ifmask = BW_AND(b, 1);             \
+        ifmask |= (ifmask << 1);           \
+        ifmask |= (ifmask << 2);           \
+        ifmask |= (ifmask << 4);           \
+        ifmask |= (ifmask << 8);           \
+        result = INT_ADD(                  \
+            result, BW_AND(a, ifmask));    \
+        a = BW_BSL(a, 1);                  \
+        b = BW_BSR(b, 1);                  \
+    }                                      \
+    result;                                \
+})
 
 // Unsigned integer division of X/Y
 #define UINT_DIV(X, Y) ({                              \
