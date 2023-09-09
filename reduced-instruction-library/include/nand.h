@@ -213,27 +213,27 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 // ARITHMETIC OPERATORS ...
 
 // Universally adds signed or unsigned ints [int, uint]
-#define SIGNLESS_INT_ADD_PERFORM_ADD_CYCLE_             \
+#define SIGN_INDEPENDANT_INT_ADD_PERFORM_ADD_CYCLE_     \
     _ric_tmp = _ric_keep;                               \
     _ric_keep = BW_BSL(BW_AND(_ric_keep, _ric_res), 1); \
     _ric_res = BW_XOR(_ric_tmp, _ric_res);                                   
-#define SIGNLESS_INT_ADD(X, Y) ({                       \
+#define SIGN_INDEPENDANT_INT_ADD(X, Y) ({               \
     reg_t _ric_tmp, _ric_keep, _ric_res;                \
     _ric_keep = BW_BSL(BW_AND(X, Y), 1);                \
     _ric_res = BW_XOR(X, Y);                            \
-    STRREP(SIGNLESS_INT_ADD_PERFORM_ADD_CYCLE_,         \
+    STRREP(SIGN_INDEPENDANT_INT_ADD_PERFORM_ADD_CYCLE_, \
         REGISTER_SIZE_BITS);                            \
     _ric_res;                                           \
 })
 
 // Inverts the sign of the given int using two's compliment by inverting then adding 1
 #define INT_SIGN_INVERT(X) ({                           \
-    SIGNLESS_INT_ADD(BW_NOT(X), 1);                     \
+    SIGN_INDEPENDANT_INT_ADD(BW_NOT(X), 1);             \
 })                                                  
 
 // Unsigned integer addition of X+Y
 #define UINT_ADD(X, Y) ({                               \
-    SIGNLESS_INT_ADD(X, Y);                             \
+    SIGN_INDEPENDANT_INT_ADD(X, Y);                     \
 })
 
 // Signed integer addition of X+Y
