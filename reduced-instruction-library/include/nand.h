@@ -49,7 +49,7 @@
     | INT_SIGN_INVERT | Integer sign inversion          | f(a)    -> (-a)       | -n       | F                       | T        |
     | UINT_ADD        | Add two unsigned integers       | f(a, b) -> (a + b)    | n        | F                       | T        |
     | UINT_SUB        | Subtract two unsigned integers  | f(a, b) -> (a - b)    | n        | F                       | T        |
-    | UINT_MULT       | Unsigned integer multiplication | f(a, b) -> (a * b)    | n        |
+    | UINT_MULT       | Unsigned integer multiplication | f(a, b) -> (a * b)    | n        | F                       | T        |
     | UINT_DIV        | Unsigned integer division       | f(a, b) -> int(a / b) | n        |
     | INT_ADD         | Signed integer addition         | f(a, b) -> (a + b)    | n        | F                       | T        |
     | INT_SUB         | Signed integer subtraction      | f(a, b) -> (a - b)    | n        | F                       | T        |
@@ -248,18 +248,19 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 
 // Unsigned integer multiplication of X*Y
 #define UINT_MULT_PERFORM_MULT_CYCLE_                   \
-    ifmask = GENERATE_IFMASK(b);                        \
-    result = INT_ADD(result, BW_AND(a, ifmask));        \
-    a = BW_BSL(a, 1);                                   \
-    b = BW_BSR(b, 1);                                  
+    _ric_ifmask = GENERATE_IFMASK(_ric_b);              \
+    _ric_result = INT_ADD(                              \
+        _ric_result, BW_AND(_ric_a, _ric_ifmask));      \
+    _ric_a = BW_BSL(_ric_a, 1);                         \
+    _ric_b = BW_BSR(_ric_b, 1);                  
 #define UINT_MULT(A, B) ({                              \
-    reg_t ifmask;                                       \
-    reg_t a = A;                                        \
-    reg_t b = B;                                        \
-    reg_t result = 0;                                   \
+    reg_t _ric_ifmask;                                  \
+    reg_t _ric_a = A;                                   \
+    reg_t _ric_b = B;                                   \
+    reg_t _ric_result = 0;                              \
     STRREP(UINT_MULT_PERFORM_MULT_CYCLE_,               \
         REGISTER_SIZE_BITS);                            \
-    result;                                             \
+    _ric_result;                                        \
 })
 
 // Unsigned integer division of X/Y
