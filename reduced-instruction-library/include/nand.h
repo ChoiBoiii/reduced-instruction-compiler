@@ -181,7 +181,7 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 #define EXTRACT_MSB_EQ_HELPER(X) ({                   \
     reg_t out = X;   \
     BOOST_PP_REPEAT(REGISTER_SIZE_BITS_LOG2, EXTRACT_MSB_EQ_FOLD_PARAMS_HELPER_, out);       \
-    out;    \
+    out; \
 })
 
 
