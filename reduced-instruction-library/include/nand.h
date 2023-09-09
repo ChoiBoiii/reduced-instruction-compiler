@@ -163,9 +163,11 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 
 // Returns 0x01 if (X != 0) else 0x00
 #define FOLD_BITS_TO_1(X) ({                      \
+    reg_t out = X;                                \
     BOOST_PP_REPEAT(REGISTER_SIZE_BITS_LOG2,      \
-        FOLD_BITS_TO_1_HELPER_, X);               \
-    X = BW_AND(X, 1);                             \
+        FOLD_BITS_TO_1_HELPER_, out);             \
+    out = BW_AND(out, 1);                         \
+    out;                                          \
 })
 
 
@@ -265,7 +267,7 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 // Returns 1 if X is equal to zero
 #define BW_EQUAL0(X) ({               \
     reg_t v = X;                      \
-    FOLD_BITS_TO_1(v); \
+    v = FOLD_BITS_TO_1(v); \
     v = BW_XOR(v, 1);                 \
     v;                                \
 })    
@@ -273,21 +275,21 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 // Returns 1 if X is not equal to zero
 #define BW_NEQUAL0(X) ({              \
     reg_t v = X;                      \
-    FOLD_BITS_TO_1(v); \
+    v = FOLD_BITS_TO_1(v); \
     v;                                \
 })
 
 // Returns 1 if X and Y are equal
 #define BW_EQUAL(X, Y) ({             \
     reg_t v = BW_XOR(X, Y);           \
-    FOLD_BITS_TO_1(v); \
+    v = FOLD_BITS_TO_1(v); \
     v = BW_XOR(v, 1);                 \
 })
 
 // Returns 1 if X and Y are not equal
 #define BW_NEQUAL(X, Y) ({            \
     reg_t v = BW_XOR(X, Y);           \
-    FOLD_BITS_TO_1(v); \
+    v = FOLD_BITS_TO_1(v); \
     v;                                \
 })
 
@@ -297,7 +299,7 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
     EXTRACT_MSB_EQ_HELPER(v);     \
     v = UINT_SUB(v, BW_BSR(v, 1));    \
     v = BW_XOR(BW_AND(Y, v), v);      \
-    FOLD_BITS_TO_1(v); \
+    v = FOLD_BITS_TO_1(v); \
     v;                                \
 })
 
