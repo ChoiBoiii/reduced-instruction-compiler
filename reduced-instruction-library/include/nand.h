@@ -213,15 +213,15 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 // ARITHMETIC OPERATORS ...
 
 // Unsigned integer addition of X+Y
-#define UINT_ADD_HELPER_                      \
-    tmp = keep;                                              \
-    keep = BW_BSL(BW_AND(keep, res), 1);                        \
+#define UINT_ADD_PERFORM_ADD_CYCLE_                     \
+    tmp = keep;                                         \
+    keep = BW_BSL(BW_AND(keep, res), 1);                \
     res = BW_XOR(tmp, res);                                   
 #define UINT_ADD(X, Y) ({                               \
     reg_t tmp, keep, res;                               \
     keep = BW_BSL(BW_AND(X, Y), 1);                     \
     res = BW_XOR(X, Y);                                 \
-    STRREP(UINT_ADD_HELPER_,            \
+    STRREP(UINT_ADD_PERFORM_ADD_CYCLE_,                 \
         REGISTER_SIZE_BITS);                            \
     res;                                                \
 })
