@@ -173,14 +173,14 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 })
 
 
-// HELPER: Returns a fully formatted fold line for the EXTRACT_MSB_EQ_HELPER method
-#define EXTRACT_MSB_EQ_FOLD_PARAMS_HELPER_(Z, N, X)  \
+// Helper function to generate a line for MSB bitmask extraction in GENERATE_MASK_UP_TO_MSB
+#define GENERATE_MASK_UP_TO_MSB_HELPER_(Z, N, X)  \
     X = BW_OR(X, BW_BSR(X, (STRREP(2*, N) 1)));
 
 // HELPER: Used to help extract most significant bit in some equivalence instruction methods
-#define EXTRACT_MSB_EQ_HELPER(X) ({                   \
+#define GENERATE_MASK_UP_TO_MSB(X) ({                   \
     reg_t out = X;   \
-    BOOST_PP_REPEAT(REGISTER_SIZE_BITS_LOG2, EXTRACT_MSB_EQ_FOLD_PARAMS_HELPER_, out);       \
+    BOOST_PP_REPEAT(REGISTER_SIZE_BITS_LOG2, GENERATE_MASK_UP_TO_MSB_HELPER_, out);       \
     out; \
 })
 
@@ -290,7 +290,7 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 // Returns 1 if X > Y {OPTIMISE}
 #define UINT_GTHAN(X, Y) ({           \
     reg_t v = X ^ Y;                  \
-    v = EXTRACT_MSB_EQ_HELPER(v);     \
+    v = GENERATE_MASK_UP_TO_MSB(v);   \
     v = UINT_SUB(v, BW_BSR(v, 1));    \
     v = BW_XOR(BW_AND(Y, v), v);      \
     v = FOLD_BITS_TO_1(v); \
