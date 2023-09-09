@@ -199,9 +199,8 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 
 
 // HELPER: Returns a fully formatted fold line for the EXTRACT_MSB_EQ_HELPER method
-#define HELPER_3(Z, N, X) ({                   \
+#define HELPER_3(Z, N, X)                    \
     (X |= (X << (HELPER_STRREP(2*, N) 1)));    \
-});
 
 // HELPER: Used to help extract most significant bit in some equivalence instruction methods
 #define HELPER_LOOP(X, S) ({                   \
