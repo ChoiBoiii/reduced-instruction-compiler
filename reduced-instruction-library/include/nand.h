@@ -195,10 +195,23 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 })
 
 // Unsigned integer multiplication of X*Y
-#define UINT_MULT(X, Y) ({})
+#define UINT_MULT(X, Y) ({                             \
+    reg_t result = 0;                                  \
+    reg_t a = X;                                       \
+    reg_t b = Y;                                       \
+    for (int i = 0; i < REGISTER_SIZE_BITS; i++) {     \
+        if (b & 1) {                                   \
+            result = result + a;                       \
+            a = BW_BSL(a, 1);                          \
+            b = BW_BSR(b, 1);                          \
+        }                                              \
+    }                                                  \
+    result;                                            \
+})
 
 // Unsigned integer division of X/Y
-#define UINT_DIV(X, Y) ({})
+#define UINT_DIV(X, Y) ({                              \
+})
 
 
 // EQUALITY OPERATORS ...
