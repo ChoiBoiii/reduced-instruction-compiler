@@ -148,7 +148,7 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
     BOOST_PP_REPEAT(N, STRREP_FOLD_HELPER_, S)
 
 
-// GET BITMASK 0b1111... IF X ELSE 0b0000...
+// GET BITMASK 0b1111... IF X != 0 OR 0b0000... IF X == 0
 
 // Helper function to generate a line for the bitmask generation in GENERATE_IFMASK
 #define GENERATE_IFMASK_HELPER_(_, N, X)            \
