@@ -194,6 +194,36 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
     UINT_SUB(X, Y);                                    \
 })
 
+
+
+
+
+
+
+
+// HELPER: Returns a formatted fold line for the EXTRACT_MSB_EQ_HELPER method
+#define HELPER_1(X, S)           \
+    (X = BW_OR(X, BW_BSR(X, S)));
+
+// HELPER: Returns the ammount of bitshift required for an iteration of the EXTRACT_MSB_EQ_HELPER method
+#define HELPER_2(N)              \
+    (HELPER_STRREP(2*, N) 1)                             \
+
+// HELPER: Returns a fully formatted fold line for the EXTRACT_MSB_EQ_HELPER method
+#define HELPER_3(Z, N, X) ({   \
+    HELPER_1(                    \
+        X, HELPER_2(N))          \
+});
+
+// HELPER: Used to help extract most significant bit in some equivalence instruction methods
+#define HELPER_LOOP(X, S) ({                   \
+    BOOST_PP_REPEAT(                                     \
+        S, HELPER_3, X);       \
+})
+
+
+
+
 // // Unsigned integer multiplication of X*Y
 #define UINT_MULT(A, B) ({                 \
     reg_t ifmask;                          \
@@ -213,6 +243,9 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
     }                                      \
     result;                                \
 })
+
+
+
 
 // Unsigned integer division of X/Y
 #define UINT_DIV(X, Y) ({                              \
