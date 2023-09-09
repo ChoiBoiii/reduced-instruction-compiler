@@ -198,13 +198,9 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 
 
 
-// HELPER: Returns the ammount of bitshift required for an iteration of the EXTRACT_MSB_EQ_HELPER method
-#define HELPER_2(N)              \
-    (HELPER_STRREP(2*, N) 1)                             \
-
 // HELPER: Returns a fully formatted fold line for the EXTRACT_MSB_EQ_HELPER method
 #define HELPER_3(Z, N, X) ({   \
-    (X |= (X << HELPER_2(N))); \
+    (X |= (X << (HELPER_STRREP(2*, N) 1))); \
 });
 
 // HELPER: Used to help extract most significant bit in some equivalence instruction methods
