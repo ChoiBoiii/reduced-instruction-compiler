@@ -226,15 +226,15 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
     _ric_res;                                           \
 })
 
+// Inverts the sign of the given int using two's compliment by inverting then adding 1
+#define INT_SIGN_INVERT(X) ({                           \
+    SIGNLESS_INT_ADD(BW_NOT(X), 1);                     \
+})                                                  
+
 // Unsigned integer addition of X+Y
 #define UINT_ADD(X, Y) ({                               \
     SIGNLESS_INT_ADD(X, Y);                             \
 })
-
-// Inverts the sign of the given int using two's compliment: invert then add 1
-#define INT_SIGN_INVERT(X) ({                           \
-    UINT_ADD(BW_NOT(X), 1);                             \
-})                                                  
 
 // Signed integer addition of X+Y
 #define INT_ADD(X, Y) ({                                \
