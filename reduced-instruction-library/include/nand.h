@@ -212,18 +212,23 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 
 // ARITHMETIC OPERATORS ...
 
-// Unsigned integer addition of X+Y
-#define UINT_ADD_PERFORM_ADD_CYCLE_                     \
+//
+#define SIGNLESS_INT_ADD_PERFORM_ADD_CYCLE_             \
     _ric_tmp = _ric_keep;                               \
     _ric_keep = BW_BSL(BW_AND(_ric_keep, _ric_res), 1); \
     _ric_res = BW_XOR(_ric_tmp, _ric_res);                                   
-#define UINT_ADD(X, Y) ({                               \
+#define SIGNLESS_INT_ADD(X, Y) ({                       \
     reg_t _ric_tmp, _ric_keep, _ric_res;                \
     _ric_keep = BW_BSL(BW_AND(X, Y), 1);                \
     _ric_res = BW_XOR(X, Y);                            \
-    STRREP(UINT_ADD_PERFORM_ADD_CYCLE_,                 \
+    STRREP(SIGNLESS_INT_ADD_PERFORM_ADD_CYCLE_,         \
         REGISTER_SIZE_BITS);                            \
     _ric_res;                                           \
+})
+
+// Unsigned integer addition of X+Y
+#define UINT_ADD(X, Y) ({ \
+    SIGNLESS_INT_ADD(X, Y); \
 })
 
 // Inverts the sign of the given int using two's compliment: invert then add 1
