@@ -156,7 +156,9 @@ typedef RIC_TMP_CONFIG_REGISTER_TYPE reg_t;             // The type to use to st
 
 // Returns a full 0xFFFF... bitmask if (X & 1) else 0x0000...
 #define GENERATE_IFMASK(X) ({                       \
-    reg_t _ric_ifmask = BW_AND(X, 1);               \
+    const reg_t _ric_scope_clash_workaround = X;    \
+    reg_t _ric_ifmask = BW_AND(                     \
+        _ric_scope_clash_workaround, 1);            \
     BOOST_PP_REPEAT(REGISTER_SIZE_BITS_LOG2,        \
         GENERATE_IFMASK_HELPER_, _ric_ifmask);      \
     _ric_ifmask;                                    \
